@@ -12,6 +12,11 @@ fi
 source `dirname ${BASH_SOURCE[0]}`/nspawn-polkit.sh
 
 
+# 初始化配置
+ln -sf /home/$SUDO_USER/.machines/deepin /var/lib/machines
+rm -f /bin/deepin-*
+
+
 # 配置容器
 [[ $(machinectl list) =~ deepin ]] && machinectl stop deepin
 mkdir -p /home/share && chmod 777 /home/share

@@ -12,6 +12,13 @@ fi
 source `dirname ${BASH_SOURCE[0]}`/nspawn-polkit.sh
 
 
+# 初始化配置
+ln -sf /home/$SUDO_USER/.machines/debian /var/lib/machines
+[ -f "/bin/debian-distro-info" ] && mv /bin/debian-distro-info /bin/bak-debian-distro-info
+rm -f /bin/debian-*
+[ -f "/bin/bak-debian-distro-info" ] && mv /bin/bak-debian-distro-info /bin/debian-distro-info
+
+
 # 配置容器
 [[ $(machinectl list) =~ debian ]] && machinectl stop debian
 mkdir -p /home/share && chmod 777 /home/share

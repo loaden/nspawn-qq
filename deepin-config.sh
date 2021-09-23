@@ -17,6 +17,10 @@ ln -sf /home/$SUDO_USER/.machines/deepin /var/lib/machines
 rm -f /bin/deepin-*
 
 
+# 获取用户目录
+source `dirname ${BASH_SOURCE[0]}`/user-dirs.sh
+
+
 # 配置容器
 [[ $(machinectl list) =~ deepin ]] && machinectl stop deepin
 mkdir -p /home/share && chmod 777 /home/share
@@ -43,8 +47,8 @@ for i in {1000..1005}; do
     /usr/sbin/useradd -u \$i -m -s /bin/bash -G sudo u\$i
     echo u\$i:passwd | /usr/sbin/chpasswd
     cd /home/u\$i/
-    mkdir -p .local/share/fonts .config .cache 文档 下载 桌面 图片 视频 音乐 云盘
-    chown -R u\$i:u\$i .local .config .cache 文档 下载 桌面 图片 视频 音乐 云盘
+    mkdir -p .local/share/fonts .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC 云盘
+    chown -R u\$i:u\$i .local .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC 云盘
 done
 EOF
 
@@ -216,13 +220,13 @@ machinectl bind --mkdir deepin \$XDG_RUNTIME_DIR/dconf
 [[ \$(ls /tmp | grep dbus) ]] && machinectl bind --read-only --mkdir deepin /tmp/\$(ls /tmp | grep dbus)
 
 # 主目录
-machinectl bind --mkdir deepin \$HOME/文档 /home/u\$UID/文档
-[ \$? != 0 ] && echo error: machinectl bind --mkdir deepin \$HOME/文档 /home/u\$UID/文档
-machinectl bind --mkdir deepin \$HOME/下载 /home/u\$UID/下载
-machinectl bind --mkdir deepin \$HOME/桌面 /home/u\$UID/桌面
-machinectl bind --mkdir deepin \$HOME/图片 /home/u\$UID/图片
-machinectl bind --mkdir deepin \$HOME/视频 /home/u\$UID/视频
-machinectl bind --mkdir deepin \$HOME/音乐 /home/u\$UID/音乐
+machinectl bind --mkdir deepin \$HOME/$USER_DOCUMENTS /home/u\$UID/$USER_DOCUMENTS
+[ \$? != 0 ] && echo error: machinectl bind --mkdir deepin \$HOME/$USER_DOCUMENTS /home/u\$UID/$USER_DOCUMENTS
+machinectl bind --mkdir deepin \$HOME/$USER_DOWNLOAD /home/u\$UID/$USER_DOWNLOAD
+machinectl bind --mkdir deepin \$HOME/$USER_DESKTOP /home/u\$UID/$USER_DESKTOP
+machinectl bind --mkdir deepin \$HOME/$USER_PICTURES /home/u\$UID/$USER_PICTURES
+machinectl bind --mkdir deepin \$HOME/$USER_VIDEOS /home/u\$UID/$USER_VIDEOS
+machinectl bind --mkdir deepin \$HOME/$USER_MUSIC /home/u\$UID/$USER_MUSIC
 [ -d \$HOME/云盘 ] && machinectl bind --mkdir deepin \$HOME/云盘 /home/u\$UID/云盘
 machinectl bind --mkdir deepin \$HOME/.cache /home/u\$UID/.cache
 machinectl bind --mkdir deepin \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs

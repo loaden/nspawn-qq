@@ -47,8 +47,8 @@ for i in {1000..1005}; do
     /usr/sbin/useradd -u \$i -m -s /bin/bash -G sudo u\$i
     echo u\$i:passwd | /usr/sbin/chpasswd
     cd /home/u\$i/
-    mkdir -p .local/share/fonts .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC 云盘
-    chown -R u\$i:u\$i .local .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC 云盘
+    mkdir -p .local/share/fonts .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
+    chown -R u\$i:u\$i .local .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
 done
 EOF
 
@@ -227,7 +227,7 @@ machinectl bind --mkdir deepin \$HOME/$USER_DESKTOP /home/u\$UID/$USER_DESKTOP
 machinectl bind --mkdir deepin \$HOME/$USER_PICTURES /home/u\$UID/$USER_PICTURES
 machinectl bind --mkdir deepin \$HOME/$USER_VIDEOS /home/u\$UID/$USER_VIDEOS
 machinectl bind --mkdir deepin \$HOME/$USER_MUSIC /home/u\$UID/$USER_MUSIC
-[ -d \$HOME/云盘 ] && machinectl bind --mkdir deepin \$HOME/云盘 /home/u\$UID/云盘
+[ -d \$HOME/$USER_CLOUDDISK ] && machinectl bind --mkdir deepin \$HOME/$USER_CLOUDDISK /home/u\$UID/$USER_CLOUDDISK
 machinectl bind --mkdir deepin \$HOME/.cache /home/u\$UID/.cache
 machinectl bind --mkdir deepin \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
 machinectl bind --mkdir deepin \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
@@ -373,7 +373,7 @@ chmod 755 /bin/deepin-weixin
 cat > /bin/deepin-config-ecloud <<EOF
 #!/bin/bash
 source /bin/deepin-config
-machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-eCloud/ ~/.deepinwine/deepin-wine5/bin/regedit ~/云盘/丽娜/原创/ecloud.reg"
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-eCloud/ ~/.deepinwine/deepin-wine5/bin/regedit ~/$USER_CLOUDDISK/丽娜/原创/ecloud.reg"
 EOF
 
 chmod 755 /bin/deepin-config-ecloud

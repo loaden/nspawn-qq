@@ -129,7 +129,7 @@ Bind = /dev/nvidia-uvm-tools
 # Vulkan
 Bind = /dev/nvidia-modeset
 Bind = /dev/shm
-"')
+ "')
 
 
 # 重写启动服务参数，授予访问权限

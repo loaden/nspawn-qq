@@ -43,41 +43,6 @@ polkit.addRule(function(action, subject) {
 EOF
 
 
-# QQ、微信启动器
-cp -f /var/lib/machines/deepin/opt/apps/com.qq.im.deepin/entries/icons/hicolor/64x64/apps/com.qq.im.deepin.svg /usr/share/pixmaps/
-cat > /usr/share/applications/deepin-qq.desktop <<EOF
-[Desktop Entry]
-Encoding=UTF-8
-Type=Application
-Categories=Network;
-Icon=com.qq.im.deepin
-Exec=deepin-qq %F
-Terminal=false
-Name=QQ
-Name[zh_CN]=QQ
-Comment=Tencent QQ Client on Deepin Wine
-StartupWMClass=QQ.exe
-MimeType=
-EOF
-
-cp -f /var/lib/machines/deepin/opt/apps/com.qq.weixin.deepin/entries/icons/hicolor/64x64/apps/com.qq.weixin.deepin.svg /usr/share/pixmaps/
-cat > /usr/share/applications/deepin-weixin.desktop <<EOF
-[Desktop Entry]
-Encoding=UTF-8
-Type=Application
-X-Created-By=Deepin WINE Team
-Categories=Network;
-Icon=com.qq.weixin.deepin
-Exec=deepin-weixin %F
-Terminal=false
-Name=WeChat
-Name[zh_CN]=微信
-Comment=Tencent WeChat Client on Deepin Wine
-StartupWMClass=WeChat.exe
-MimeType=
-EOF
-
-
 
 # 配置容器
 [[ $(machinectl list) =~ deepin ]] && machinectl stop deepin
@@ -348,6 +313,21 @@ cat > /bin/deepin-install-qq <<EOF
 #!/bin/bash
 source /bin/deepin-config
 machinectl shell deepin /usr/bin/bash -c "dpkg --add-architecture i386 && apt update && apt install -y com.qq.im.deepin && apt autopurge -y"
+sudo cp -f /var/lib/machines/deepin/opt/apps/com.qq.im.deepin/entries/icons/hicolor/64x64/apps/com.qq.im.deepin.svg /usr/share/pixmaps/
+sudo bash -c 'cat > /usr/share/applications/deepin-qq.desktop <<$(echo EOF)
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Categories=Network;
+Icon=com.qq.im.deepin
+Exec=debian-qq %F
+Terminal=false
+Name=QQ
+Name[zh_CN]=QQ
+Comment=Tencent QQ Client on Deepin Wine
+StartupWMClass=QQ.exe
+MimeType=
+$(echo EOF)'
 EOF
 
 chmod 755 /bin/deepin-install-qq
@@ -377,6 +357,22 @@ cat > /bin/deepin-install-weixin <<EOF
 #!/bin/bash
 source /bin/deepin-config
 machinectl shell deepin /usr/bin/bash -c "dpkg --add-architecture i386 && apt update && apt install -y com.qq.weixin.deepin x11-utils && apt autopurge -y"
+sudo cp -f /var/lib/machines/deepin/opt/apps/com.qq.weixin.deepin/entries/icons/hicolor/64x64/apps/com.qq.weixin.deepin.svg /usr/share/pixmaps/
+sudo bash -c 'cat > /usr/share/applications/deepin-weixin.desktop <<$(echo EOF)
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+X-Created-By=Deepin WINE Team
+Categories=Network;
+Icon=com.qq.weixin.deepin
+Exec=deepin-weixin %F
+Terminal=false
+Name=WeChat
+Name[zh_CN]=微信
+Comment=Tencent WeChat Client on Deepin Wine
+StartupWMClass=WeChat.exe
+MimeType=
+$(echo EOF)
 EOF
 
 chmod 755 /bin/deepin-install-weixin

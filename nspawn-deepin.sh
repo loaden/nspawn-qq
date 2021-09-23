@@ -9,7 +9,7 @@ fi
 
 
 # 创建容器
-apt install -y systemd-container debootstrap
+[ -f /bin/apt ] && apt install -y systemd-container debootstrap
 mkdir -p /home/$SUDO_USER/.machines/deepin
 ln -sf /home/$SUDO_USER/.machines/deepin /var/lib/machines
 ln -sf /usr/share/debootstrap/scripts/stable /usr/share/debootstrap/scripts/apricot

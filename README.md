@@ -21,6 +21,12 @@
 5.  更多应用安装，请查看：ls /bin/*-install-*
 6.  启动器中查找QQ或者微信启动，也可以终端启动，例如：debian-qq
 
+#### 多系统配置
+1.  自动安装的容器支持多系统共享，请提前做好~/.machines的软链接
+2.  管理员权限执行：debian-config.sh 或者 deepin-config.sh
+3.  如果同时配置两个容器，可以终端管理员权限执行：config.sh
+4.  也可以同时安装两个容器：install.sh
+
 #### 参与贡献
 
 1.  Fork 本仓库

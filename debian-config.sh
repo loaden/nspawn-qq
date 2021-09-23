@@ -213,6 +213,9 @@ machinectl show debian
 cat > /bin/debian-config <<EOF
 #!/bin/bash
 
+# 使容器与宿主机使用相同用户目录
+machinectl shell debian /bin/bash -c "ln -sf /home/u\$UID \$HOME"
+
 # PulseAudio && D-Bus && DConf
 machinectl bind --read-only --mkdir debian \$XDG_RUNTIME_DIR/pulse
 [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir debian \$XDG_RUNTIME_DIR/pulse

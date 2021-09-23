@@ -8,39 +8,16 @@ if [ $UID != 0 -o ”$SUDO_USER“ == "root" ]; then
 fi
 
 
+# 允许无管理员权限启动
+source `dirname ${BASH_SOURCE[0]}`/nspawn-polkit.sh
+
+
 # 创建容器
 apt install -y systemd-container debootstrap
 mkdir -p /home/$SUDO_USER/.machines/deepin
 ln -sf /home/$SUDO_USER/.machines/deepin /var/lib/machines
 ln -sf /usr/share/debootstrap/scripts/stable /usr/share/debootstrap/scripts/apricot
 debootstrap --include=systemd-container,dex,sudo,locales,dialog,fonts-noto-core,fonts-noto-cjk,neofetch,pulseaudio,bash-completion --no-check-gpg apricot /var/lib/machines/deepin https://community-packages.deepin.com/deepin
-
-
-# 允许无管理员权限启动
-pkaction --version #大于105才适合rules，否则pkla
-cat > /var/lib/polkit-1/localauthority/10-vendor.d/machines.pkla <<EOF
-[Machines Rules]
-Identity=unix-user:*
-Action=org.freedesktop.machine1.*;org.freedesktop.systemd1.manage-units;org.freedesktop.systemd1.manage-unit-files
-ResultAny=yes
-ResultInactive=yes
-ResultActive=yes
-EOF
-cat > /usr/share/polkit-1/rules.d/10-machines.rules <<EOF
-polkit.addRule(function(action, subject) {
-    if (action.id.startsWith("org.freedesktop.machine1.") ||
-        ((action.id == "org.freedesktop.systemd1.manage-units" || action.id == "org.freedesktop.systemd1.manage-unit-files") && action.lookup("unit").startsWith("systemd-nspawn@"))) {
-        return polkit.Result.YES;
-    }
-});
-
-polkit.addRule(function(action, subject) {
-    if ((action.id == "org.freedesktop.systemd1.manage-units" || action.id == "org.freedesktop.systemd1.manage-unit-files") &&
-        /^systemd-nspawn\@.*\.service$/.test(action.lookup("unit"))) {
-        return polkit.Result.YES;
-    }
-});
-EOF
 
 
 

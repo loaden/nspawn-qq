@@ -8,39 +8,15 @@ if [ $UID != 0 -o ”$SUDO_USER“ == "root" ]; then
 fi
 
 
+# 允许无管理员权限启动
+source `dirname ${BASH_SOURCE[0]}`/nspawn-polkit.sh
+
+
 # 创建容器
 apt install -y systemd-container debootstrap
 mkdir -p /home/$SUDO_USER/.machines/debian
 ln -sf /home/$SUDO_USER/.machines/debian /var/lib/machines
 debootstrap --include=systemd-container,dex,sudo,locales,dialog,fonts-noto-core,fonts-noto-cjk,neofetch,pulseaudio,bash-completion --no-check-gpg buster /var/lib/machines/debian https://mirrors.tuna.tsinghua.edu.cn/debian
-
-
-# 允许无管理员权限启动
-pkaction --version #大于105才适合rules，否则pkla
-cat > /var/lib/polkit-1/localauthority/10-vendor.d/machines.pkla <<EOF
-[Machines Rules]
-Identity=unix-user:*
-Action=org.freedesktop.machine1.*;org.freedesktop.systemd1.manage-units;org.freedesktop.systemd1.manage-unit-files
-ResultAny=yes
-ResultInactive=yes
-ResultActive=yes
-EOF
-cat > /usr/share/polkit-1/rules.d/10-machines.rules <<EOF
-polkit.addRule(function(action, subject) {
-    if (action.id.startsWith("org.freedesktop.machine1.") ||
-        ((action.id == "org.freedesktop.systemd1.manage-units" || action.id == "org.freedesktop.systemd1.manage-unit-files") && action.lookup("unit").startsWith("systemd-nspawn@"))) {
-        return polkit.Result.YES;
-    }
-});
-
-polkit.addRule(function(action, subject) {
-    if ((action.id == "org.freedesktop.systemd1.manage-units" || action.id == "org.freedesktop.systemd1.manage-unit-files") &&
-        /^systemd-nspawn\@.*\.service$/.test(action.lookup("unit"))) {
-        return polkit.Result.YES;
-    }
-});
-EOF
-
 
 
 # 配置容器

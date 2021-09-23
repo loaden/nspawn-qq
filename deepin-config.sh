@@ -20,6 +20,11 @@ rm -f /bin/deepin-*
 # 配置容器
 [[ $(machinectl list) =~ deepin ]] && machinectl stop deepin
 mkdir -p /home/share && chmod 777 /home/share
+if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $1}') -p Type` != *wayland* ]]; then
+    [[ ! -f /etc/X11/xorg.conf || ! $(cat /etc/X11/xorg.conf | grep MIT-SHM) ]] && echo -e 'Section "Extensions"
+    Option "MIT-SHM" "Disable"
+EndSection' >> /etc/X11/xorg.conf
+fi
 cat > /var/lib/machines/deepin/config.sh <<EOF
 echo -e 'Section "Extensions"
     Option "MIT-SHM" "Disable"

@@ -22,6 +22,11 @@ rm -f /bin/debian-*
 # 配置容器
 [[ $(machinectl list) =~ debian ]] && machinectl stop debian
 mkdir -p /home/share && chmod 777 /home/share
+if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $1}') -p Type` != *wayland* ]]; then
+    [[ ! -f /etc/X11/xorg.conf || ! $(cat /etc/X11/xorg.conf | grep MIT-SHM) ]] && echo -e 'Section "Extensions"
+    Option "MIT-SHM" "Disable"
+EndSection' >> /etc/X11/xorg.conf
+fi
 cat > /var/lib/machines/debian/config.sh <<EOF
 echo -e 'Section "Extensions"
     Option "MIT-SHM" "Disable"

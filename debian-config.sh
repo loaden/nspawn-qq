@@ -357,7 +357,7 @@ Name[zh_CN]=微信
 Comment=Tencent WeChat Client on Deepin Wine
 StartupWMClass=WeChat.exe
 MimeType=
-$(echo EOF)
+$(echo EOF)'
 EOF
 
 chmod 755 /bin/debian-install-weixin

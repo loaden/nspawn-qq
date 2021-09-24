@@ -11,16 +11,16 @@
 
 1.  下载或者克隆源码库
 2.  终端打开源码库所在路径
-3.  安装过程中出现语言选择时，请务必选译 zh_CN.UTF-8 并设置成默认语言
 
 #### 使用说明
 
 1.  在源码库脚本所在路径终端执行命令：sudo -s 获取管理员权限
 2.  执行：./nspawn-debian.sh 安装 Debian 10
 3.  或者：./nspawn-deepin.sh 安装 Deepin 20.2.3
-4.  安装应用，请终端执行：debian-install-qq 或者 deepin-install-qq
-5.  更多应用安装，请查看：ls /bin/*-install-*
-6.  启动器中查找QQ或者微信启动，也可以终端启动，例如：debian-qq
+4.  也可以：sudo ./nspawn-debian.sh 这种方式
+5.  安装应用，请终端执行：debian-install-qq 或者 deepin-install-qq
+6.  更多应用安装，请查看：ls /bin/*-install-*
+7.  启动器中查找QQ或者微信启动，也可以终端启动，例如：debian-qq
 
 #### 多系统配置
 1.  自动安装的容器支持多系统共享，请提前做好~/.machines的软链接
@@ -34,13 +34,3 @@
 2.  新建 Feat_xxx 分支
 3.  提交代码
 4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)

@@ -289,7 +289,8 @@ chmod 755 /bin/debian-terminal
 
 # 安装QQ
 cat > /bin/debian-install-qq <<EOF
-machinectl shell debian /usr/bin/bash -c "apt install wget -y && wget -O- https://deepin-wine.i-m.dev/setup.sh | sh && apt install -y com.qq.im.deepin && apt autopurge -y"
+machinectl shell debian /usr/bin/bash -c "[ ! -f /etc/apt/sources.list.d/deepin-wine.i-m.dev.list ] && apt install wget -y && wget -O- https://deepin-wine.i-m.dev/setup.sh | sh"
+machinectl shell debian /usr/bin/bash -c "apt update && apt install -y com.qq.im.deepin && apt autopurge -y"
 sudo cp -f /var/lib/machines/debian/opt/apps/com.qq.im.deepin/entries/icons/hicolor/64x64/apps/com.qq.im.deepin.svg /usr/share/pixmaps/
 sudo bash -c 'cat > /usr/share/applications/deepin-qq.desktop <<$(echo EOF)
 [Desktop Entry]
@@ -331,7 +332,8 @@ chmod 755 /bin/debian-qq
 
 # 安装微信
 cat > /bin/debian-install-weixin <<EOF
-machinectl shell debian /usr/bin/bash -c "apt install wget -y && wget -O- https://deepin-wine.i-m.dev/setup.sh | sh && apt install -y com.qq.weixin.deepin x11-utils && apt autopurge -y"
+machinectl shell debian /usr/bin/bash -c "[ ! -f /etc/apt/sources.list.d/deepin-wine.i-m.dev.list ] && apt install wget -y && wget -O- https://deepin-wine.i-m.dev/setup.sh | sh"
+machinectl shell debian /usr/bin/bash -c "apt update && apt install -y com.qq.weixin.deepin x11-utils && apt autopurge -y"
 sudo cp -f /var/lib/machines/debian/opt/apps/com.qq.weixin.deepin/entries/icons/hicolor/64x64/apps/com.qq.weixin.deepin.svg /usr/share/pixmaps/
 sudo bash -c 'cat > /usr/share/applications/deepin-weixin.desktop <<$(echo EOF)
 [Desktop Entry]

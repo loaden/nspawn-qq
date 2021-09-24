@@ -241,7 +241,7 @@ machinectl bind --read-only --mkdir debian \$HOME/.local/share/fonts /home/u\$UI
 $(echo "$X11_BIND_AND_CONFIG")
 
 # 启动环境变量
-RUN_ENVIRONMENT="DISPLAY=\$DISPLAY GDK_SYNCHRONIZE=1"
+RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY GDK_SYNCHRONIZE=1"
 if [[ \$(loginctl show-session \$(loginctl | grep \$USER |awk '{print \$1}') -p Type) == *wayland* ]]; then
     RUN_ENVIRONMENT="\$RUN_ENVIRONMENT WAYLAND_DISPLAY=\$WAYLAND_DISPLAY XAUTHORITY=\$XAUTHORITY"
 fi

@@ -45,7 +45,7 @@ mkdir -p /home/share && chmod 777 /home/share
 [ "$?" == "0" ] && /usr/sbin/userdel -r user
 for i in {1000..1005}; do
     /usr/bin/id -u u\$i > /dev/null 2>&1
-    [ "$?" == "0" ] && /usr/sbin/userdel -r u\$i
+    [ "$?" == "0" ] && continue
     /usr/sbin/useradd -u \$i -m -s /bin/bash -G sudo u\$i
     echo u\$i:passwd | /usr/sbin/chpasswd
     cd /home/u\$i/

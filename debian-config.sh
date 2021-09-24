@@ -36,7 +36,9 @@ echo -e 'Section "Extensions"
     Option "MIT-SHM" "Disable"
 EndSection' > /etc/X11/xorg.conf
 [[ ! \$(cat /etc/hosts | grep \$HOSTNAME) ]] && echo "127.0.0.1 \$HOSTNAME" >> /etc/hosts
-/usr/sbin/dpkg-reconfigure locales
+/bin/sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
+/bin/sed -i 's/# zh_CN.UTF-8/zh_CN.UTF-8/g' /etc/locale.gen
+/sbin/locale-gen
 locale
 echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster main contrib non-free" > /etc/apt/sources.list
 mkdir -p /home/share && chmod 777 /home/share

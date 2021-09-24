@@ -18,3 +18,7 @@ debootstrap --include=systemd-container,dex,sudo,locales,dialog,fonts-noto-core,
 
 # 配置容器
 source `dirname ${BASH_SOURCE[0]}`/debian-config.sh
+
+
+# 默认安装QQ
+debian-install-qq

@@ -252,8 +252,6 @@ cat /bin/deepin-config
 
 # 查询应用
 cat > /bin/deepin-query <<EOF
-#!/bin/bash
-source /bin/deepin-config
 machinectl shell deepin /bin/bash -c "ls /usr/share/applications"
 EOF
 
@@ -262,8 +260,6 @@ chmod 755 /bin/deepin-query
 
 # 清理缓存
 cat > /bin/deepin-clean <<EOF
-#!/bin/bash
-source /bin/deepin-config
 for i in {1000..1005}; do
     machinectl shell deepin /bin/bash -c "apt clean && rm -rf /home/u\$i/.deepinwine && du -hd1 /home/u\$i"
 done
@@ -276,8 +272,6 @@ chmod 755 /bin/deepin-clean
 
 # 安装终端
 cat > /bin/deepin-install-terminal <<EOF
-#!/bin/bash
-source /bin/deepin-config
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y lxterminal && apt autopurge -y"
 EOF
 
@@ -296,8 +290,6 @@ chmod 755 /bin/deepin-terminal
 
 # 安装QQ
 cat > /bin/deepin-install-qq <<EOF
-#!/bin/bash
-source /bin/deepin-config
 machinectl shell deepin /usr/bin/bash -c "dpkg --add-architecture i386 && apt update && apt install -y com.qq.im.deepin && apt autopurge -y"
 sudo cp -f /var/lib/machines/deepin/opt/apps/com.qq.im.deepin/entries/icons/hicolor/64x64/apps/com.qq.im.deepin.svg /usr/share/pixmaps/
 sudo bash -c 'cat > /usr/share/applications/deepin-qq.desktop <<$(echo EOF)
@@ -340,8 +332,6 @@ chmod 755 /bin/deepin-qq
 
 # 安装微信
 cat > /bin/deepin-install-weixin <<EOF
-#!/bin/bash
-source /bin/deepin-config
 machinectl shell deepin /usr/bin/bash -c "dpkg --add-architecture i386 && apt update && apt install -y com.qq.weixin.deepin x11-utils && apt autopurge -y"
 sudo cp -f /var/lib/machines/deepin/opt/apps/com.qq.weixin.deepin/entries/icons/hicolor/64x64/apps/com.qq.weixin.deepin.svg /usr/share/pixmaps/
 sudo bash -c 'cat > /usr/share/applications/deepin-weixin.desktop <<$(echo EOF)
@@ -396,8 +386,6 @@ chmod 755 /bin/deepin-ecloud
 
 # 安装文件管理器
 cat > /bin/deepin-install-thunar <<EOF
-#!/bin/bash
-source /bin/deepin-config
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y thunar catfish dbus-x11 --no-install-recommends && apt autopurge -y"
 EOF
 
@@ -415,8 +403,6 @@ chmod 755 /bin/deepin-thunar
 
 # 安装商店
 cat > /bin/deepin-install-app-store <<EOF
-#!/bin/bash
-source /bin/deepin-config
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y deepin-app-store && apt autopurge -y"
 EOF
 
@@ -434,8 +420,6 @@ chmod 755 /bin/deepin-app-store
 
 # 安装腾讯会议
 cat > /bin/deepin-install-wemeet <<EOF
-#!/bin/bash
-source /bin/deepin-config
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.qq.wemeet libgl1-mesa-dev && apt autopurge -y"
 EOF
 

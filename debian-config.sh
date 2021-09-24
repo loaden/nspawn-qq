@@ -253,8 +253,6 @@ cat /bin/debian-config
 
 # 查询应用
 cat > /bin/debian-query <<EOF
-#!/bin/bash
-source /bin/debian-config
 machinectl shell debian /bin/bash -c "ls /usr/share/applications"
 EOF
 
@@ -263,8 +261,6 @@ chmod 755 /bin/debian-query
 
 # 清理缓存
 cat > /bin/debian-clean <<EOF
-#!/bin/bash
-source /bin/debian-config
 for i in {1000..1005}; do
     machinectl shell debian /bin/bash -c "apt clean && rm -rf /home/u\$i/.deepinwine && du -hd1 /home/u\$i"
 done
@@ -277,8 +273,6 @@ chmod 755 /bin/debian-clean
 
 # 安装终端
 cat > /bin/debian-install-terminal <<EOF
-#!/bin/bash
-source /bin/debian-config
 machinectl shell debian /usr/bin/bash -c "apt update && apt install -y xfce4-terminal && apt autopurge -y"
 EOF
 
@@ -297,8 +291,6 @@ chmod 755 /bin/debian-terminal
 
 # 安装QQ
 cat > /bin/debian-install-qq <<EOF
-#!/bin/bash
-source /bin/debian-config
 machinectl shell debian /usr/bin/bash -c "apt install wget -y && wget -O- https://deepin-wine.i-m.dev/setup.sh | sh && apt install -y com.qq.im.deepin && apt autopurge -y"
 sudo cp -f /var/lib/machines/debian/opt/apps/com.qq.im.deepin/entries/icons/hicolor/64x64/apps/com.qq.im.deepin.svg /usr/share/pixmaps/
 sudo bash -c 'cat > /usr/share/applications/deepin-qq.desktop <<$(echo EOF)
@@ -341,8 +333,6 @@ chmod 755 /bin/debian-qq
 
 # 安装微信
 cat > /bin/debian-install-weixin <<EOF
-#!/bin/bash
-source /bin/debian-config
 machinectl shell debian /usr/bin/bash -c "apt install wget -y && wget -O- https://deepin-wine.i-m.dev/setup.sh | sh && apt install -y com.qq.weixin.deepin x11-utils && apt autopurge -y"
 sudo cp -f /var/lib/machines/debian/opt/apps/com.qq.weixin.deepin/entries/icons/hicolor/64x64/apps/com.qq.weixin.deepin.svg /usr/share/pixmaps/
 sudo bash -c 'cat > /usr/share/applications/deepin-weixin.desktop <<$(echo EOF)
@@ -397,8 +387,6 @@ chmod 755 /bin/debian-ecloud
 
 # 安装文件管理器
 cat > /bin/debian-install-thunar <<EOF
-#!/bin/bash
-source /bin/debian-config
 machinectl shell debian /usr/bin/bash -c "apt update && apt install -y thunar catfish dbus-x11 --no-install-recommends && apt autopurge -y"
 EOF
 

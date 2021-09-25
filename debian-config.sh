@@ -60,7 +60,6 @@ chroot /var/lib/machines/debian/ /bin/bash /config.sh
 DESKTOP_ENVIRONMENT=
 X11_BIND_AND_CONFIG=
 if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $1}') -p Type` == *wayland* ]]; then
-DESKTOP_ENVIRONMENT=$(bash -c 'echo -e "export QT_X11_NO_MITSHM=1"')
 X11_BIND_AND_CONFIG=$(bash -c 'echo -e "
 # Xauthority
 machinectl bind --read-only --mkdir debian \$XAUTHORITY
@@ -80,6 +79,9 @@ cat > /bin/debian-start  <<EOF
 $(echo "$DESKTOP_ENVIRONMENT")
 export XDG_RUNTIME_DIR=/run/user/\$UID
 export PULSE_SERVER=unix:\$XDG_RUNTIME_DIR/pulse/native
+export QT_X11_NO_MITSHM=1
+export _X11_NO_MITSHM=1
+export _MITSHM=0
 export GTK_IM_MOUDLE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MOUDLE=ibus

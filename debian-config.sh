@@ -202,7 +202,7 @@ systemctl daemon-reload
 sleep 0.3
 [[ `cat /etc/os-release` == *Fedora* ]] && setenforce 0
 machinectl enable debian
-# cat /etc/systemd/system/machines.target.wants/systemd-nspawn@debian.service
+# systemctl cat systemd-nspawn@debian.service
 machinectl start debian
 machinectl list
 machinectl show debian

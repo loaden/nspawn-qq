@@ -201,7 +201,7 @@ systemctl daemon-reload
 sleep 0.3
 [[ `cat /etc/os-release` == *Fedora* ]] && setenforce 0
 machinectl enable deepin
-# cat /etc/systemd/system/machines.target.wants/systemd-nspawn@deepin.service
+# systemctl cat systemd-nspawn@deepin.service
 machinectl start deepin
 machinectl list
 machinectl show deepin

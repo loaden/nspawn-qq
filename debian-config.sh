@@ -42,9 +42,9 @@ EndSection' > /etc/X11/xorg.conf
 locale
 echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster main contrib non-free" > /etc/apt/sources.list
 mkdir -p /home/share && chmod 777 /home/share
-[[ $(/bin/cat /etc/passwd | grep user:) ]] && /usr/sbin/userdel -r user
+[[ \$(/bin/cat /etc/passwd | grep user:) ]] && /usr/sbin/userdel -r user
 for i in {1000..1005}; do
-    [[ $(/bin/cat /etc/passwd | grep u\$i:) ]] && continue
+    [[ \$(/bin/cat /etc/passwd | grep u\$i:) ]] && continue
     /usr/sbin/useradd -u \$i -m -s /bin/bash -G sudo u\$i
     echo u\$i:passwd | /usr/sbin/chpasswd
     cd /home/u\$i/

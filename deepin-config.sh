@@ -81,9 +81,6 @@ export PULSE_SERVER=unix:\$XDG_RUNTIME_DIR/pulse/native
 export QT_X11_NO_MITSHM=1
 export _X11_NO_MITSHM=1
 export _MITSHM=0
-export GTK_IM_MOUDLE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MOUDLE=ibus
 dex \$@
 EOF
 
@@ -240,7 +237,7 @@ machinectl bind --read-only --mkdir deepin \$HOME/.local/share/fonts /home/u\$UI
 $(echo "$X11_BIND_AND_CONFIG")
 
 # 启动环境变量
-RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY GDK_SYNCHRONIZE=1"
+RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY GTK_IM_MODULE=\$GTK_IM_MODULE XMODIFIERS=\$XMODIFIERS QT_IM_MODULE=\$QT_IM_MODULE"
 if [[ \$(loginctl show-session \$(loginctl | grep \$USER |awk '{print \$1}') -p Type) == *wayland* ]]; then
     RUN_ENVIRONMENT="\$RUN_ENVIRONMENT WAYLAND_DISPLAY=\$WAYLAND_DISPLAY XAUTHORITY=\$XAUTHORITY"
 fi

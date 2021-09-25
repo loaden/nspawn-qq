@@ -11,6 +11,7 @@ fi
 # 创建容器
 [ -f /bin/apt ] && apt install -y systemd-container debootstrap
 [ -f /bin/pacman ] && pacman -S --noconfirm --needed debootstrap
+[ -f /bin/dnf ] && dnf install -y systemd-container debootstrap
 mkdir -p /home/$SUDO_USER/.machines/debian
 ln -sf /home/$SUDO_USER/.machines/debian /var/lib/machines
 debootstrap --include=systemd-container,dex,sudo,locales,dialog,fonts-noto-core,fonts-noto-cjk,neofetch,pulseaudio,bash-completion --no-check-gpg buster /var/lib/machines/debian https://mirrors.tuna.tsinghua.edu.cn/debian

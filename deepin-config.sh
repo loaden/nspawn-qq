@@ -24,15 +24,7 @@ source `dirname ${BASH_SOURCE[0]}`/user-dirs.sh
 # 配置容器
 [[ $(machinectl list) =~ deepin ]] && machinectl stop deepin
 mkdir -p /home/share && chmod 777 /home/share
-if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $1}') -p Type` != *wayland* ]]; then
-    [[ ! -f /etc/X11/xorg.conf || ! $(cat /etc/X11/xorg.conf | grep MIT-SHM) ]] && echo -e 'Section "Extensions"
-    Option "MIT-SHM" "Disable"
-EndSection' >> /etc/X11/xorg.conf
-fi
 cat > /var/lib/machines/deepin/config.sh <<EOF
-echo -e 'Section "Extensions"
-    Option "MIT-SHM" "Disable"
-EndSection' > /etc/X11/xorg.conf
 [[ ! \$(cat /etc/hosts | grep \$HOSTNAME) ]] && echo "127.0.0.1 \$HOSTNAME" >> /etc/hosts
 /bin/sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
 /bin/sed -i 's/# zh_CN.UTF-8/zh_CN.UTF-8/g' /etc/locale.gen
@@ -53,6 +45,10 @@ done
 EOF
 
 chroot /var/lib/machines/deepin/ /bin/bash /config.sh
+
+
+# 禁用MIT-SHM
+source `dirname ${BASH_SOURCE[0]}`/xnoshm.sh deepin
 
 
 # 配置启动环境变量
@@ -78,9 +74,7 @@ cat > /bin/deepin-start  <<EOF
 $(echo "$DESKTOP_ENVIRONMENT")
 export XDG_RUNTIME_DIR=/run/user/\$UID
 export PULSE_SERVER=unix:\$XDG_RUNTIME_DIR/pulse/native
-export QT_X11_NO_MITSHM=1
-export _X11_NO_MITSHM=1
-export _MITSHM=0
+$(echo "$DISABLE_MITSHM")
 dex \$@
 EOF
 

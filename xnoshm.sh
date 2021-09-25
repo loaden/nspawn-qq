@@ -10,7 +10,7 @@ fi
 
 # 禁用MIT-SHM
 [[ $(machinectl list) =~ $1 ]] && machinectl stop $1
-DISABLE_X_MITSHM_EXTENSION=0
+DISABLE_X_MITSHM_EXTENSION=1
 
 if [ $DISABLE_X_MITSHM_EXTENSION == 1 ]; then
     [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $1}') -p Type` != *wayland* ]] && \
@@ -33,9 +33,9 @@ else
         dpkg --add-architecture i386
         apt update
         apt install -y gcc gcc-multilib libc6-dev libxext-dev
-        gcc /disable_mitshm.c -shared -fPIC -o /lib/x86_64-linux-gnu/disable_mitshm.so
+        gcc /disable_mitshm.c -shared -o /lib/x86_64-linux-gnu/disable_mitshm.so
         ls -lh /lib/x86_64-linux-gnu/disable_mitshm.so
-        gcc /disable_mitshm.c -m32 -fPIC -shared -o /lib/i386-linux-gnu/disable_mitshm.so
+        gcc /disable_mitshm.c -m32 -shared -o /lib/i386-linux-gnu/disable_mitshm.so
         ls -lh /lib/i386-linux-gnu/disable_mitshm.so
         apt purge -y gcc gcc-multilib libc6-dev libxext-dev
         apt autopurge -y

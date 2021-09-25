@@ -399,6 +399,7 @@ EOF
 chmod 755 /bin/deepin-thunar
 
 
+
 # 安装商店
 cat > /bin/deepin-install-app-store <<EOF
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y deepin-app-store && apt autopurge -y"
@@ -416,6 +417,7 @@ EOF
 chmod 755 /bin/deepin-app-store
 
 
+
 # 安装腾讯会议
 cat > /bin/deepin-install-wemeet <<EOF
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.qq.wemeet libgl1-mesa-dev && apt autopurge -y"
@@ -431,3 +433,21 @@ machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/c
 EOF
 
 chmod 755 /bin/deepin-wemeet
+
+
+
+# 安装迅雷
+cat > /bin/deepin-install-xunlei <<EOF
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.xunlei.download libxss1 libdbus-glib-1-2 && apt autopurge -y"
+EOF
+
+chmod 755 /bin/deepin-install-xunlei
+
+# 启动迅雷
+cat > /bin/deepin-xunlei <<EOF
+#!/bin/bash
+source /bin/deepin-config
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.xunlei.download/entries/applications/com.xunlei.download.desktop"
+EOF
+
+chmod 755 /bin/deepin-xunlei

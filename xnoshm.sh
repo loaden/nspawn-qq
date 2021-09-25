@@ -18,8 +18,8 @@ if [ $DISABLE_X_MITSHM_EXTENSION == 1 ]; then
     echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' >> /etc/X11/xorg.conf
     cat > /var/lib/machines/$1/disable_mitshm.sh <<EOF
     rm -f /disable_mitshm.c
-    rm -f /lib32/disable_mitshm.so
-    rm -f /lib64/disable_mitshm.so
+    rm -f /lib/i386-linux-gnu/disable_mitshm.so
+    rm -f /lib/x86_64-linux-gnu/disable_mitshm.so
     echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf
 EOF
 else
@@ -29,14 +29,14 @@ else
     cat > /var/lib/machines/$1/disable_mitshm.sh <<EOF
     rm -f /etc/X11/xorg.conf
     rm -f /disable_mitshm.so
-    if [[ ! -f /lib32/disable_mitshm.so || ! -f /lib64/disable_mitshm.so ]]; then
+    if [[ ! -f /lib/i386-linux-gnu/disable_mitshm.so || ! -f /lib/x86_64-linux-gnu/disable_mitshm.so ]]; then
         dpkg --add-architecture i386
         apt update
         apt install -y gcc gcc-multilib libc6-dev libxext-dev
-        gcc /disable_mitshm.c -shared -fPIC -o /lib64/disable_mitshm.so
-        ls -l /lib64/disable_mitshm.so
-        gcc /disable_mitshm.c -m32 -fPIC -shared -o /lib32/disable_mitshm.so
-        ls -l /lib32/disable_mitshm.so
+        gcc /disable_mitshm.c -shared -fPIC -o /lib/x86_64-linux-gnu/disable_mitshm.so
+        ls -lh /lib/x86_64-linux-gnu/disable_mitshm.so
+        gcc /disable_mitshm.c -m32 -fPIC -shared -o /lib/i386-linux-gnu/disable_mitshm.so
+        ls -lh /lib/i386-linux-gnu/disable_mitshm.so
         apt purge -y gcc gcc-multilib libc6-dev libxext-dev
         apt autopurge -y
         apt clean
@@ -48,7 +48,7 @@ chroot /var/lib/machines/$1/ /bin/bash /disable_mitshm.sh
 
 
 # 导出SHM相关环境变量
-DISABLE_MITSHM=$(bash -c 'echo -e "[[ -f /lib32/disable_mitshm.so && -f /lib64/disable_mitshm.so ]] && export LD_PRELOAD=disable_mitshm.so
+DISABLE_MITSHM=$(bash -c 'echo -e "[[ -f /lib/x86_64-linux-gnu/disable_mitshm.so && -f /lib/i386-linux-gnu/disable_mitshm.so ]] && export LD_PRELOAD=disable_mitshm.so
 export QT_X11_NO_MITSHM=1
 export _X11_NO_MITSHM=1
 export _MITSHM=0

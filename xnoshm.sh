@@ -48,7 +48,7 @@ chroot /var/lib/machines/$1/ /bin/bash /disable_mitshm.sh
 
 
 # 导出SHM相关环境变量
-DISABLE_MITSHM=$(bash -c 'echo -e "[ -f /disable_mitshm.so ] && export LD_PRELOAD=/disable_mitshm.so
+DISABLE_MITSHM=$(bash -c 'echo -e "[[ -f /lib32/disable_mitshm.so && -f /lib64/disable_mitshm.so ]] && export LD_PRELOAD=disable_mitshm.so
 export QT_X11_NO_MITSHM=1
 export _X11_NO_MITSHM=1
 export _MITSHM=0

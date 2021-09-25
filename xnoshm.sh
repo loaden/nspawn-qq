@@ -10,14 +10,16 @@ fi
 
 # 禁用MIT-SHM
 [[ $(machinectl list) =~ $1 ]] && machinectl stop $1
-DISABLE_X_MITSHM_EXTENSION=1
+DISABLE_X_MITSHM_EXTENSION=0
 
 if [ $DISABLE_X_MITSHM_EXTENSION == 1 ]; then
     [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $1}') -p Type` != *wayland* ]] && \
     [[ ! -f /etc/X11/xorg.conf || ! $(cat /etc/X11/xorg.conf | grep MIT-SHM) ]] && \
     echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' >> /etc/X11/xorg.conf
     cat > /var/lib/machines/$1/disable_mitshm.sh <<EOF
-    rm -f /disable_mitshm.*
+    rm -f /disable_mitshm.c
+    rm -f /lib32/disable_mitshm.so
+    rm -f /lib64/disable_mitshm.so
     echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf
 EOF
 else
@@ -26,10 +28,16 @@ else
     cp -f `dirname ${BASH_SOURCE[0]}`/xnoshm.c /var/lib/machines/$1/disable_mitshm.c
     cat > /var/lib/machines/$1/disable_mitshm.sh <<EOF
     rm -f /etc/X11/xorg.conf
-    if [ ! -f /disable_mitshm.so ]; then
-        apt install -y gcc libc-dev libxext-dev
-        gcc /disable_mitshm.c -shared -o /disable_mitshm.so
-        apt purge -y gcc libc6-dev libxext-dev
+    rm -f /disable_mitshm.so
+    if [[ ! -f /lib32/disable_mitshm.so || ! -f /lib64/disable_mitshm.so ]]; then
+        dpkg --add-architecture i386
+        apt update
+        apt install -y gcc gcc-multilib libc6-dev libxext-dev
+        gcc /disable_mitshm.c -shared -fPIC -o /lib64/disable_mitshm.so
+        ls -l /lib64/disable_mitshm.so
+        gcc /disable_mitshm.c -m32 -fPIC -shared -o /lib32/disable_mitshm.so
+        ls -l /lib32/disable_mitshm.so
+        apt purge -y gcc gcc-multilib libc6-dev libxext-dev
         apt autopurge -y
         apt clean
     fi

@@ -25,7 +25,7 @@ if [[ $DISABLE_HOST_MITSHM == 1 ]]; then
 EOF
 else
     rm -f /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
-    [[ ! `ls -A /etc/X11/xorg.conf.d |wc -w` ]] && rm -f /etc/X11/xorg.conf.d
+    [[ -d /etc/X11/xorg.conf.d && `ls -A /etc/X11/xorg.conf.d |wc -w` == 0 ]] && rm -rf /etc/X11/xorg.conf.d
     cp -f `dirname ${BASH_SOURCE[0]}`/xnoshm.c /var/lib/machines/$1/disable-MIT-SHM.c
     cat > /var/lib/machines/$1/disable-MIT-SHM.sh <<EOF
     mkdir -p /etc/X11/xorg.conf.d

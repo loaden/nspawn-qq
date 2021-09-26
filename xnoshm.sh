@@ -14,8 +14,8 @@ DISABLE_X_MITSHM_EXTENSION=1
 
 if [ $DISABLE_X_MITSHM_EXTENSION == 1 ]; then
     [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $1}') -p Type` != *wayland* ]] && \
-    [[ ! -f /etc/X11/xorg.conf || ! $(cat /etc/X11/xorg.conf | grep MIT-SHM) ]] && \
-    echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' >> /etc/X11/xorg.conf
+        [[ ! -f /etc/X11/xorg.conf || ! $(cat /etc/X11/xorg.conf | grep MIT-SHM) ]] && \
+        echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' >> /etc/X11/xorg.conf
     cat > /var/lib/machines/$1/disable_mitshm.sh <<EOF
     rm -f /lib/i386-linux-gnu/disable_mitshm.so
     rm -f /lib/x86_64-linux-gnu/disable_mitshm.so

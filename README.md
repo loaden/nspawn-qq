@@ -28,6 +28,11 @@
 3.  如果同时配置两个容器，可以终端管理员权限执行：config.sh
 4.  也可以同时安装两个容器：install.sh
 
+#### 高级用法
+1.  不禁用宿主机MIT-SHM（稳定性可能下降）：sudo DISABLE_HOST_MITSHM=0 ./nspawn-debian.sh
+2.  已经安装，只修改配置：sudo DISABLE_HOST_MITSHM=0 ./debian-config.sh
+3.  默认会同时禁用宿主机和容器的MIT-SHM扩展：sudo ./nspawn-debian.sh
+
 #### 参与贡献
 
 1.  Fork 本仓库

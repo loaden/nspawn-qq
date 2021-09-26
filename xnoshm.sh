@@ -17,18 +17,16 @@ if [ $DISABLE_X_MITSHM_EXTENSION == 1 ]; then
     [[ ! -f /etc/X11/xorg.conf || ! $(cat /etc/X11/xorg.conf | grep MIT-SHM) ]] && \
     echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' >> /etc/X11/xorg.conf
     cat > /var/lib/machines/$1/disable_mitshm.sh <<EOF
-    rm -f /disable_mitshm.c
     rm -f /lib/i386-linux-gnu/disable_mitshm.so
     rm -f /lib/x86_64-linux-gnu/disable_mitshm.so
     echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf
 EOF
 else
-    perl -0777 -pi -e 's/Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection//g' /etc/X11/xorg.conf
-    [[ ! $(cat /etc/X11/xorg.conf) ]] && rm -f /etc/X11/xorg.conf
+    [ -f /etc/X11/xorg.conf ] && perl -0777 -pi -e 's/Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection//g' /etc/X11/xorg.conf
+    [ -f /etc/X11/xorg.conf ] && [[ ! $(cat /etc/X11/xorg.conf) ]] && rm -f /etc/X11/xorg.conf
     cp -f `dirname ${BASH_SOURCE[0]}`/xnoshm.c /var/lib/machines/$1/disable_mitshm.c
     cat > /var/lib/machines/$1/disable_mitshm.sh <<EOF
     rm -f /etc/X11/xorg.conf
-    rm -f /disable_mitshm.so
     if [[ ! -f /lib/i386-linux-gnu/disable_mitshm.so || ! -f /lib/x86_64-linux-gnu/disable_mitshm.so ]]; then
         dpkg --add-architecture i386
         apt update
@@ -37,6 +35,7 @@ else
         ls -lh /lib/x86_64-linux-gnu/disable_mitshm.so
         gcc /disable_mitshm.c -m32 -shared -o /lib/i386-linux-gnu/disable_mitshm.so
         ls -lh /lib/i386-linux-gnu/disable_mitshm.so
+        rm -f /disable_mitshm.c
         apt purge -y gcc gcc-multilib libc6-dev libxext-dev
         apt autopurge -y
         apt clean

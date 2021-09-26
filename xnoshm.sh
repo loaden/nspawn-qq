@@ -31,9 +31,11 @@ else
         dpkg --add-architecture i386
         apt update
         apt install -y gcc gcc-multilib libc6-dev libxext-dev
-        gcc /disable_mitshm.c -shared -o /lib/x86_64-linux-gnu/disable_mitshm.so
+        gcc /disable_mitshm.c -fPIC -shared -o /lib/x86_64-linux-gnu/disable_mitshm.so
+        chmod u+s /lib/x86_64-linux-gnu/disable_mitshm.so
         ls -lh /lib/x86_64-linux-gnu/disable_mitshm.so
-        gcc /disable_mitshm.c -m32 -shared -o /lib/i386-linux-gnu/disable_mitshm.so
+        gcc /disable_mitshm.c -fPIC -m32 -shared -o /lib/i386-linux-gnu/disable_mitshm.so
+        chmod u+s /lib/i386-linux-gnu/disable_mitshm.so
         ls -lh /lib/i386-linux-gnu/disable_mitshm.so
         rm -f /disable_mitshm.c
         apt purge -y gcc gcc-multilib libc6-dev libxext-dev

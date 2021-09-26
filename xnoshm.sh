@@ -10,9 +10,9 @@ fi
 
 # 禁用MIT-SHM
 [[ $(machinectl list) =~ $1 ]] && machinectl stop $1
-DISABLE_X_MITSHM_EXTENSION=1
+[[ ! $DISABLE_HOST_MITSHM ]] && DISABLE_HOST_MITSHM=1
 
-if [ $DISABLE_X_MITSHM_EXTENSION == 1 ]; then
+if [[ $DISABLE_HOST_MITSHM == 1 ]]; then
     if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $1}') -p Type` != *wayland* ]]; then
         mkdir -p /etc/X11/xorg.conf.d
         echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf.d/disable-MIT-SHM.conf

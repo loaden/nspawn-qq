@@ -13,43 +13,45 @@ fi
 DISABLE_X_MITSHM_EXTENSION=1
 
 if [ $DISABLE_X_MITSHM_EXTENSION == 1 ]; then
-    [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $1}') -p Type` != *wayland* ]] && \
-        [[ ! -f /etc/X11/xorg.conf || ! $(cat /etc/X11/xorg.conf | grep MIT-SHM) ]] && \
-        echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' >> /etc/X11/xorg.conf
-    cat > /var/lib/machines/$1/disable_mitshm.sh <<EOF
-    rm -f /lib/i386-linux-gnu/disable_mitshm.so
-    rm -f /lib/x86_64-linux-gnu/disable_mitshm.so
-    echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf
+    if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $1}') -p Type` != *wayland* ]]; then
+        mkdir -p /etc/X11/xorg.conf.d
+        echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
+    fi
+    cat > /var/lib/machines/$1/disable-MIT-SHM.sh <<EOF
+    rm -f /lib/i386-linux-gnu/disable-MIT-SHM.so
+    rm -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so
+    mkdir -p /etc/X11/xorg.conf.d
+    echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
 EOF
 else
-    [ -f /etc/X11/xorg.conf ] && perl -0777 -pi -e 's/Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection//g' /etc/X11/xorg.conf
-    [ -f /etc/X11/xorg.conf ] && [[ ! $(cat /etc/X11/xorg.conf) ]] && rm -f /etc/X11/xorg.conf
-    cp -f `dirname ${BASH_SOURCE[0]}`/xnoshm.c /var/lib/machines/$1/disable_mitshm.c
-    cat > /var/lib/machines/$1/disable_mitshm.sh <<EOF
-    echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf
-    if [[ ! -f /lib/i386-linux-gnu/disable_mitshm.so || ! -f /lib/x86_64-linux-gnu/disable_mitshm.so ]]; then
+    rm -f /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
+    [[ ! `ls -A /etc/X11/xorg.conf.d |wc -w` ]] && rm -f /etc/X11/xorg.conf.d
+    cp -f `dirname ${BASH_SOURCE[0]}`/xnoshm.c /var/lib/machines/$1/disable-MIT-SHM.c
+    cat > /var/lib/machines/$1/disable-MIT-SHM.sh <<EOF
+    mkdir -p /etc/X11/xorg.conf.d
+    echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
+    if [[ ! -f /lib/i386-linux-gnu/disable-MIT-SHM.so || ! -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so ]]; then
         dpkg --add-architecture i386
         apt update
         apt install -y gcc gcc-multilib libc6-dev libxext-dev
-        gcc /disable_mitshm.c -fPIC -shared -o /lib/x86_64-linux-gnu/disable_mitshm.so
-        chmod u+s /lib/x86_64-linux-gnu/disable_mitshm.so
-        ls -lh /lib/x86_64-linux-gnu/disable_mitshm.so
-        gcc /disable_mitshm.c -fPIC -m32 -shared -o /lib/i386-linux-gnu/disable_mitshm.so
-        chmod u+s /lib/i386-linux-gnu/disable_mitshm.so
-        ls -lh /lib/i386-linux-gnu/disable_mitshm.so
-        rm -f /disable_mitshm.c
+        gcc /disable-MIT-SHM.c -fPIC -shared -o /lib/x86_64-linux-gnu/disable-MIT-SHM.so
+        chmod u+s /lib/x86_64-linux-gnu/disable-MIT-SHM.so
+        ls -lh /lib/x86_64-linux-gnu/disable-MIT-SHM.so
+        gcc /disable-MIT-SHM.c -fPIC -m32 -shared -o /lib/i386-linux-gnu/disable-MIT-SHM.so
+        chmod u+s /lib/i386-linux-gnu/disable-MIT-SHM.so
+        ls -lh /lib/i386-linux-gnu/disable-MIT-SHM.so
+        rm -f /disable-MIT-SHM.c
         apt purge -y gcc gcc-multilib libc6-dev libxext-dev
         apt autopurge -y
-        apt clean
     fi
 EOF
 fi
 
-chroot /var/lib/machines/$1/ /bin/bash /disable_mitshm.sh
+chroot /var/lib/machines/$1/ /bin/bash /disable-MIT-SHM.sh
 
 
 # 导出SHM相关环境变量
-DISABLE_MITSHM=$(bash -c 'echo -e "[[ -f /lib/x86_64-linux-gnu/disable_mitshm.so && -f /lib/i386-linux-gnu/disable_mitshm.so ]] && export LD_PRELOAD=disable_mitshm.so
+DISABLE_MITSHM=$(bash -c 'echo -e "[[ -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so && -f /lib/i386-linux-gnu/disable-MIT-SHM.so ]] && export LD_PRELOAD=disable-MIT-SHM.so
 export QT_X11_NO_MITSHM=1
 export _X11_NO_MITSHM=1
 export _MITSHM=0

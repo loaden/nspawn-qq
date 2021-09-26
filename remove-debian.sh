@@ -16,8 +16,8 @@ rm -f /bin/debian-*
 [ -f "/bin/bak-debian-distro-info" ] && mv /bin/bak-debian-distro-info /bin/debian-distro-info
 
 [[ ! `ls -A /home/share |wc -w` ]] && rm -f /home/share
-perl -0777 -pi -e 's/Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection\n//g' /etc/X11/xorg.conf
-[[ ! $(cat /etc/X11/xorg.conf) ]] && rm -f /etc/X11/xorg.conf
+rm -f /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
+[[ ! `ls -A /etc/X11/xorg.conf.d |wc -w` ]] && rm -f /etc/X11/xorg.conf.d
 
 rm -f /bin/systemd-nspawn-debug
 rm -rf /etc/systemd/system/systemd-nspawn@debian.service.d

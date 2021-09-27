@@ -243,7 +243,10 @@ cat /bin/deepin-config
 
 # 查询应用
 cat > /bin/deepin-query <<EOF
-machinectl shell deepin /bin/bash -c "ls /usr/share/applications"
+machinectl shell deepin /bin/bash -c "ls /usr/share/applications \
+    && echo && echo query inode/directory && xdg-mime query default inode/directory \
+    && echo && echo query video/mp4 && xdg-mime query default video/mp4 \
+    && echo && echo query audio/flac && xdg-mime query default audio/flac"
 EOF
 
 chmod 755 /bin/deepin-query
@@ -377,7 +380,8 @@ chmod 755 /bin/deepin-ecloud
 
 # 安装文件管理器
 cat > /bin/deepin-install-thunar <<EOF
-machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y thunar catfish dbus-x11 --no-install-recommends && apt autopurge -y"
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y thunar catfish dbus-x11 xdg-utils --no-install-recommends \
+    && xdg-mime default Thunar.desktop inode/directory application/x-gnome-saved-search && apt autopurge -y"
 EOF
 
 chmod 755 /bin/deepin-install-thunar

@@ -397,3 +397,21 @@ machinectl shell debian /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/
 EOF
 
 chmod 755 /bin/debian-thunar
+
+
+
+# 安装MPV
+cat > /bin/debian-install-mpv <<EOF
+machinectl shell debian /usr/bin/bash -c "apt update && apt install -y mpv --no-install-recommends && apt autopurge -y"
+EOF
+
+chmod 755 /bin/debian-install-mpv
+
+# 启动MPV
+cat > /bin/debian-mpv <<EOF
+#!/bin/bash
+source /bin/debian-config
+machinectl shell debian /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/mpv.desktop"
+EOF
+
+chmod 755 /bin/debian-mpv

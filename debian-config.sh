@@ -244,7 +244,7 @@ cat /bin/debian-config
 
 # 查询应用
 cat > /bin/debian-query <<EOF
-machinectl shell debian /bin/bash -c "ls /usr/share/applications \
+machinectl shell debian /bin/su - u\$UID -c "ls /usr/share/applications \
     && echo && echo query inode/directory && xdg-mime query default inode/directory \
     && echo && echo query video/mp4 && xdg-mime query default video/mp4 \
     && echo && echo query audio/flac && xdg-mime query default audio/flac"
@@ -383,8 +383,8 @@ chmod 755 /bin/debian-ecloud
 
 # 安装文件管理器
 cat > /bin/debian-install-thunar <<EOF
-machinectl shell debian /usr/bin/bash -c "apt update && apt install -y thunar catfish dbus-x11 xdg-utils --no-install-recommends \
-    && xdg-mime default Thunar.desktop inode/directory application/x-gnome-saved-search && apt autopurge -y"
+machinectl shell debian /usr/bin/bash -c "apt update && apt install -y thunar catfish dbus-x11 xdg-utils --no-install-recommends && apt autopurge -y"
+machinectl shell debian /bin/su - u\$UID -c "xdg-mime default Thunar.desktop inode/directory"
 EOF
 
 chmod 755 /bin/debian-install-thunar

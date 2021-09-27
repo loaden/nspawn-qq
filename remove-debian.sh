@@ -18,6 +18,8 @@ rm -f /bin/debian-*
 [[ -d /home/share && `ls -A /home/share |wc -w` == 0 ]] && rm -rf /home/share
 rm -f /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
 [[ -d /etc/X11/xorg.conf.d && `ls -A /etc/X11/xorg.conf.d |wc -w` == 0 ]] && rm -rf /etc/X11/xorg.conf.d
+[ -f /etc/X11/xorg.conf ] && perl -0777 -pi -e 's/Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection\n//g' /etc/X11/xorg.conf
+[ -f /etc/X11/xorg.conf ] && [[ ! $(cat /etc/X11/xorg.conf) ]] && rm -f /etc/X11/xorg.conf
 
 rm -f /bin/systemd-nspawn-debug
 rm -rf /etc/systemd/system/systemd-nspawn@debian.service.d

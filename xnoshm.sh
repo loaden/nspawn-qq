@@ -12,6 +12,9 @@ fi
 [[ $(machinectl list) =~ $1 ]] && machinectl stop $1
 [[ ! $DISABLE_HOST_MITSHM ]] && DISABLE_HOST_MITSHM=1
 
+[ -f /etc/X11/xorg.conf ] && perl -0777 -pi -e 's/Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection\n//g' /etc/X11/xorg.conf
+[ -f /etc/X11/xorg.conf ] && [[ ! $(cat /etc/X11/xorg.conf) ]] && rm -f /etc/X11/xorg.conf
+
 if [[ $DISABLE_HOST_MITSHM == 1 ]]; then
     if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $1}') -p Type` != *wayland* ]]; then
         mkdir -p /etc/X11/xorg.conf.d
@@ -22,6 +25,7 @@ if [[ $DISABLE_HOST_MITSHM == 1 ]]; then
     rm -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so
     mkdir -p /etc/X11/xorg.conf.d
     echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
+    rm -f /etc/X11/xorg.conf
 EOF
 else
     rm -f /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
@@ -29,6 +33,7 @@ else
     cp -f `dirname ${BASH_SOURCE[0]}`/xnoshm.c /var/lib/machines/$1/disable-MIT-SHM.c
     cat > /var/lib/machines/$1/disable-MIT-SHM.sh <<EOF
     rm -rf /etc/X11/xorg.conf.d
+    rm -f /etc/X11/xorg.conf
     if [[ ! -f /lib/i386-linux-gnu/disable-MIT-SHM.so || ! -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so ]]; then
         dpkg --add-architecture i386
         apt update

@@ -30,11 +30,13 @@ EOF
 else
     rm -f /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
     [[ -d /etc/X11/xorg.conf.d && `ls -A /etc/X11/xorg.conf.d |wc -w` == 0 ]] && rm -rf /etc/X11/xorg.conf.d
-    cp -f `dirname ${BASH_SOURCE[0]}`/xnoshm.c /var/lib/machines/$1/disable-MIT-SHM.c
+    cp -fp `dirname ${BASH_SOURCE[0]}`/xnoshm.c /var/lib/machines/$1/disable-MIT-SHM.c
     cat > /var/lib/machines/$1/disable-MIT-SHM.sh <<EOF
     rm -rf /etc/X11/xorg.conf.d
     rm -f /etc/X11/xorg.conf
-    if [[ ! -f /lib/i386-linux-gnu/disable-MIT-SHM.so || ! -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so ]]; then
+    if [[ ! -f /lib/i386-linux-gnu/disable-MIT-SHM.so || ! -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so
+        || \$(stat -c %Y /disable-MIT-SHM.c) > \$(stat -c %Y /lib/i386-linux-gnu/disable-MIT-SHM.so)
+        || \$(stat -c %Y /disable-MIT-SHM.c) > \$(stat -c %Y /lib/x86_64-linux-gnu/disable-MIT-SHM.so) ]]; then
         dpkg --add-architecture i386
         apt update
         apt install -y gcc gcc-multilib libc6-dev libxext-dev
@@ -52,7 +54,7 @@ EOF
 fi
 
 chroot /var/lib/machines/$1/ /bin/bash /disable-MIT-SHM.sh
-
+exit 1
 
 # 导出SHM相关环境变量
 DISABLE_MITSHM=$(bash -c 'echo -e "[[ -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so && -f /lib/i386-linux-gnu/disable-MIT-SHM.so ]] && export LD_PRELOAD=disable-MIT-SHM.so

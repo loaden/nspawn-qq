@@ -106,7 +106,7 @@ cat > /etc/systemd/system/systemd-nspawn@debian.service.d/override.conf <<EOF
 [Service]
 ExecStartPost=systemd-nspawn-debug
 ExecStart=
-ExecStart=systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --network-veth -U --settings=override --machine=%i --drop-capability=CAP_IPC_OWNER --setenv=LANGUAGE=zh_CN:zh --property=DeviceAllow='/dev/dri rw' --property=DeviceAllow='char-drm rwm' --property=DeviceAllow='/dev/shm rw' --property=DeviceAllow='char-input r'
+ExecStart=systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --network-veth -U --settings=override --machine=%i --setenv=LANGUAGE=zh_CN:zh --property=DeviceAllow='/dev/dri rw' --property=DeviceAllow='char-drm rwm' --property=DeviceAllow='/dev/shm rw' --property=DeviceAllow='char-input r'
 # GPU
 DeviceAllow=/dev/dri rw
 DeviceAllow=char-drm rwm

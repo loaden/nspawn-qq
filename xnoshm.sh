@@ -28,8 +28,7 @@ else
     [[ -d /etc/X11/xorg.conf.d && `ls -A /etc/X11/xorg.conf.d |wc -w` == 0 ]] && rm -rf /etc/X11/xorg.conf.d
     cp -f `dirname ${BASH_SOURCE[0]}`/xnoshm.c /var/lib/machines/$1/disable-MIT-SHM.c
     cat > /var/lib/machines/$1/disable-MIT-SHM.sh <<EOF
-    mkdir -p /etc/X11/xorg.conf.d
-    echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
+    rm -rf /etc/X11/xorg.conf.d
     if [[ ! -f /lib/i386-linux-gnu/disable-MIT-SHM.so || ! -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so ]]; then
         dpkg --add-architecture i386
         apt update

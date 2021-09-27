@@ -105,10 +105,11 @@ cat > /etc/systemd/system/systemd-nspawn@deepin.service.d/override.conf <<EOF
 [Service]
 ExecStartPost=systemd-nspawn-debug
 ExecStart=
-ExecStart=systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --network-veth -U --settings=override --machine=%i --drop-capability=CAP_IPC_OWNER --setenv=LANGUAGE=zh_CN:zh --property=DeviceAllow='/dev/dri rw' --property=DeviceAllow='char-drm rwm' --property=DeviceAllow='char-input r'
+ExecStart=systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --network-veth -U --settings=override --machine=%i --drop-capability=CAP_IPC_OWNER --setenv=LANGUAGE=zh_CN:zh --property=DeviceAllow='/dev/dri rw' --property=DeviceAllow='char-drm rwm' --property=DeviceAllow='/dev/shm rw' --property=DeviceAllow='char-input r'
 # GPU
 DeviceAllow=/dev/dri rw
 DeviceAllow=char-drm rwm
+DeviceAllow=/dev/shm rw
 # Controller
 DeviceAllow=char-input r
 EOF
@@ -130,7 +131,6 @@ Bind = /dev/nvidia-uvm
 Bind = /dev/nvidia-uvm-tools
 # Vulkan
 Bind = /dev/nvidia-modeset
-Bind = /dev/shm
  "')
 
 
@@ -145,7 +145,6 @@ DeviceAllow=/dev/nvidia-uvm rw
 DeviceAllow=/dev/nvidia-uvm-tools rw
 # Vulkan 需要
 DeviceAllow=/dev/nvidia-modeset rw
-DeviceAllow=/dev/shm rw
 EOF
 fi
 
@@ -164,6 +163,7 @@ BindReadOnly = /tmp/.X11-unix
 
 # GPU
 Bind = /dev/dri
+Bind = /dev/shm
 $(echo "$NVIDIA_BIND")
 # Controller
 Bind = /dev/input

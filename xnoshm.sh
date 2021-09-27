@@ -34,16 +34,19 @@ else
     cat > /var/lib/machines/$1/disable-MIT-SHM.sh <<EOF
     rm -rf /etc/X11/xorg.conf.d
     rm -f /etc/X11/xorg.conf
+    echo \$(stat -c %Y /disable-MIT-SHM.c)
+    echo \$(stat -c %Y /lib/i386-linux-gnu/disable-MIT-SHM.so)
+    echo \$(stat -c %Y /lib/x86_64-linux-gnu/disable-MIT-SHM.so)
     if [[ ! -f /lib/i386-linux-gnu/disable-MIT-SHM.so || ! -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so
         || \$(stat -c %Y /disable-MIT-SHM.c) > \$(stat -c %Y /lib/i386-linux-gnu/disable-MIT-SHM.so)
         || \$(stat -c %Y /disable-MIT-SHM.c) > \$(stat -c %Y /lib/x86_64-linux-gnu/disable-MIT-SHM.so) ]]; then
         dpkg --add-architecture i386
         apt update
         apt install -y gcc gcc-multilib libc6-dev libxext-dev
-        gcc /disable-MIT-SHM.c -fPIC -shared -o /lib/x86_64-linux-gnu/disable-MIT-SHM.so
+        gcc /disable-MIT-SHM.c -shared -o /lib/x86_64-linux-gnu/disable-MIT-SHM.so
         chmod u+s /lib/x86_64-linux-gnu/disable-MIT-SHM.so
         ls -lh /lib/x86_64-linux-gnu/disable-MIT-SHM.so
-        gcc /disable-MIT-SHM.c -fPIC -m32 -shared -o /lib/i386-linux-gnu/disable-MIT-SHM.so
+        gcc /disable-MIT-SHM.c -m32 -shared -o /lib/i386-linux-gnu/disable-MIT-SHM.so
         chmod u+s /lib/i386-linux-gnu/disable-MIT-SHM.so
         ls -lh /lib/i386-linux-gnu/disable-MIT-SHM.so
         rm -f /disable-MIT-SHM.c
@@ -54,7 +57,6 @@ EOF
 fi
 
 chroot /var/lib/machines/$1/ /bin/bash /disable-MIT-SHM.sh
-exit 1
 
 # 导出SHM相关环境变量
 DISABLE_MITSHM=$(bash -c 'echo -e "[[ -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so && -f /lib/i386-linux-gnu/disable-MIT-SHM.so ]] && export LD_PRELOAD=disable-MIT-SHM.so

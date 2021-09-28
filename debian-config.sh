@@ -12,6 +12,16 @@ fi
 source `dirname ${BASH_SOURCE[0]}`/nspawn-polkit.sh
 
 
+# 必备软件包
+[ -f /bin/apt ] && [ ! -f /bin/machinectl ] && apt install -y systemd-container
+[ -f /bin/dnf ] && [ ! -f /bin/machinectl ] && dnf install -y systemd-container
+if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $1}') -p Type` != *wayland* ]]; then
+    [ -f /bin/pacman ] && [ ! -f /bin/xhost ] && pacman -S xorg-xhost --noconfirm --needed
+    [ -f /bin/apt ] && [ ! -f /bin/xhost ] && apt install -y x11-xserver-utils
+    [ -f /bin/dnf ] && [ ! -f /bin/xhost ] && dnf install -y xhost
+fi
+
+
 # 初始化配置
 ln -sf /home/$SUDO_USER/.machines/debian /var/lib/machines
 [ -f "/bin/debian-distro-info" ] && mv /bin/debian-distro-info /bin/bak-debian-distro-info
@@ -26,15 +36,7 @@ source `dirname ${BASH_SOURCE[0]}`/user-dirs.sh
 # 配置容器
 [[ $(machinectl list) =~ debian ]] && machinectl stop debian
 mkdir -p /home/share && chmod 777 /home/share
-if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $1}') -p Type` != *wayland* ]]; then
-    [[ ! -f /etc/X11/xorg.conf || ! $(cat /etc/X11/xorg.conf | grep MIT-SHM) ]] && echo -e 'Section "Extensions"
-    Option "MIT-SHM" "Disable"
-EndSection' >> /etc/X11/xorg.conf
-fi
 cat > /var/lib/machines/debian/config.sh <<EOF
-echo -e 'Section "Extensions"
-    Option "MIT-SHM" "Disable"
-EndSection' > /etc/X11/xorg.conf
 [[ ! \$(cat /etc/hosts | grep \$HOSTNAME) ]] && echo "127.0.0.1 \$HOSTNAME" >> /etc/hosts
 /bin/sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
 /bin/sed -i 's/# zh_CN.UTF-8/zh_CN.UTF-8/g' /etc/locale.gen
@@ -54,6 +56,10 @@ done
 EOF
 
 chroot /var/lib/machines/debian/ /bin/bash /config.sh
+
+
+# 禁用MIT-SHM
+source `dirname ${BASH_SOURCE[0]}`/xnoshm.sh debian
 
 
 # 配置启动环境变量
@@ -79,9 +85,7 @@ cat > /bin/debian-start  <<EOF
 $(echo "$DESKTOP_ENVIRONMENT")
 export XDG_RUNTIME_DIR=/run/user/\$UID
 export PULSE_SERVER=unix:\$XDG_RUNTIME_DIR/pulse/native
-export QT_X11_NO_MITSHM=1
-export _X11_NO_MITSHM=1
-export _MITSHM=0
+$(echo "$DISABLE_MITSHM")
 dex \$@
 EOF
 
@@ -112,10 +116,11 @@ cat > /etc/systemd/system/systemd-nspawn@debian.service.d/override.conf <<EOF
 [Service]
 ExecStartPost=systemd-nspawn-debug
 ExecStart=
-ExecStart=systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --network-veth -U --settings=override --machine=%i --drop-capability=CAP_IPC_OWNER --setenv=LANGUAGE=zh_CN:zh --property=DeviceAllow='/dev/dri rw' --property=DeviceAllow='char-drm rwm' --property=DeviceAllow='char-input r'
+ExecStart=systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --network-veth -U --settings=override --machine=%i --setenv=LANGUAGE=zh_CN:zh --property=DeviceAllow='/dev/dri rw' --property=DeviceAllow='char-drm rwm' --property=DeviceAllow='/dev/shm rw' --property=DeviceAllow='char-input r'
 # GPU
 DeviceAllow=/dev/dri rw
 DeviceAllow=char-drm rwm
+DeviceAllow=/dev/shm rw
 # Controller
 DeviceAllow=char-input r
 EOF
@@ -133,11 +138,10 @@ NVIDIA_BIND=$(bash -c 'echo -e "
 Bind = /dev/nvidia0
 Bind = /dev/nvidiactl
 # OpenCL 与 CUDA
-Bind = /dev/nvidia-uvm
-Bind = /dev/nvidia-uvm-tools
+$([[ $(lsmod | grep nvidia_uvm) ]] && echo Bind = /dev/nvidia-uvm)
+$([[ $(lsmod | grep nvidia_uvm) ]] && echo Bind = /dev/nvidia-uvm-tools)
 # Vulkan
 Bind = /dev/nvidia-modeset
-Bind = /dev/shm
  "')
 
 
@@ -148,11 +152,10 @@ cat >> /etc/systemd/system/systemd-nspawn@debian.service.d/override.conf <<EOF
 DeviceAllow=/dev/nvidiactl rw
 DeviceAllow=/dev/nvidia0 rw
 # OpenCL 需要
-DeviceAllow=/dev/nvidia-uvm rw
-DeviceAllow=/dev/nvidia-uvm-tools rw
+$([[ $(lsmod | grep nvidia_uvm) ]] && echo DeviceAllow=/dev/nvidia-uvm rw)
+$([[ $(lsmod | grep nvidia_uvm) ]] && echo DeviceAllow=/dev/nvidia-uvm-tools rw)
 # Vulkan 需要
 DeviceAllow=/dev/nvidia-modeset rw
-DeviceAllow=/dev/shm rw
 EOF
 fi
 
@@ -171,6 +174,7 @@ BindReadOnly = /tmp/.X11-unix
 
 # GPU
 Bind = /dev/dri
+Bind = /dev/shm
 $(echo "$NVIDIA_BIND")
 # Controller
 Bind = /dev/input
@@ -240,7 +244,7 @@ $(echo "$X11_BIND_AND_CONFIG")
 # 启动环境变量
 RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY GTK_IM_MODULE=\$GTK_IM_MODULE XMODIFIERS=\$XMODIFIERS QT_IM_MODULE=\$QT_IM_MODULE"
 if [[ \$(loginctl show-session \$(loginctl | grep \$USER |awk '{print \$1}') -p Type) == *wayland* ]]; then
-    RUN_ENVIRONMENT="\$RUN_ENVIRONMENT WAYLAND_DISPLAY=\$WAYLAND_DISPLAY XAUTHORITY=\$XAUTHORITY"
+    RUN_ENVIRONMENT="\$RUN_ENVIRONMENT XAUTHORITY=\$XAUTHORITY"
 fi
 EOF
 
@@ -250,7 +254,11 @@ cat /bin/debian-config
 
 # 查询应用
 cat > /bin/debian-query <<EOF
-machinectl shell debian /bin/bash -c "ls /usr/share/applications"
+machinectl shell debian /bin/su - u\$UID -c "ls /usr/share/applications \
+    && find /opt -name "*.desktop" \
+    && echo && echo query inode/directory && xdg-mime query default inode/directory \
+    && echo && echo query video/mp4 && xdg-mime query default video/mp4 \
+    && echo && echo query audio/flac && xdg-mime query default audio/flac"
 EOF
 
 chmod 755 /bin/debian-query
@@ -386,7 +394,8 @@ chmod 755 /bin/debian-ecloud
 
 # 安装文件管理器
 cat > /bin/debian-install-thunar <<EOF
-machinectl shell debian /usr/bin/bash -c "apt update && apt install -y thunar catfish dbus-x11 --no-install-recommends && apt autopurge -y"
+machinectl shell debian /usr/bin/bash -c "apt update && apt install -y thunar catfish dbus-x11 xdg-utils --no-install-recommends && apt autopurge -y"
+machinectl shell debian /bin/su - u\$UID -c "xdg-mime default Thunar.desktop inode/directory"
 EOF
 
 chmod 755 /bin/debian-install-thunar
@@ -399,3 +408,28 @@ machinectl shell debian /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/
 EOF
 
 chmod 755 /bin/debian-thunar
+
+
+
+# 安装MPV
+cat > /bin/debian-install-mpv <<EOF
+machinectl shell debian /usr/bin/bash -c "apt update && apt install -y mpv --no-install-recommends && apt autopurge -y"
+EOF
+
+chmod 755 /bin/debian-install-mpv
+
+# 启动MPV
+cat > /bin/debian-mpv <<EOF
+#!/bin/bash
+source /bin/debian-config
+machinectl shell debian /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/mpv.desktop"
+EOF
+
+chmod 755 /bin/debian-mpv
+
+
+
+# 添加启动器
+machinectl start debian && sleep 0.3
+[[ $(debian-query | grep com.qq.im.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-qq.desktop ] && debian-install-qq
+[[ $(debian-query | grep com.qq.weixin.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-weixin.desktop ] && debian-install-weixin

@@ -10,18 +10,21 @@ fi
 rm -f /var/lib/polkit-1/localauthority/10-vendor.d/machines.pkla
 rm -f /usr/share/polkit-1/rules.d/10-machines.rules
 
+chattr -i /var/lib/machines/deepin/var/lib/deepin/deepin_security_verify.whitelist
+rm -f /usr/share/debootstrap/scripts/apricot
 rm -f /var/lib/machines/deepin
 rm -f /bin/deepin-*
 
-
-[[ ! `ls -A /home/share |wc -w` ]] && rm -f /home/share
-perl -0777 -pi -e 's/Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection\n//g' /etc/X11/xorg.conf
-[[ ! $(cat /etc/X11/xorg.conf) ]] && rm -f /etc/X11/xorg.conf
+[[ -d /home/share && `ls -A /home/share |wc -w` == 0 ]] && rm -rf /home/share
+rm -f /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
+[[ -d /etc/X11/xorg.conf.d && `ls -A /etc/X11/xorg.conf.d |wc -w` == 0 ]] && rm -rf /etc/X11/xorg.conf.d
+[ -f /etc/X11/xorg.conf ] && perl -0777 -pi -e 's/Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection\n//g' /etc/X11/xorg.conf
+[ -f /etc/X11/xorg.conf ] && [[ ! $(cat /etc/X11/xorg.conf) ]] && rm -f /etc/X11/xorg.conf
 
 rm -f /bin/systemd-nspawn-debug
-rm -rf /etc/systemd/system/systemd-nspawn@deepin.service.d
-rm -f /etc/systemd/nspawn/deepin.nspawn
-[[ ! `ls -A /etc/systemd/nspawn |wc -w` ]] && rm -f /home/share /etc/systemd/nspawn
+rm -rf /etc/systemd/system/systemd-nspawn@debian.service.d
+rm -f /etc/systemd/nspawn/debian.nspawn
+[[ -d /etc/systemd/nspawn && `ls -A /etc/systemd/nspawn |wc -w` == 0 ]] && rm -rf /home/share /etc/systemd/nspawn
 
 rm -f /usr/share/pixmaps/com.qq.im.deepin.svg
 rm -f /usr/share/pixmaps/com.qq.weixin.deepin.svg

@@ -255,6 +255,7 @@ cat /bin/debian-config
 # 查询应用
 cat > /bin/debian-query <<EOF
 machinectl shell debian /bin/su - u\$UID -c "ls /usr/share/applications \
+    && find /opt -name "*.desktop" \
     && echo && echo query inode/directory && xdg-mime query default inode/directory \
     && echo && echo query video/mp4 && xdg-mime query default video/mp4 \
     && echo && echo query audio/flac && xdg-mime query default audio/flac"
@@ -425,3 +426,9 @@ machinectl shell debian /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/
 EOF
 
 chmod 755 /bin/debian-mpv
+
+
+
+# 添加启动器
+[[ $(debian-query | grep com.qq.im.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-qq.desktop ] && debian-install-qq
+[[ $(debian-query | grep com.qq.weixin.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-weixin.desktop ] && debian-install-weixin

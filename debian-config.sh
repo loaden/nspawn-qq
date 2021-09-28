@@ -430,5 +430,6 @@ chmod 755 /bin/debian-mpv
 
 
 # 添加启动器
+machinectl start debian && sleep 0.3
 [[ $(debian-query | grep com.qq.im.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-qq.desktop ] && debian-install-qq
 [[ $(debian-query | grep com.qq.weixin.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-weixin.desktop ] && debian-install-weixin

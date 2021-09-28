@@ -22,7 +22,6 @@ source `dirname ${BASH_SOURCE[0]}`/debian-config.sh
 
 
 # 默认安装QQ
-machinectl start debian && sleep 0.2
 debian-install-qq
 
 # 清理

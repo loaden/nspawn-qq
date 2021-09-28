@@ -20,7 +20,7 @@
 4.  也可以：sudo ./nspawn-debian.sh 这种方式
 5.  也可以同时安装两个容器：install.sh
 6.  安装应用，请终端执行：debian-install-qq 或者 deepin-install-qq
-7.  更多应用安装，请查看：ls /bin/*-install-*
+7.  更多应用安装，请查看：ls /bin/\*-install-\*
 8.  启动器中查找QQ或者微信启动，也可以终端启动，例如：debian-qq
 9.  卸载软件请先安装终端：debian-install-terminal，之后进终端命令卸载
 

@@ -10,6 +10,7 @@ fi
 rm -f /var/lib/polkit-1/localauthority/10-vendor.d/machines.pkla
 rm -f /usr/share/polkit-1/rules.d/10-machines.rules
 
+chattr -i /var/lib/machines/deepin/var/lib/deepin/deepin_security_verify.whitelist
 rm -f /var/lib/machines/deepin
 rm -f /bin/deepin-*
 

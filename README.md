@@ -29,9 +29,8 @@
 4.  也可以同时安装两个容器：install.sh
 
 #### 高级用法
-1.  不禁用宿主机MIT-SHM（稳定性可能下降，但性能好）：sudo DISABLE_HOST_MITSHM=0 ./nspawn-debian.sh
-2.  已经安装，只修改配置：sudo DISABLE_HOST_MITSHM=0 ./debian-config.sh
-3.  默认会同时禁用宿主机和容器的MIT-SHM扩展：sudo ./nspawn-debian.sh
+1.  如果稳定性不佳，请同时禁用宿主机和容器的MIT-SHM扩展：sudo DISABLE_HOST_MITSHM=1 ./nspawn-config.sh
+2.  注意：重启电脑后生效！！由于禁用内存共享，性能可能略有影响。此选项对Wayland无效。
 
 #### 参与贡献
 

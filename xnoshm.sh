@@ -10,7 +10,7 @@ fi
 
 # 禁用MIT-SHM
 [[ $(machinectl list) =~ $1 ]] && machinectl stop $1
-[[ ! $DISABLE_HOST_MITSHM ]] && DISABLE_HOST_MITSHM=1
+[[ ! $DISABLE_HOST_MITSHM ]] && DISABLE_HOST_MITSHM=0
 
 [ -f /etc/X11/xorg.conf ] && perl -0777 -pi -e 's/Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection\n//g' /etc/X11/xorg.conf
 [ -f /etc/X11/xorg.conf ] && [[ ! $(cat /etc/X11/xorg.conf) ]] && rm -f /etc/X11/xorg.conf

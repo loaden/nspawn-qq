@@ -15,6 +15,7 @@ source `dirname ${BASH_SOURCE[0]}`/nspawn-polkit.sh
 # 初始化配置
 [ -f /bin/apt ] && [ ! -f /bin/machinectl ] && apt install -y systemd-container
 [ -f /bin/dnf ] && [ ! -f /bin/machinectl ] && dnf install -y systemd-container
+[ -f /bin/pacman ] && [ ! -f /bin/xhost ] && pacman -S xorg-xhost --noconfirm --needed
 ln -sf /home/$SUDO_USER/.machines/deepin /var/lib/machines
 rm -f /bin/deepin-*
 

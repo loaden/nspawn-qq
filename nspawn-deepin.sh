@@ -25,3 +25,6 @@ source `dirname ${BASH_SOURCE[0]}`/deepin-config.sh
 # 默认安装QQ
 machinectl start deepin && sleep 0.2
 deepin-install-qq
+
+# 清理
+deepin-clean

@@ -18,19 +18,20 @@
 2.  执行：./nspawn-debian.sh 安装 Debian 10
 3.  或者：./nspawn-deepin.sh 安装 Deepin 20.2.3
 4.  也可以：sudo ./nspawn-debian.sh 这种方式
-5.  安装应用，请终端执行：debian-install-qq 或者 deepin-install-qq
-6.  更多应用安装，请查看：ls /bin/*-install-*
-7.  启动器中查找QQ或者微信启动，也可以终端启动，例如：debian-qq
+5.  也可以同时安装两个容器：install.sh
+6.  安装应用，请终端执行：debian-install-qq 或者 deepin-install-qq
+7.  更多应用安装，请查看：ls /bin/*-install-*
+8.  启动器中查找QQ或者微信启动，也可以终端启动，例如：debian-qq
+9.  卸载软件请先安装终端：debian-install-terminal，之后进终端命令卸载
 
 #### 多系统配置
 1.  自动安装的容器支持多系统共享，请提前做好~/.machines的软链接
-2.  管理员权限执行：debian-config.sh 或者 deepin-config.sh
-3.  如果同时配置两个容器，可以终端管理员权限执行：config.sh
-4.  也可以同时安装两个容器：install.sh
+2.  管理员权限执行：sudo ./debian-config.sh 或者 sudo ./deepin-config.sh
+3.  如果同时配置两个容器，可以终端管理员权限执行：sudo ./config.sh
 
 #### 高级用法
 1.  如果稳定性不佳，请同时禁用宿主机和容器的MIT-SHM扩展：sudo DISABLE_HOST_MITSHM=1 ./nspawn-config.sh
-2.  注意：重启电脑后生效！！由于禁用内存共享，性能可能略有影响。
+2.  注意：禁用宿主机MIT-SHM后，需要重启电脑才生效！
 
 #### 参与贡献
 

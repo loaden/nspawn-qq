@@ -129,8 +129,8 @@ NVIDIA_BIND=$(bash -c 'echo -e "
 Bind = /dev/nvidia0
 Bind = /dev/nvidiactl
 # OpenCL 与 CUDA
-Bind = /dev/nvidia-uvm
-Bind = /dev/nvidia-uvm-tools
+$([ -f /dev/nvidia-uvm ] && echo Bind = /dev/nvidia-uvm)
+$([ -f /dev/nvidia-uvm-tools ] && echo Bind = /dev/nvidia-uvm-tools)
 # Vulkan
 Bind = /dev/nvidia-modeset
  "')
@@ -143,8 +143,8 @@ cat >> /etc/systemd/system/systemd-nspawn@deepin.service.d/override.conf <<EOF
 DeviceAllow=/dev/nvidiactl rw
 DeviceAllow=/dev/nvidia0 rw
 # OpenCL 需要
-DeviceAllow=/dev/nvidia-uvm rw
-DeviceAllow=/dev/nvidia-uvm-tools rw
+$([ -f /dev/nvidia-uvm ] && echo DeviceAllow=/dev/nvidia-uvm rw)
+$([ -f /dev/nvidia-uvm-tools ] && echo DeviceAllow=/dev/nvidia-uvm-tools rw)
 # Vulkan 需要
 DeviceAllow=/dev/nvidia-modeset rw
 EOF

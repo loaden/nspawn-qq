@@ -39,3 +39,7 @@
 2.  新建 Feat_xxx 分支
 3.  提交代码
 4.  新建 Pull Request
+
+#### 致谢
+Debian 容器用到了 https://deepin-wine.i-m.dev/ 的作品。
+在此感谢作者为开源做出的贡献。

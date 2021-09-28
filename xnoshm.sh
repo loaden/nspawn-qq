@@ -34,9 +34,6 @@ else
     cat > /var/lib/machines/$1/disable-MIT-SHM.sh <<EOF
     rm -rf /etc/X11/xorg.conf.d
     rm -f /etc/X11/xorg.conf
-    echo \$(stat -c %Y /disable-MIT-SHM.c)
-    echo \$(stat -c %Y /lib/i386-linux-gnu/disable-MIT-SHM.so)
-    echo \$(stat -c %Y /lib/x86_64-linux-gnu/disable-MIT-SHM.so)
     if [[ ! -f /lib/i386-linux-gnu/disable-MIT-SHM.so || ! -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so
         || \$(stat -c %Y /disable-MIT-SHM.c) > \$(stat -c %Y /lib/i386-linux-gnu/disable-MIT-SHM.so)
         || \$(stat -c %Y /disable-MIT-SHM.c) > \$(stat -c %Y /lib/x86_64-linux-gnu/disable-MIT-SHM.so) ]]; then

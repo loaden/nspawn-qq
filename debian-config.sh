@@ -254,7 +254,8 @@ cat /bin/debian-config
 
 # 查询应用
 cat > /bin/debian-query <<EOF
-machinectl shell debian /bin/su - u\$UID -c "ls /usr/share/applications \
+if [ \$USER == root ]; then QUERY_USER=u\$SUDO_UID; else QUERY_USER=u\$UID; fi
+machinectl shell debian /bin/su - \$QUERY_USER -c "ls /usr/share/applications \
     && find /opt -name "*.desktop" \
     && echo && echo query inode/directory && xdg-mime query default inode/directory \
     && echo && echo query video/mp4 && xdg-mime query default video/mp4 \

@@ -113,6 +113,8 @@ cat /bin/systemd-nspawn-debug
 rm -rf /etc/systemd/system/systemd-nspawn@debian.service.d
 mkdir -p /etc/systemd/system/systemd-nspawn@debian.service.d
 cat > /etc/systemd/system/systemd-nspawn@debian.service.d/override.conf <<EOF
+[Unit]
+After=systemd-hostnamed.service
 [Service]
 ExecStartPost=systemd-nspawn-debug
 ExecStart=

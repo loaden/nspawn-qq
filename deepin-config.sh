@@ -220,6 +220,9 @@ machinectl show deepin
 cat > /bin/deepin-config <<EOF
 #!/bin/bash
 
+# 判断容器是否启动
+[[ ! \$(machinectl list | grep deepin) ]] && machinectl start deepin && sleep 0.3
+
 # 使容器与宿主机使用相同用户目录
 machinectl shell deepin /bin/bash -c "rm -f \$HOME && ln -sf /home/u\$UID \$HOME"
 

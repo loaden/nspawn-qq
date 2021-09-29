@@ -40,9 +40,11 @@ else
         dpkg --add-architecture i386
         apt update
         apt install -y gcc gcc-multilib libc6-dev libxext-dev
+        mkdir -p /lib/x86_64-linux-gnu/
         gcc /disable-MIT-SHM.c -shared -o /lib/x86_64-linux-gnu/disable-MIT-SHM.so
         chmod u+s /lib/x86_64-linux-gnu/disable-MIT-SHM.so
         ls -lh /lib/x86_64-linux-gnu/disable-MIT-SHM.so
+        mkdir -p /lib/i386-linux-gnu/
         gcc /disable-MIT-SHM.c -m32 -shared -o /lib/i386-linux-gnu/disable-MIT-SHM.so
         chmod u+s /lib/i386-linux-gnu/disable-MIT-SHM.so
         ls -lh /lib/i386-linux-gnu/disable-MIT-SHM.so

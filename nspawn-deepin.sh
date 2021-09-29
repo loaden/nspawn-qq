@@ -22,8 +22,9 @@ debootstrap --include=systemd-container,dex,sudo,locales,dialog,fonts-noto-core,
 source `dirname ${BASH_SOURCE[0]}`/deepin-config.sh
 
 
-# 默认安装终端和QQ
+# 默认安装
 deepin-install-terminal
+deepin-install-thunar
 deepin-install-qq
 
 # 清理

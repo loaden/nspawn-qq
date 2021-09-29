@@ -21,8 +21,9 @@ debootstrap --include=systemd-container,dex,sudo,locales,dialog,fonts-noto-core,
 source `dirname ${BASH_SOURCE[0]}`/debian-config.sh
 
 
-# 默认安装终端和QQ
+# 默认安装
 debian-install-terminal
+debian-install-thunar
 debian-install-qq
 
 # 清理

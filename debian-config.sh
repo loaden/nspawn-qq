@@ -42,6 +42,7 @@ cat > /var/lib/machines/debian/config.sh <<EOF
 /bin/sed -i 's/# zh_CN.UTF-8/zh_CN.UTF-8/g' /etc/locale.gen
 /sbin/locale-gen
 locale
+[[ ! \$(cat /etc/securetty | grep pts/0) ]] && echo -e "\n# systemd-container\npts/0\npts/1\npts/2\npts/3\npts/4\npts/5\npts/6\n" >> /etc/securetty
 echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster main contrib non-free" > /etc/apt/sources.list
 mkdir -p /home/share && chmod 777 /home/share
 [[ \$(/bin/cat /etc/passwd | grep user:) ]] && /usr/sbin/userdel -r user

@@ -41,6 +41,7 @@ cat > /var/lib/machines/deepin/config.sh <<EOF
 /bin/sed -i 's/# zh_CN.UTF-8/zh_CN.UTF-8/g' /etc/locale.gen
 /sbin/locale-gen
 locale
+[[ ! \$(cat /etc/securetty | grep pts/0) ]] && echo -e "\n# systemd-container\npts/0\npts/1\npts/2\npts/3\npts/4\npts/5\npts/6\n" >> /etc/securetty
 echo "deb [by-hash=force] https://community-packages.deepin.com/deepin/ apricot main contrib non-free" > /etc/apt/sources.list
 echo "deb https://com-store-packages.uniontech.com/appstore deepin appstore" > /etc/apt/sources.list.d/appstore.list
 mkdir -p /home/share && chmod 777 /home/share

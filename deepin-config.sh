@@ -283,7 +283,7 @@ chmod 755 /bin/deepin-clean
 
 # 安装终端
 cat > /bin/deepin-install-terminal <<EOF
-machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y lxterminal && apt autopurge -y"
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y lxterminal deepin-desktop-base --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /bin/deepin-install-terminal

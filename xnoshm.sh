@@ -46,9 +46,11 @@ else
         gcc /disable-MIT-SHM.c -m32 -shared -o /lib/i386-linux-gnu/disable-MIT-SHM.so
         chmod u+s /lib/i386-linux-gnu/disable-MIT-SHM.so
         ls -lh /lib/i386-linux-gnu/disable-MIT-SHM.so
-        rm -f /disable-MIT-SHM.c
-        apt purge -y gcc gcc-multilib libc6-dev libxext-dev
-        apt autopurge -y
+        if [[ -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so && -f /lib/i386-linux-gnu/disable-MIT-SHM.so ]]; then
+            rm -f /disable-MIT-SHM.c
+            apt purge -y gcc gcc-multilib libc6-dev libxext-dev
+            apt autopurge -y
+        fi
     fi
 EOF
 fi

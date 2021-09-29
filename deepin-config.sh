@@ -486,3 +486,6 @@ chmod 755 /bin/deepin-mpv
 machinectl start deepin && sleep 0.3
 [[ $(deepin-query | grep com.qq.im.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-qq.desktop ] && deepin-install-qq
 [[ $(deepin-query | grep com.qq.weixin.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-weixin.desktop ] && deepin-install-weixin
+
+# 开机启动
+[[ $(systemctl status machines.target | grep 'machines.target; disabled;') ]] && systemctl enable machines.target

@@ -59,6 +59,7 @@ chroot /var/lib/machines/deepin/ /bin/bash /config.sh
 
 
 # 禁用MIT-SHM
+sleep 0.1
 source `dirname ${BASH_SOURCE[0]}`/xnoshm.sh deepin
 
 

@@ -436,6 +436,8 @@ chmod 755 /bin/debian-mpv
 machinectl start debian && sleep 0.3
 [[ $(debian-query | grep com.qq.im.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-qq.desktop ] && debian-install-qq
 [[ $(debian-query | grep com.qq.weixin.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-weixin.desktop ] && debian-install-weixin
+[ -f /usr/share/applications/deepin-qq.desktop ] && cat /usr/share/applications/deepin-qq.desktop | grep debian-
+[ -f /usr/share/applications/deepin-weixin.desktop ] && cat /usr/share/applications/deepin-weixin.desktop | grep debian-
 
 # 开机启动
 [[ $(systemctl status machines.target | grep 'machines.target; disabled;') ]] && systemctl enable machines.target

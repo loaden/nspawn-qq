@@ -89,3 +89,20 @@ machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/c
 EOF
 
 chmod 755 /bin/deepin-xunlei
+
+
+# 安装腾讯视频
+cat > /bin/deepin-install-tenvideo <<EOF
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.qq.tenvideo && apt autopurge -y"
+EOF
+
+chmod 755 /bin/deepin-install-tenvideo
+
+# 启动腾讯视频
+cat > /bin/deepin-tenvideo <<EOF
+#!/bin/bash
+source /bin/deepin-config
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.qq.tenvideo/entries/applications/com.qq.tenvideo.desktop"
+EOF
+
+chmod 755 /bin/deepin-tenvideo

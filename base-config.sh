@@ -100,6 +100,10 @@ touch \$NSPAWN_LOG_FILE
 echo \$(date) \$NSPAWN_LOG_FILE >> \$NSPAWN_LOG_FILE
 echo -e "tree -L 2 /run/user \n" "\$(tree -L 2 /run/user)" >> \$NSPAWN_LOG_FILE
 echo -e "env \n" "\$(env)" \n >> \$NSPAWN_LOG_FILE
+echo -e "echo /dev/dri " "\$(ls /dev/dri)" \n >> \$NSPAWN_LOG_FILE
+echo -e "echo /dev/shm " "\$(ls /dev/shm)" \n >> \$NSPAWN_LOG_FILE
+echo -e "echo /dev/nvidia* " "\$(ls /dev/nvidia*)" \n >> \$NSPAWN_LOG_FILE
+echo -e "echo /tmp " "\$(ls /tmp)" \n >> \$NSPAWN_LOG_FILE
 chmod 777 \$NSPAWN_LOG_FILE
 EOF
 

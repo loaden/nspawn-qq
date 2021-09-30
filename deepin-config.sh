@@ -106,3 +106,20 @@ machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/c
 EOF
 
 chmod 755 /bin/deepin-tenvideo
+
+
+# 安装金山词霸
+cat > /bin/deepin-install-powerword <<EOF
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.kingsoft.powerword && apt autopurge -y"
+EOF
+
+chmod 755 /bin/deepin-install-powerword
+
+# 启动金山词霸
+cat > /bin/deepin-powerword <<EOF
+#!/bin/bash
+source /bin/deepin-config
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.kingsoft.powerword/entries/applications/com.kingsoft.powerword.desktop"
+EOF
+
+chmod 755 /bin/deepin-powerword

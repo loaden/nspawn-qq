@@ -9,7 +9,7 @@ fi
 
 
 # 允许无管理员权限启动
-source `dirname ${BASH_SOURCE[0]}`/nspawn-polkit.sh
+source `dirname ${BASH_SOURCE[0]}`/polkit.sh
 
 
 # 必备软件包

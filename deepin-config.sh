@@ -401,7 +401,8 @@ chmod 755 /bin/deepin-ecloud
 # 安装文件管理器
 cat > /bin/deepin-install-thunar <<EOF
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y thunar catfish dbus-x11 xdg-utils --no-install-recommends && apt autopurge -y"
-machinectl shell deepin /bin/su - u\$UID -c "xdg-mime default Thunar.desktop inode/directory"
+if [ \$USER == root ]; then INSTALL_USER=u\$SUDO_UID; else INSTALL_USER=u\$UID; fi
+machinectl shell deepin /bin/su - \$INSTALL_USER -c "xdg-mime default Thunar.desktop inode/directory"
 EOF
 
 chmod 755 /bin/deepin-install-thunar

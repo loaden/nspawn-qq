@@ -7,30 +7,5 @@ if [ $UID != 0 -o "$SUDO_USER" == "root" ]; then
     exit 1
 fi
 
-[[ $(machinectl list) =~ debian ]] && machinectl stop debian
-
-rm -f /var/lib/polkit-1/localauthority/10-vendor.d/machines.pkla
-rm -f /usr/share/polkit-1/rules.d/10-machines.rules
-
-rm -f /var/lib/machines/debian
-[ -f "/bin/debian-distro-info" ] && mv /bin/debian-distro-info /bin/bak-debian-distro-info
-rm -f /bin/debian-*
-[ -f "/bin/bak-debian-distro-info" ] && mv /bin/bak-debian-distro-info /bin/debian-distro-info
-
-[[ -d /home/share && `ls -A /home/share |wc -w` == 0 ]] && rm -rf /home/share
-rm -f /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
-[[ -d /etc/X11/xorg.conf.d && `ls -A /etc/X11/xorg.conf.d |wc -w` == 0 ]] && rm -rf /etc/X11/xorg.conf.d
-[ -f /etc/X11/xorg.conf ] && perl -0777 -pi -e 's/Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection\n//g' /etc/X11/xorg.conf
-[ -f /etc/X11/xorg.conf ] && [[ ! $(cat /etc/X11/xorg.conf) ]] && rm -f /etc/X11/xorg.conf
-
-rm -f /bin/systemd-nspawn-debug
-rm -rf /etc/systemd/system/systemd-nspawn@debian.service.d
-rm -f /etc/systemd/nspawn/debian.nspawn
-[[ -d /etc/systemd/nspawn && `ls -A /etc/systemd/nspawn |wc -w` == 0 ]] && rm -rf /home/share /etc/systemd/nspawn
-
-rm -f /usr/share/pixmaps/com.qq.im.deepin.svg
-rm -f /usr/share/pixmaps/com.qq.weixin.deepin.svg
-rm -f /usr/share/applications/deepin-qq.desktop
-rm -f /usr/share/applications/deepin-weixin.desktop
-
-echo "为防止数据意外丢失，您需要手动删除 ~/.machines 文件夹！"
+# 开始移除
+source `dirname ${BASH_SOURCE[0]}`/base-remove.sh debian

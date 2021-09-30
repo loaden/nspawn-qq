@@ -20,7 +20,7 @@ machinectl shell deepin /usr/bin/bash -c "dpkg --add-architecture i386 && apt up
 EOF
 
 # 开始配置
-source `dirname ${BASH_SOURCE[0]}`/base.sh deepin
+source `dirname ${BASH_SOURCE[0]}`/base-config.sh deepin
 
 
 # 安装终端

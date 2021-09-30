@@ -22,7 +22,7 @@ EOF
 
 
 # 开始配置
-source `dirname ${BASH_SOURCE[0]}`/base.sh debian
+source `dirname ${BASH_SOURCE[0]}`/base-config.sh debian
 
 
 # 安装终端

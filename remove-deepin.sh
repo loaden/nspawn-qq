@@ -7,9 +7,9 @@ if [ $UID != 0 -o "$SUDO_USER" == "root" ]; then
     exit 1
 fi
 
-# 开始移除
-source `dirname ${BASH_SOURCE[0]}`/base-remove.sh deepin
-
 # 特殊处理
 [ -f /var/lib/machines/deepin/var/lib/deepin/deepin_security_verify.whitelist ] && chattr -i /var/lib/machines/deepin/var/lib/deepin/deepin_security_verify.whitelist
 rm -f /usr/share/debootstrap/scripts/apricot
+
+# 开始移除
+source `dirname ${BASH_SOURCE[0]}`/base-remove.sh deepin

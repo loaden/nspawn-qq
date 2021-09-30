@@ -15,7 +15,7 @@ source `dirname ${BASH_SOURCE[0]}`/nspawn-polkit.sh
 # 必备软件包
 [ -f /bin/apt ] && [ ! -f /bin/machinectl ] && apt install -y systemd-container
 [ -f /bin/dnf ] && [ ! -f /bin/machinectl ] && dnf install -y systemd-container
-if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $1}') -p Type` != *wayland* ]]; then
+if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` != *wayland* ]]; then
     [ -f /bin/pacman ] && [ ! -f /bin/xhost ] && pacman -S xorg-xhost --noconfirm --needed
     [ -f /bin/apt ] && [ ! -f /bin/xhost ] && apt install -y x11-xserver-utils
     [ -f /bin/dnf ] && [ ! -f /bin/xhost ] && dnf install -y xhost
@@ -67,7 +67,7 @@ source `dirname ${BASH_SOURCE[0]}`/xnoshm.sh $1
 # 配置启动环境变量
 DESKTOP_ENVIRONMENT=
 X11_BIND_AND_CONFIG=
-if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $1}') -p Type` == *wayland* ]]; then
+if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` == *wayland* ]]; then
 X11_BIND_AND_CONFIG="# Xauthority
 machinectl bind --read-only --mkdir $1 \$XAUTHORITY
 [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$XAUTHORITY"

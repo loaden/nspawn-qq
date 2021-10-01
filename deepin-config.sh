@@ -232,6 +232,7 @@ chmod 755 /bin/deepin-baidunetdisk
 # 安装反恐精英
 cat > /bin/deepin-install-cstrike <<EOF
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y cn.linuxgame.cstrike fuse && apt autopurge -y"
+sudo modprobe fuse
 EOF
 
 chmod 755 /bin/deepin-install-cstrike

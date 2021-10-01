@@ -208,3 +208,21 @@ machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/c
 EOF
 
 chmod 755 /bin/deepin-foxwq
+
+
+
+# 安装百度网盘
+cat > /bin/deepin-install-baidunetdisk <<EOF
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.baidu.baidunetdisk && apt autopurge -y"
+EOF
+
+chmod 755 /bin/deepin-install-baidunetdisk
+
+# 启动百度网盘
+cat > /bin/deepin-baidunetdisk <<EOF
+#!/bin/bash
+source /bin/deepin-config
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.baidu.baidunetdisk/entries/applications/com.baidu.baidunetdisk.desktop"
+EOF
+
+chmod 755 /bin/deepin-baidunetdisk

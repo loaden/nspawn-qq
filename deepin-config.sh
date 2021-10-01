@@ -174,3 +174,37 @@ machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/c
 EOF
 
 chmod 755 /bin/deepin-sunlogin
+
+
+# 安装向日葵远程控制
+cat > /bin/deepin-install-sunlogin <<EOF
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.oray.sunlogin.client && apt autopurge -y"
+EOF
+
+chmod 755 /bin/deepin-install-sunlogin
+
+# 启动向日葵远程控制
+cat > /bin/deepin-sunlogin <<EOF
+#!/bin/bash
+source /bin/deepin-config
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.oray.sunlogin.client/entries/applications/com.oray.sunlogin.client.desktop"
+EOF
+
+chmod 755 /bin/deepin-sunlogin
+
+
+# 安装野狐围棋
+cat > /bin/deepin-install-foxwq <<EOF
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.foxwq.deepin && apt autopurge -y"
+EOF
+
+chmod 755 /bin/deepin-install-foxwq
+
+# 启动野狐围棋
+cat > /bin/deepin-foxwq <<EOF
+#!/bin/bash
+source /bin/deepin-config
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.foxwq.deepin/entries/applications/com.foxwq.deepin.desktop"
+EOF
+
+chmod 755 /bin/deepin-foxwq

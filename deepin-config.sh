@@ -140,3 +140,20 @@ machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/c
 EOF
 
 chmod 755 /bin/deepin-cbox
+
+
+# 安装飞书
+cat > /bin/deepin-install-feishu <<EOF
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.bytedance.feishu && apt autopurge -y"
+EOF
+
+chmod 755 /bin/deepin-install-feishu
+
+# 启动飞书
+cat > /bin/deepin-feishu <<EOF
+#!/bin/bash
+source /bin/deepin-config
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.bytedance.feishu/entries/applications/com.bytedance.feishu.desktop"
+EOF
+
+chmod 755 /bin/deepin-feishu

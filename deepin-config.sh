@@ -226,3 +226,21 @@ machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/c
 EOF
 
 chmod 755 /bin/deepin-baidunetdisk
+
+
+
+# 安装反恐精英
+cat > /bin/deepin-install-cstrike <<EOF
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y cn.linuxgame.cstrike fuse && apt autopurge -y"
+EOF
+
+chmod 755 /bin/deepin-install-cstrike
+
+# 启动反恐精英
+cat > /bin/deepin-cstrike <<EOF
+#!/bin/bash
+source /bin/deepin-config
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/cn.linuxgame.cstrike/entries/applications/com.cs.cstrike.desktop"
+EOF
+
+chmod 755 /bin/deepin-cstrike

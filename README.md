@@ -20,7 +20,7 @@
 4.  也可以：sudo ./nspawn-debian.sh 这种方式
 5.  也可以同时安装两个容器：install.sh
 6.  安装应用，请终端执行：debian-install-qq 或者 deepin-install-qq
-7.  更多应用安装，请查看：ls /bin/\*-install-\*
+7.  更多应用安装，请查看：ls \*-install-\*
 8.  启动器中查找QQ或者微信启动，也可以终端启动，例如：debian-qq
 9.  卸载软件请先安装终端：debian-install-terminal，之后进终端命令卸载
 
@@ -33,6 +33,31 @@
 1.  如果稳定性不佳，请同时禁用宿主机和容器的MIT-SHM扩展：sudo DISABLE_HOST_MITSHM=1 ./nspawn-config.sh
 2.  注意：禁用宿主机MIT-SHM后，需要重启电脑才生效！
 3.  可登录shell，执行：machinectl login debian，用户名u1000，密码passwd
+
+#### 软件列表
+1.  以 deepin 为例罗列应用，更多应用可在应用商店安装或者卸载。
+2.  非本列表的应用，需要你在商店或者终端安装，然后添加启动脚本。
+3.  欢迎为应用添加启动器图标，期待你的PR。
+
+| 应用名称      | 安装脚本                     | 启动脚本                  |
+| :---        | :----                       | :----                    |
+| QQ          | deepin-install-qq           | deepin-qq                |
+| 微信         | deepin-install-weixin       | deepin-weixin            |
+| 商店         | deepin-install-app-store    | deepin-app-store         |
+| 迅雷         | deepin-install-xunlei       | deepin-xunlei            |
+| 终端         | deepin-install-terminal     | deepin-terminal          |
+| 文件管理器    | deepin-install-thunar       | deepin-thunar            |
+| 金山词霸      | deepin-install-powerword    | deepin-powerword         |
+| 腾讯会议      | deepin-install-wemeet       | deepin-wemeet            |
+| 央视影音      | deepin-install-cbox         | deepin-cbox              |
+| 飞书         | deepin-install-feishu       | deepin-feishu            |
+| 向日葵远程控制 | deepin-install-sunlogin     | deepin-sunlogin          |
+| 视频播放器    | deepin-install-mpv          | deepin-mpv               |
+| 百度网盘      | deepin-install-baidunetdisk | deepin-baidunetdisk      |
+| 腾讯视频      | deepin-install-tenvideo     | deepin-install-tenvideo  |
+| 反恐精英      | deepin-install-cstrike      | deepin-install-cstrike   |
+| 野狐围棋      | deepin-install-foxwq        | deepin-install-foxwq     |
+| 更多...      | 欢迎...                      | PR...                    |
 
 #### 参与贡献
 

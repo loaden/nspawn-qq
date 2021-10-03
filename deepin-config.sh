@@ -210,7 +210,6 @@ EOF
 chmod 755 /bin/deepin-foxwq
 
 
-
 # 安装百度网盘
 cat > /bin/deepin-install-baidunetdisk <<EOF
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.baidu.baidunetdisk desktop-file-utils && apt autopurge -y"
@@ -226,7 +225,6 @@ machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/c
 EOF
 
 chmod 755 /bin/deepin-baidunetdisk
-
 
 
 # 安装反恐精英
@@ -245,3 +243,37 @@ machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/c
 EOF
 
 chmod 755 /bin/deepin-cstrike
+
+
+# 安装钉钉
+cat > /bin/deepin-install-dingtalk <<EOF
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.dingtalk.deepin && apt autopurge -y"
+EOF
+
+chmod 755 /bin/deepin-install-dingtalk
+
+# 启动钉钉
+cat > /bin/deepin-dingtalk <<EOF
+#!/bin/bash
+source /bin/deepin-config
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.dingtalk.deepin/entries/applications/com.dingtalk.deepin.desktop"
+EOF
+
+chmod 755 /bin/deepin-dingtalk
+
+
+# 安装企业微信
+cat > /bin/deepin-install-work-weixin <<EOF
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.qq.weixin.work.deepin && apt autopurge -y"
+EOF
+
+chmod 755 /bin/deepin-install-work-weixin
+
+# 启动企业微信
+cat > /bin/deepin-work-weixin <<EOF
+#!/bin/bash
+source /bin/deepin-config
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.qq.weixin.work.deepin/entries/applications/com.qq.weixin.work.deepin.desktop"
+EOF
+
+chmod 755 /bin/deepin-work-weixin

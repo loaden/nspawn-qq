@@ -57,6 +57,8 @@
 | 腾讯视频      | deepin-install-tenvideo     | deepin-tenvideo          |
 | 反恐精英      | deepin-install-cstrike      | deepin-cstrike           |
 | 野狐围棋      | deepin-install-foxwq        | deepin-foxwq             |
+| 钉钉         | deepin-install-dingtalk     | deepin-dingtalk          |
+| 企业微信      | deepin-install-work-weixin  | deepin-work-weixin       |
 | 更多...      | 欢迎...                      | PR...                    |
 
 #### 参与贡献

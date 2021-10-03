@@ -60,6 +60,7 @@
 | 钉钉         | deepin-install-dingtalk     | deepin-dingtalk          |
 | 企业微信      | deepin-install-work-weixin  | deepin-work-weixin       |
 | 全民K歌      | deepin-install-wesing       | deepin-wesing            |
+| 保卫萝卜      | deepin-install-baoweiluobo  | deepin-baoweiluobo       |
 | 更多...      | 欢迎...                      | PR...                    |
 
 #### 参与贡献

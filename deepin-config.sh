@@ -213,7 +213,7 @@ chmod 755 /bin/deepin-foxwq
 
 # 安装百度网盘
 cat > /bin/deepin-install-baidunetdisk <<EOF
-machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.baidu.baidunetdisk && apt autopurge -y"
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.baidu.baidunetdisk desktop-file-utils && apt autopurge -y"
 EOF
 
 chmod 755 /bin/deepin-install-baidunetdisk

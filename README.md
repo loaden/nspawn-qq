@@ -54,9 +54,9 @@
 | 向日葵远程控制 | deepin-install-sunlogin     | deepin-sunlogin          |
 | 视频播放器    | deepin-install-mpv          | deepin-mpv               |
 | 百度网盘      | deepin-install-baidunetdisk | deepin-baidunetdisk      |
-| 腾讯视频      | deepin-install-tenvideo     | deepin-install-tenvideo  |
-| 反恐精英      | deepin-install-cstrike      | deepin-install-cstrike   |
-| 野狐围棋      | deepin-install-foxwq        | deepin-install-foxwq     |
+| 腾讯视频      | deepin-install-tenvideo     | deepin-tenvideo          |
+| 反恐精英      | deepin-install-cstrike      | deepin-cstrike           |
+| 野狐围棋      | deepin-install-foxwq        | deepin-foxwq             |
 | 更多...      | 欢迎...                      | PR...                    |
 
 #### 参与贡献

@@ -277,3 +277,20 @@ machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/c
 EOF
 
 chmod 755 /bin/deepin-work-weixin
+
+
+# 安装全民K歌
+cat > /bin/deepin-install-wesing <<EOF
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.wesing.deepin && apt autopurge -y"
+EOF
+
+chmod 755 /bin/deepin-install-wesing
+
+# 启动全民K歌
+cat > /bin/deepin-wesing <<EOF
+#!/bin/bash
+source /bin/deepin-config
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.wesing.deepin/entries/applications/com.wesing.deepin.desktop"
+EOF
+
+chmod 755 /bin/deepin-wesing

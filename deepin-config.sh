@@ -294,3 +294,21 @@ machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/c
 EOF
 
 chmod 755 /bin/deepin-wesing
+
+
+
+# 安装保卫萝卜
+cat > /bin/deepin-install-baoweiluobo <<EOF
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.baoweiluobo.deepin && apt autopurge -y"
+EOF
+
+chmod 755 /bin/deepin-install-baoweiluobo
+
+# 启动保卫萝卜
+cat > /bin/deepin-baoweiluobo <<EOF
+#!/bin/bash
+source /bin/deepin-config
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.baoweiluobo.deepin/entries/applications/com.baoweiluobo.deepin.desktop"
+EOF
+
+chmod 755 /bin/deepin-baoweiluobo

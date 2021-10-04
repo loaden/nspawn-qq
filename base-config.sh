@@ -102,6 +102,7 @@ echo -e "tree -L 2 /run/user \n" "\$(tree -L 2 /run/user)" >> \$NSPAWN_LOG_FILE
 echo -e "env \n" "\$(env)" \n >> \$NSPAWN_LOG_FILE
 echo -e "echo /dev/dri " "\$(ls /dev/dri)" \n >> \$NSPAWN_LOG_FILE
 echo -e "echo /dev/shm " "\$(ls /dev/shm)" \n >> \$NSPAWN_LOG_FILE
+echo -e "echo /dev/snd " "\$(ls /dev/snd)" \n >> \$NSPAWN_LOG_FILE
 echo -e "echo /dev/fuse " "\$(ls /dev/fuse)" \n >> \$NSPAWN_LOG_FILE
 echo -e "echo /dev/nvidia* " "\$(ls /dev/nvidia*)" \n >> \$NSPAWN_LOG_FILE
 echo -e "echo /tmp " "\$(ls /tmp)" \n >> \$NSPAWN_LOG_FILE
@@ -121,9 +122,10 @@ After=systemd-hostnamed.service
 [Service]
 ExecStartPost=systemd-nspawn-debug
 ExecStart=
-ExecStart=systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --network-veth -U --settings=override --machine=%i --setenv=LANGUAGE=zh_CN:zh --property=DeviceAllow='/dev/dri rw' --property=DeviceAllow='char-drm rwm' --property=DeviceAllow='/dev/shm rw' --property=DeviceAllow='char-input r'
+ExecStart=systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --network-veth -U --settings=override --machine=%i --setenv=LANGUAGE=zh_CN:zh --property=DeviceAllow='/dev/dri rw' --property=DeviceAllow='/dev/snd rw' --property=DeviceAllow='char-drm rwm' --property=DeviceAllow='/dev/shm rw' --property=DeviceAllow='char-input r'
 # GPU etc.
 DeviceAllow=/dev/dri rw
+DeviceAllow=/dev/snd rw
 DeviceAllow=char-drm rwm
 DeviceAllow=/dev/shm rw
 DeviceAllow=char-input r
@@ -178,6 +180,7 @@ BindReadOnly = /tmp/.X11-unix
 
 # GPU etc.
 Bind = /dev/dri
+Bind = /dev/snd
 Bind = /dev/shm
 Bind = /dev/input
 Bind = /dev/fuse

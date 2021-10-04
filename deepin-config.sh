@@ -26,7 +26,7 @@ source `dirname ${BASH_SOURCE[0]}`/base-config.sh deepin
 # 安装终端
 cat > /bin/deepin-install-terminal <<EOF
 #!/bin/bash
-machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y lxterminal deepin-desktop-base --no-install-recommends && apt autopurge -y"
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y lxterminal --no-install-recommends && update-alternatives --set x-terminal-emulator /usr/bin/lxterminal && apt autopurge -y"
 EOF
 
 chmod 755 /bin/deepin-install-terminal
@@ -62,7 +62,7 @@ chmod 755 /bin/deepin-app-store
 # 安装腾讯会议
 cat > /bin/deepin-install-wemeet <<EOF
 #!/bin/bash
-machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.qq.wemeet libgl1-mesa-dev && apt autopurge -y"
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.qq.wemeet libgl1-mesa-dev deepin-desktop-base && apt autopurge -y"
 EOF
 
 chmod 755 /bin/deepin-install-wemeet

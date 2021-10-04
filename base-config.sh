@@ -44,6 +44,7 @@ cat > /var/lib/machines/$1/config.sh <<EOF
 locale
 $(echo -e "$SOURCES_LIST")
 [[ ! \$(cat /etc/securetty | grep pts/0) ]] && echo -e "\n# systemd-container\npts/0\npts/1\npts/2\npts/3\npts/4\npts/5\npts/6\n" >> /etc/securetty
+[[ ! \$(cat /etc/securetty | grep pts/9) ]] && echo -e "pts/7\npts/8\npts/9\n" >> /etc/securetty
 mkdir -p /home/share && chmod 777 /home/share
 [[ \$(/bin/cat /etc/passwd | grep user:) ]] && /usr/sbin/userdel -r user
 for i in {1000..1005}; do

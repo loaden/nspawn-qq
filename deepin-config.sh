@@ -13,7 +13,7 @@ SOURCES_LIST="echo 'deb [by-hash=force] https://community-packages.deepin.com/de
 echo 'deb https://com-store-packages.uniontech.com/appstore deepin appstore' > /etc/apt/sources.list.d/appstore.list"
 
 IFS='' read -r -d '' INSTALL_QQ <<EOF
-machinectl shell deepin /usr/bin/bash -c "dpkg --add-architecture i386 && apt update && apt install -y com.qq.im.deepin && apt autopurge -y"
+machinectl shell deepin /usr/bin/bash -c "dpkg --add-architecture i386 && apt update && apt install -y com.qq.im.deepin x11-utils && apt autopurge -y"
 EOF
 IFS='' read -r -d '' INSTALL_WEIXIN <<EOF
 machinectl shell deepin /usr/bin/bash -c "dpkg --add-architecture i386 && apt update && apt install -y com.qq.weixin.deepin x11-utils && apt autopurge -y"
@@ -247,7 +247,7 @@ chmod 755 /bin/deepin-cstrike
 
 # 安装钉钉
 cat > /bin/deepin-install-dingtalk <<EOF
-machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.dingtalk.deepin && apt autopurge -y"
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.dingtalk.deepin x11-utils && apt autopurge -y"
 EOF
 
 chmod 755 /bin/deepin-install-dingtalk

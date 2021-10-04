@@ -13,7 +13,7 @@ SOURCES_LIST="echo 'deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster main
 
 IFS='' read -r -d '' INSTALL_QQ <<EOF
 machinectl shell debian /usr/bin/bash -c "[ ! -f /etc/apt/sources.list.d/deepin-wine.i-m.dev.list ] && apt install wget -y && wget -O- https://deepin-wine.i-m.dev/setup.sh | sh"
-machinectl shell debian /usr/bin/bash -c "apt update && apt install -y com.qq.im.deepin x11-utils && apt autopurge -y"
+machinectl shell debian /usr/bin/bash -c "apt update && apt install -y com.qq.im.deepin x11-utils xterm:i386 && apt autopurge -y"
 EOF
 IFS='' read -r -d '' INSTALL_WEIXIN <<EOF
 machinectl shell debian /usr/bin/bash -c "[ ! -f /etc/apt/sources.list.d/deepin-wine.i-m.dev.list ] && apt install wget -y && wget -O- https://deepin-wine.i-m.dev/setup.sh | sh"

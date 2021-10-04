@@ -266,7 +266,9 @@ machinectl shell $1 /bin/su - \$QUERY_USER -c "ls /usr/share/applications \
     && find /opt -name "*.desktop" \
     && echo && echo query inode/directory && xdg-mime query default inode/directory \
     && echo && echo query video/mp4 && xdg-mime query default video/mp4 \
-    && echo && echo query audio/flac && xdg-mime query default audio/flac"
+    && echo && echo query audio/flac && xdg-mime query default audio/flac \
+    && ldd /bin/bash | grep SHM \
+    && ldd /bin/xterm | grep SHM"
 EOF
 
 chmod 755 /bin/$1-query

@@ -134,7 +134,7 @@ chmod 755 /bin/deepin-powerword
 # 安装央视影音
 cat > /bin/deepin-install-cbox <<EOF
 #!/bin/bash
-machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.cbox.deepin && apt autopurge -y"
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.cbox.deepin && sed -i 's/LD_PRELOAD=/LD_DONT_PRELOAD=/g' /opt/apps/com.cbox.deepin/files/run.sh && apt autopurge -y"
 EOF
 
 chmod 755 /bin/deepin-install-cbox
@@ -261,7 +261,7 @@ chmod 755 /bin/deepin-cstrike
 # 安装钉钉
 cat > /bin/deepin-install-dingtalk <<EOF
 #!/bin/bash
-machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.dingtalk.deepin x11-utils && sed -i 's/LD_PRELOAD=\/opt\/apps\/com.dingtalk.deepin\/files\/libloader.so //g' /opt/apps/com.dingtalk.deepin/files/run.sh && apt autopurge -y"
+machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.dingtalk.deepin x11-utils && sed -i 's/LD_PRELOAD=/LD_DONT_PRELOAD=/g' /opt/apps/com.dingtalk.deepin/files/run.sh && apt autopurge -y"
 EOF
 
 chmod 755 /bin/deepin-install-dingtalk

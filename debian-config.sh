@@ -27,6 +27,7 @@ source `dirname ${BASH_SOURCE[0]}`/base-config.sh debian
 
 # 安装终端
 cat > /bin/debian-install-terminal <<EOF
+#!/bin/bash
 machinectl shell debian /usr/bin/bash -c "apt update && apt install -y xfce4-terminal && apt autopurge -y"
 EOF
 

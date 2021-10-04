@@ -261,14 +261,15 @@ cat /bin/$1-config
 
 # 查询应用
 cat > /bin/$1-query <<EOF
+#!/bin/bash
 if [ \$USER == root ]; then QUERY_USER=u\$SUDO_UID; else QUERY_USER=u\$UID; fi
-machinectl shell $1 /bin/su - \$QUERY_USER -c "ls /usr/share/applications \
+machinectl shell $1 /bin/su - \$QUERY_USER -c "$(echo "$DISABLE_MITSHM") && ls /usr/share/applications \
     && find /opt -name "*.desktop" \
     && echo && echo query inode/directory && xdg-mime query default inode/directory \
     && echo && echo query video/mp4 && xdg-mime query default video/mp4 \
     && echo && echo query audio/flac && xdg-mime query default audio/flac \
-    && ldd /bin/bash | grep SHM \
-    && ldd /bin/xterm | grep SHM"
+    && echo && echo ldd /bin/bash && ldd /bin/bash | grep SHM \
+    && echo && echo ldd /bin/xterm && ldd /bin/xterm | grep SHM"
 EOF
 
 chmod 755 /bin/$1-query
@@ -276,6 +277,7 @@ chmod 755 /bin/$1-query
 
 # 清理缓存
 cat > /bin/$1-clean <<EOF
+#!/bin/bash
 for i in {1000..1005}; do
     machinectl shell $1 /bin/bash -c "apt clean && rm -rf /home/u\$i/.deepinwine && du -hd1 /home/u\$i"
 done
@@ -288,6 +290,7 @@ chmod 755 /bin/$1-clean
 
 # 安装QQ
 cat > /bin/$1-install-qq <<EOF
+#!/bin/bash
 $(echo -e "$INSTALL_QQ")
 sudo cp -f /var/lib/machines/$1/opt/apps/com.qq.im.deepin/entries/icons/hicolor/64x64/apps/com.qq.im.deepin.svg /usr/share/pixmaps/
 sudo bash -c 'cat > /usr/share/applications/deepin-qq.desktop <<$(echo EOF)
@@ -330,6 +333,7 @@ chmod 755 /bin/$1-qq
 
 # 安装微信
 cat > /bin/$1-install-weixin <<EOF
+#!/bin/bash
 $(echo -e "$INSTALL_WEIXIN")
 sudo cp -f /var/lib/machines/$1/opt/apps/com.qq.weixin.deepin/entries/icons/hicolor/64x64/apps/com.qq.weixin.deepin.svg /usr/share/pixmaps/
 sudo bash -c 'cat > /usr/share/applications/deepin-weixin.desktop <<$(echo EOF)
@@ -384,6 +388,7 @@ chmod 755 /bin/$1-ecloud
 
 # 安装文件管理器
 cat > /bin/$1-install-thunar <<EOF
+#!/bin/bash
 machinectl shell $1 /usr/bin/bash -c "apt update && apt install -y catfish thunar dbus-x11 xdg-utils --no-install-recommends && apt autopurge -y"
 if [ \$USER == root ]; then INSTALL_USER=u\$SUDO_UID; else INSTALL_USER=u\$UID; fi
 machinectl shell $1 /bin/su - \$INSTALL_USER -c "xdg-mime default Thunar.desktop inode/directory"
@@ -404,6 +409,7 @@ chmod 755 /bin/$1-thunar
 
 # 安装MPV
 cat > /bin/$1-install-mpv <<EOF
+#!/bin/bash
 machinectl shell $1 /usr/bin/bash -c "apt update && apt install -y mpv --no-install-recommends && apt autopurge -y"
 EOF
 

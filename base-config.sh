@@ -266,10 +266,10 @@ if [ \$USER == root ]; then QUERY_USER=u\$SUDO_UID; else QUERY_USER=u\$UID; fi
 machinectl shell $1 /bin/su - \$QUERY_USER -c "$(echo "$DISABLE_MITSHM") && ls /usr/share/applications \
     && find /opt -name "*.desktop" \
     && echo && echo query inode/directory && xdg-mime query default inode/directory \
-    && echo && echo query video/mp4 && xdg-mime query default video/mp4 \
-    && echo && echo query audio/flac && xdg-mime query default audio/flac \
+    && echo query video/mp4 && xdg-mime query default video/mp4 \
+    && echo query audio/flac && xdg-mime query default audio/flac \
     && echo && echo ldd /bin/bash && ldd /bin/bash | grep SHM \
-    && echo && echo ldd /bin/xterm && ldd /bin/xterm | grep SHM"
+    && echo ldd /bin/xterm && ldd /bin/xterm | grep SHM"
 EOF
 
 chmod 755 /bin/$1-query

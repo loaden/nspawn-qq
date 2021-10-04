@@ -55,6 +55,9 @@ for i in {1000..1005}; do
     mkdir -p .local/share/fonts .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
     chown -R u\$i:u\$i .local .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
 done
+for i in {1000..1005}; do
+    [[ ! \$(groups u\$i | grep audio) ]] && adduser u\$i audio
+done
 EOF
 
 chroot /var/lib/machines/$1/ /bin/bash /config.sh

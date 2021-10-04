@@ -25,6 +25,7 @@ source `dirname ${BASH_SOURCE[0]}`/base-config.sh deepin
 
 # 安装终端
 cat > /bin/deepin-install-terminal <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y lxterminal deepin-desktop-base --no-install-recommends && apt autopurge -y"
 EOF
 
@@ -42,6 +43,7 @@ chmod 755 /bin/deepin-terminal
 
 # 安装深度商店
 cat > /bin/deepin-install-app-store <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y deepin-app-store && apt autopurge -y"
 EOF
 
@@ -59,6 +61,7 @@ chmod 755 /bin/deepin-app-store
 
 # 安装腾讯会议
 cat > /bin/deepin-install-wemeet <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.qq.wemeet libgl1-mesa-dev && apt autopurge -y"
 EOF
 
@@ -76,6 +79,7 @@ chmod 755 /bin/deepin-wemeet
 
 # 安装迅雷
 cat > /bin/deepin-install-xunlei <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.xunlei.download libxss1 libdbus-glib-1-2 && apt autopurge -y"
 EOF
 
@@ -93,6 +97,7 @@ chmod 755 /bin/deepin-xunlei
 
 # 安装腾讯视频
 cat > /bin/deepin-install-tenvideo <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.qq.tenvideo && apt autopurge -y"
 EOF
 
@@ -110,6 +115,7 @@ chmod 755 /bin/deepin-tenvideo
 
 # 安装金山词霸
 cat > /bin/deepin-install-powerword <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.kingsoft.powerword && apt autopurge -y"
 EOF
 
@@ -127,6 +133,7 @@ chmod 755 /bin/deepin-powerword
 
 # 安装央视影音
 cat > /bin/deepin-install-cbox <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.cbox.deepin && apt autopurge -y"
 EOF
 
@@ -144,6 +151,7 @@ chmod 755 /bin/deepin-cbox
 
 # 安装飞书
 cat > /bin/deepin-install-feishu <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.bytedance.feishu && apt autopurge -y"
 EOF
 
@@ -161,6 +169,7 @@ chmod 755 /bin/deepin-feishu
 
 # 安装向日葵远程控制
 cat > /bin/deepin-install-sunlogin <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.oray.sunlogin.client && apt autopurge -y"
 EOF
 
@@ -178,6 +187,7 @@ chmod 755 /bin/deepin-sunlogin
 
 # 安装向日葵远程控制
 cat > /bin/deepin-install-sunlogin <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.oray.sunlogin.client && apt autopurge -y"
 EOF
 
@@ -195,6 +205,7 @@ chmod 755 /bin/deepin-sunlogin
 
 # 安装野狐围棋
 cat > /bin/deepin-install-foxwq <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.foxwq.deepin && apt autopurge -y"
 EOF
 
@@ -212,6 +223,7 @@ chmod 755 /bin/deepin-foxwq
 
 # 安装百度网盘
 cat > /bin/deepin-install-baidunetdisk <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.baidu.baidunetdisk desktop-file-utils && apt autopurge -y"
 EOF
 
@@ -229,6 +241,7 @@ chmod 755 /bin/deepin-baidunetdisk
 
 # 安装反恐精英
 cat > /bin/deepin-install-cstrike <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y cn.linuxgame.cstrike fuse && apt autopurge -y"
 sudo modprobe fuse
 EOF
@@ -247,6 +260,7 @@ chmod 755 /bin/deepin-cstrike
 
 # 安装钉钉
 cat > /bin/deepin-install-dingtalk <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.dingtalk.deepin x11-utils && apt autopurge -y"
 EOF
 
@@ -264,6 +278,7 @@ chmod 755 /bin/deepin-dingtalk
 
 # 安装企业微信
 cat > /bin/deepin-install-work-weixin <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.qq.weixin.work.deepin && apt autopurge -y"
 EOF
 
@@ -281,6 +296,7 @@ chmod 755 /bin/deepin-work-weixin
 
 # 安装全民K歌
 cat > /bin/deepin-install-wesing <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.wesing.deepin && apt autopurge -y"
 EOF
 
@@ -299,6 +315,7 @@ chmod 755 /bin/deepin-wesing
 
 # 安装保卫萝卜
 cat > /bin/deepin-install-baoweiluobo <<EOF
+#!/bin/bash
 machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.baoweiluobo.deepin && apt autopurge -y"
 EOF
 

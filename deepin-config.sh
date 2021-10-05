@@ -270,7 +270,7 @@ chmod 755 /bin/deepin-install-dingtalk
 cat > /bin/deepin-dingtalk <<EOF
 #!/bin/bash
 source /bin/deepin-config
-machinectl shell deepin /bin/su - u\$UID -c "chmod 000 ~/.deepinwine/Deepin-Dding/drive_c/Program\ Files/DingDing/DingTalkUpdater.exe && \$RUN_ENVIRONMENT start /opt/apps/com.dingtalk.deepin/entries/applications/com.dingtalk.deepin.desktop"
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.dingtalk.deepin/entries/applications/com.dingtalk.deepin.desktop && chmod 000 ~/.deepinwine/Deepin-Dding/drive_c/Program\ Files/DingDing/DingTalkUpdater.exe"
 EOF
 
 chmod 755 /bin/deepin-dingtalk

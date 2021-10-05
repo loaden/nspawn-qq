@@ -57,6 +57,11 @@ for i in {1000..1005}; do
 done
 for i in {1000..1005}; do
     [[ ! \$(groups u\$i | grep audio) ]] && adduser u\$i audio
+    if [ -f /bin/flatpak ]; then
+        cd /home/u\$i/
+        mkdir -p .local/share/flatpak .var
+        chown -R u\$i:u\$i .local/share/flatpak .var
+    fi
 done
 EOF
 
@@ -254,6 +259,13 @@ machinectl bind --mkdir $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/us
 machinectl bind --mkdir $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
 machinectl bind --read-only --mkdir $1 \$HOME/.local/share/fonts /home/u\$UID/.local/share/fonts
 $(echo "$X11_BIND_AND_CONFIG")
+
+# Flatpak
+if [ -f /bin/flatpak ]; then
+    machinectl bind --mkdir $1 /var/lib/flatpak
+    machinectl bind --mkdir $1 \$HOME/.local/share/flatpak /home/u\$UID/.local/share/flatpak
+    machinectl bind --mkdir $1 \$HOME/.var /home/u\$UID/.var
+fi
 
 # 启动环境变量
 RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY GTK_IM_MODULE=\$GTK_IM_MODULE XMODIFIERS=\$XMODIFIERS QT_IM_MODULE=\$QT_IM_MODULE BROWSER=Thunar"

@@ -23,6 +23,7 @@ source `dirname ${BASH_SOURCE[0]}`/deepin-config.sh
 
 
 # 默认安装
+[ -f /bin/flatpak ] && deepin-install-flatpak
 deepin-install-terminal
 deepin-install-thunar
 deepin-install-qq

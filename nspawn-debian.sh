@@ -22,6 +22,7 @@ source `dirname ${BASH_SOURCE[0]}`/debian-config.sh
 
 
 # 默认安装
+[ -f /bin/flatpak ] && debian-install-flatpak
 debian-install-terminal
 debian-install-thunar
 debian-install-qq

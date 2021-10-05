@@ -259,7 +259,7 @@ chmod 755 /bin/deepin-cstrike
 
 
 # 安装钉钉
-cat > /bin/deepin-install-dingtalk <<EOF
+cat > /bin/deepin-install-dingtalk-wine <<EOF
 #!/bin/bash
 machinectl shell deepin /bin/bash -c "apt update && apt install -y com.dingtalk.deepin x11-utils && apt autopurge -y \
     && ! grep -c DingTalkUpdater.exe /opt/apps/com.dingtalk.deepin/files/run.sh \
@@ -267,13 +267,29 @@ machinectl shell deepin /bin/bash -c "apt update && apt install -y com.dingtalk.
     && sed -i 's/LD_PRELOAD=/LD_DONT_PRELOAD=/g' /opt/apps/com.dingtalk.deepin/files/run.sh"
 EOF
 
+chmod 755 /bin/deepin-install-dingtalk-wine
+
+cat > /bin/deepin-install-dingtalk <<EOF
+#!/bin/bash
+machinectl shell deepin /bin/bash -c "apt update && apt install -y com.alibabainc.dingtalk libpulse-mainloop-glib0 && apt autopurge -y"
+EOF
+
 chmod 755 /bin/deepin-install-dingtalk
 
+
 # 启动钉钉
-cat > /bin/deepin-dingtalk <<EOF
+cat > /bin/deepin-dingtalk-wine <<EOF
 #!/bin/bash
 source /bin/deepin-config
 machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.dingtalk.deepin/entries/applications/com.dingtalk.deepin.desktop"
+EOF
+
+chmod 755 /bin/deepin-dingtalk-wine
+
+cat > /bin/deepin-dingtalk <<EOF
+#!/bin/bash
+source /bin/deepin-config
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.alibabainc.dingtalk/entries/applications/com.alibabainc.dingtalk.desktop"
 EOF
 
 chmod 755 /bin/deepin-dingtalk

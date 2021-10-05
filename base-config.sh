@@ -433,6 +433,16 @@ chmod 755 /bin/$1-mpv
 
 
 
+# 安装Flatpak
+cat > /bin/$1-install-flatpak <<EOF
+#!/bin/bash
+machinectl shell $1 /usr/bin/bash -c "apt update && apt install -y flatpak && apt autopurge -y"
+EOF
+
+chmod 755 /bin/$1-install-flatpak
+
+
+
 # 添加启动器
 machinectl start $1 && sleep 0.3
 [[ $($1-query | grep com.qq.im.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-qq.desktop ] && $1-install-qq

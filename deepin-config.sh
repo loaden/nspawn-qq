@@ -261,7 +261,10 @@ chmod 755 /bin/deepin-cstrike
 # 安装钉钉
 cat > /bin/deepin-install-dingtalk <<EOF
 #!/bin/bash
-machinectl shell deepin /usr/bin/bash -c "apt update && apt install -y com.dingtalk.deepin x11-utils && sed -i 's/LD_PRELOAD=/LD_DONT_PRELOAD=/g' /opt/apps/com.dingtalk.deepin/files/run.sh && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt update && apt install -y com.dingtalk.deepin x11-utils && apt autopurge -y \
+    && ! grep -c DingTalkUpdater.exe /opt/apps/com.dingtalk.deepin/files/run.sh \
+    && echo 'chmod 000 ~/.deepinwine/Deepin-Dding/drive_c/Program\ Files/DingDing/DingTalkUpdater.exe' >> /opt/apps/com.dingtalk.deepin/files/run.sh \
+    && sed -i 's/LD_PRELOAD=/LD_DONT_PRELOAD=/g' /opt/apps/com.dingtalk.deepin/files/run.sh"
 EOF
 
 chmod 755 /bin/deepin-install-dingtalk
@@ -270,7 +273,7 @@ chmod 755 /bin/deepin-install-dingtalk
 cat > /bin/deepin-dingtalk <<EOF
 #!/bin/bash
 source /bin/deepin-config
-machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.dingtalk.deepin/entries/applications/com.dingtalk.deepin.desktop && chmod 000 ~/.deepinwine/Deepin-Dding/drive_c/Program\ Files/DingDing/DingTalkUpdater.exe"
+machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.dingtalk.deepin/entries/applications/com.dingtalk.deepin.desktop"
 EOF
 
 chmod 755 /bin/deepin-dingtalk

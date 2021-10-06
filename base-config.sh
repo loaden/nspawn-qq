@@ -46,11 +46,11 @@ $(echo -e "$SOURCES_LIST")
 [[ ! \$(cat /etc/securetty | grep pts/0) ]] && echo -e "\n# systemd-container\npts/0\npts/1\npts/2\npts/3\npts/4\npts/5\npts/6\n" >> /etc/securetty
 [[ ! \$(cat /etc/securetty | grep pts/9) ]] && echo -e "pts/7\npts/8\npts/9\n" >> /etc/securetty
 mkdir -p /home/share && chmod 777 /home/share
-[[ \$(/bin/cat /etc/passwd | grep user:) ]] && /usr/sbin/userdel -r user
+[[ \$(/bin/cat /etc/passwd | grep user:) ]] && /sbin/userdel -r user
 for i in {1000..1005}; do
     [[ \$(/bin/cat /etc/passwd | grep u\$i:) ]] && continue
-    /usr/sbin/useradd -u \$i -m -s /bin/bash -G sudo u\$i
-    echo u\$i:passwd | /usr/sbin/chpasswd
+    /sbin/useradd -u \$i -m -s /bin/bash -G sudo u\$i
+    echo u\$i:passwd | /sbin/chpasswd
     cd /home/u\$i/
     mkdir -p .local/share/fonts .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
     chown -R u\$i:u\$i .local .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
@@ -400,7 +400,7 @@ chmod 755 /bin/$1-ecloud
 # 安装文件管理器
 cat > /bin/$1-install-thunar <<EOF
 #!/bin/bash
-machinectl shell $1 /usr/bin/bash -c "apt update && apt install -y thunar catfish libexo-1-0 dbus-x11 xdg-utils --no-install-recommends && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt update && apt install -y thunar catfish libexo-1-0 dbus-x11 xdg-utils --no-install-recommends && apt autopurge -y"
 if [ \$USER == root ]; then INSTALL_USER=u\$SUDO_UID; else INSTALL_USER=u\$UID; fi
 machinectl shell $1 /bin/su - \$INSTALL_USER -c "xdg-mime default Thunar.desktop inode/directory"
 EOF
@@ -421,7 +421,7 @@ chmod 755 /bin/$1-thunar
 # 安装MPV
 cat > /bin/$1-install-mpv <<EOF
 #!/bin/bash
-machinectl shell $1 /usr/bin/bash -c "apt update && apt install -y mpv --no-install-recommends && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt update && apt install -y mpv --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /bin/$1-install-mpv

@@ -13,9 +13,17 @@ rm -f /var/lib/polkit-1/localauthority/10-vendor.d/machines.pkla
 rm -f /usr/share/polkit-1/rules.d/10-machines.rules
 
 rm -f /var/lib/machines/$1
-[ -f "/bin/$1-distro-info" ] && mv /bin/$1-distro-info /bin/bak-$1-distro-info
-rm -f /bin/$1-*
-[ -f "/bin/bak-$1-distro-info" ] && mv /bin/bak-$1-distro-info /bin/$1-distro-info
+rm -f /home/nspawn.log
+rm -f /bin/$1-install-*
+rm -f /bin/$1-config
+rm -f /bin/$1-query
+rm -f /bin/$1-clean
+rm -f /bin/$1-config-*
+rm -f /bin/$1-qq
+rm -f /bin/$1-weixin
+rm -f /bin/$1-ecloud
+rm -f /bin/$1-thunar
+rm -f /bin/$1-mpv
 
 [[ -d /home/share && `ls -A /home/share |wc -w` == 0 ]] && rm -rf /home/share
 rm -f /etc/X11/xorg.conf.d/disable-MIT-SHM.conf

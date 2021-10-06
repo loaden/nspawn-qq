@@ -331,7 +331,6 @@ EOF
 chmod 755 /bin/deepin-wesing
 
 
-
 # 安装保卫萝卜
 cat > /bin/deepin-install-baoweiluobo <<EOF
 #!/bin/bash

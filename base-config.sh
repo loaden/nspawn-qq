@@ -23,7 +23,7 @@ fi
 
 
 # 初始化配置
-source `dirname ${BASH_SOURCE[0]}`/remove-$1.sh
+EXEC_FROM_CONFIG=1 source `dirname ${BASH_SOURCE[0]}`/remove-$1.sh
 ln -sf /home/$SUDO_USER/.machines/$1 /var/lib/machines/$1
 
 

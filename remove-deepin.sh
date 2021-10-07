@@ -13,19 +13,19 @@ rm -f /usr/share/debootstrap/scripts/apricot
 
 # 开始移除
 source `dirname ${BASH_SOURCE[0]}`/base-remove.sh deepin
-rm -f /bin/$1-terminal
-rm -f /bin/$1-app-store
-rm -f /bin/$1-wemeet
-rm -f /bin/$1-xunlei
-rm -f /bin/$1-tenvideo
-rm -f /bin/$1-powerword
-rm -f /bin/$1-cbox
-rm -f /bin/$1-feishu
-rm -f /bin/$1-sunlogin
-rm -f /bin/$1-foxwq
-rm -f /bin/$1-baidunetdisk
-rm -f /bin/$1-cstrike
-rm -f /bin/$1-dingtalk*
-rm -f /bin/$1-work-weixin
-rm -f /bin/$1-wesing
-rm -f /bin/$1-baoweiluobo
+rm -f /bin/deepin-terminal
+rm -f /bin/deepin-app-store
+rm -f /bin/deepin-wemeet
+rm -f /bin/deepin-xunlei
+rm -f /bin/deepin-tenvideo
+rm -f /bin/deepin-powerword
+rm -f /bin/deepin-cbox
+rm -f /bin/deepin-feishu
+rm -f /bin/deepin-sunlogin
+rm -f /bin/deepin-foxwq
+rm -f /bin/deepin-baidunetdisk
+rm -f /bin/deepin-cstrike
+rm -f /bin/deepin-dingtalk*
+rm -f /bin/deepin-work-weixin
+rm -f /bin/deepin-wesing
+rm -f /bin/deepin-baoweiluobo

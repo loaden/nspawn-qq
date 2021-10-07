@@ -15,6 +15,7 @@ rm -f /usr/share/polkit-1/rules.d/10-machines.rules
 rm -f /var/lib/machines/$1
 rm -f /home/nspawn.log
 rm -f /bin/$1-install-*
+rm -f /bin/$1-start
 rm -f /bin/$1-config
 rm -f /bin/$1-query
 rm -f /bin/$1-clean
@@ -41,4 +42,4 @@ rm -f /usr/share/pixmaps/com.qq.weixin.deepin.svg
 rm -f /usr/share/applications/deepin-qq.desktop
 rm -f /usr/share/applications/deepin-weixin.desktop
 
-echo "为防止数据意外丢失，您需要手动删除 ~/.machines 文件夹！"
+[[ ! $EXEC_FROM_CONFIG ]] && echo "为防止数据意外丢失，您需要手动删除 ~/.machines 文件夹！"

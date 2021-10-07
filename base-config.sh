@@ -7,11 +7,6 @@ if [ $UID != 0 -o "$SUDO_USER" == "root" ]; then
     exit 1
 fi
 
-
-# 允许无管理员权限启动
-source `dirname ${BASH_SOURCE[0]}`/polkit.sh
-
-
 # 必备软件包
 [ -f /bin/apt ] && [ ! -f /bin/machinectl ] && apt install -y systemd-container
 [ -f /bin/dnf ] && [ ! -f /bin/machinectl ] && dnf install -y systemd-container
@@ -25,6 +20,10 @@ fi
 # 初始化配置
 EXEC_FROM_CONFIG=1 source `dirname ${BASH_SOURCE[0]}`/remove-$1.sh
 ln -sf /home/$SUDO_USER/.machines/$1 /var/lib/machines/$1
+
+
+# 允许无管理员权限启动
+source `dirname ${BASH_SOURCE[0]}`/polkit.sh
 
 
 # 获取用户目录

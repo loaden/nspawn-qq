@@ -23,10 +23,8 @@ fi
 
 
 # 初始化配置
-ln -sf /home/$SUDO_USER/.machines/$1 /var/lib/machines
-[ -f "/bin/$1-distro-info" ] && mv /bin/$1-distro-info /bin/bak-$1-distro-info
-rm -f /bin/$1-*
-[ -f "/bin/bak-$1-distro-info" ] && mv /bin/bak-$1-distro-info /bin/$1-distro-info
+source `dirname ${BASH_SOURCE[0]}`/remove-$1.sh
+ln -sf /home/$SUDO_USER/.machines/$1 /var/lib/machines/$1
 
 
 # 获取用户目录

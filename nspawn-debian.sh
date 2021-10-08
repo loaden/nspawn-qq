@@ -27,4 +27,4 @@ debian-install-thunar
 debian-install-qq
 
 # 清理
-debian-clean
+KEEP_QUIET=1 debian-clean

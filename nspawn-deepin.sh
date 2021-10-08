@@ -28,4 +28,4 @@ deepin-install-thunar
 deepin-install-qq
 
 # 清理
-deepin-clean
+KEEP_QUIET=1 deepin-clean

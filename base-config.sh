@@ -303,7 +303,7 @@ cat > /bin/$1-install-qq <<EOF
 #!/bin/bash
 $(echo -e "$INSTALL_QQ")
 sudo cp -f /var/lib/machines/$1/opt/apps/com.qq.im.deepin/entries/icons/hicolor/64x64/apps/com.qq.im.deepin.svg /usr/share/pixmaps/
-sudo bash -c 'cat > /usr/share/applications/deepin-qq.desktop <<$(echo EOF)
+[ ! -f /usr/share/applications/deepin-qq.desktop ] && sudo bash -c 'cat > /usr/share/applications/deepin-qq.desktop <<$(echo EOF)
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
@@ -346,7 +346,7 @@ cat > /bin/$1-install-weixin <<EOF
 #!/bin/bash
 $(echo -e "$INSTALL_WEIXIN")
 sudo cp -f /var/lib/machines/$1/opt/apps/com.qq.weixin.deepin/entries/icons/hicolor/64x64/apps/com.qq.weixin.deepin.svg /usr/share/pixmaps/
-sudo bash -c 'cat > /usr/share/applications/deepin-weixin.desktop <<$(echo EOF)
+[ ! -f /usr/share/applications/deepin-weixin.desktop ] && sudo bash -c 'cat > /usr/share/applications/deepin-weixin.desktop <<$(echo EOF)
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application

@@ -281,7 +281,8 @@ chmod 755 /bin/$1-query
 # 清理缓存
 cat > /bin/$1-clean <<EOF
 #!/bin/bash
-read -p "Delete the '~/.deepinwine' directory? [y/N]" answer
+answer=No
+[[ ! "\$KEEP_QUIET" == "1" ]] && read -p "Delete the '~/.deepinwine' directory? [y/N]" answer
 for i in {1000..1005}; do
     if [[ \${answer^^} == Y || \${answer^^} == YES ]]; then
         machinectl shell $1 /bin/bash -c "rm -rf /home/u\$i/.deepinwine /home/u\$i/.cache/* && du -hd1 /home/u\$i"

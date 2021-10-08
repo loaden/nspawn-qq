@@ -42,4 +42,4 @@ rm -f /usr/share/pixmaps/com.qq.weixin.deepin.svg
 rm -f /usr/share/applications/deepin-qq.desktop
 rm -f /usr/share/applications/deepin-weixin.desktop
 
-[[ ! $EXEC_FROM_CONFIG ]] && echo "为防止数据意外丢失，您需要手动删除 ~/.machines 文件夹！"
+[[ ! $EXEC_FROM_CONFIG ]] && echo "为防止数据意外丢失，您需要手动删除 ~/.machines/$1 文件夹！"

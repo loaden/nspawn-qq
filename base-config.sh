@@ -34,7 +34,8 @@ source `dirname ${BASH_SOURCE[0]}`/user-dirs.sh
 [[ $(machinectl list) =~ $1 ]] && machinectl stop $1
 mkdir -p /home/share && chmod 777 /home/share
 cat > /var/lib/machines/$1/config.sh <<EOF
-[[ ! \$(cat /etc/hosts | grep \$HOSTNAME) ]] && echo "127.0.0.1 \$HOSTNAME" >> /etc/hosts
+echo $1 > /etc/hostname
+[[ ! \$(cat /etc/hosts | grep $1) ]] && echo "127.0.0.1 $1" >> /etc/hosts
 /bin/sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
 /bin/sed -i 's/# zh_CN.UTF-8/zh_CN.UTF-8/g' /etc/locale.gen
 /sbin/locale-gen

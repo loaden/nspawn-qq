@@ -12,19 +12,34 @@ fi
 rm -f /var/lib/polkit-1/localauthority/10-vendor.d/machines.pkla
 rm -f /usr/share/polkit-1/rules.d/10-machines.rules
 
+# 移除旧版本可能遗留文件
+if [[ ! -f /usr/local/bin/$1-start && -f /bin/$1-start ]]; then
+    rm -f /bin/$1-install-*
+    rm -f /bin/$1-start
+    rm -f /bin/$1-config
+    rm -f /bin/$1-query
+    rm -f /bin/$1-clean
+    rm -f /bin/$1-config-*
+    rm -f /bin/$1-qq
+    rm -f /bin/$1-weixin
+    rm -f /bin/$1-ecloud
+    rm -f /bin/$1-thunar
+    rm -f /bin/$1-mpv
+fi
+
 rm -f /var/lib/machines/$1
 rm -f /home/nspawn.log
-rm -f /bin/$1-install-*
-rm -f /bin/$1-start
-rm -f /bin/$1-config
-rm -f /bin/$1-query
-rm -f /bin/$1-clean
-rm -f /bin/$1-config-*
-rm -f /bin/$1-qq
-rm -f /bin/$1-weixin
-rm -f /bin/$1-ecloud
-rm -f /bin/$1-thunar
-rm -f /bin/$1-mpv
+rm -f /usr/local/bin/$1-install-*
+rm -f /usr/local/bin/$1-start
+rm -f /usr/local/bin/$1-config
+rm -f /usr/local/bin/$1-query
+rm -f /usr/local/bin/$1-clean
+rm -f /usr/local/bin/$1-config-*
+rm -f /usr/local/bin/$1-qq
+rm -f /usr/local/bin/$1-weixin
+rm -f /usr/local/bin/$1-ecloud
+rm -f /usr/local/bin/$1-thunar
+rm -f /usr/local/bin/$1-mpv
 
 [[ -d /home/share && `ls -A /home/share |wc -w` == 0 ]] && rm -rf /home/share
 rm -f /etc/X11/xorg.conf.d/disable-MIT-SHM.conf

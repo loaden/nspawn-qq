@@ -80,7 +80,7 @@ machinectl bind --read-only --mkdir $1 \$XAUTHORITY /home/u\$UID/.Xauthority
 xhost +local:"
 DESKTOP_ENVIRONMENT="export XAUTHORITY=/home/u\$UID/.Xauthority"
 fi
-cat > /bin/$1-start  <<EOF
+cat > /usr/local/bin/$1-start  <<EOF
 #!/bin/bash
 $(echo "$DESKTOP_ENVIRONMENT")
 export XDG_RUNTIME_DIR=/run/user/\$UID
@@ -89,9 +89,9 @@ $(echo "$DISABLE_MITSHM")
 dex \$@
 EOF
 
-chmod 755 /bin/$1-start
-echo cat /bin/$1-start
-cat /bin/$1-start
+chmod 755 /usr/local/bin/$1-start
+echo cat /usr/local/bin/$1-start
+cat /usr/local/bin/$1-start
 
 
 # 调试
@@ -190,7 +190,7 @@ $(echo "$NVIDIA_BIND")
 
 # 其它
 Bind = /home/share
-Bind = /bin/$1-start:/bin/start
+Bind = /usr/local/bin/$1-start:/bin/start
 
 [Network]
 VirtualEthernet = no
@@ -222,7 +222,7 @@ machinectl show $1
 
 
 # 配置容器权限与绑定
-cat > /bin/$1-config <<EOF
+cat > /usr/local/bin/$1-config <<EOF
 #!/bin/bash
 
 # 判断容器是否启动
@@ -259,12 +259,12 @@ if [[ \$(loginctl show-session \$(loginctl | grep \$USER |awk '{print \$1}') -p 
 fi
 EOF
 
-chmod 755 /bin/$1-config
-cat /bin/$1-config
+chmod 755 /usr/local/bin/$1-config
+cat /usr/local/bin/$1-config
 
 
 # 查询应用
-cat > /bin/$1-query <<EOF
+cat > /usr/local/bin/$1-query <<EOF
 #!/bin/bash
 if [ \$USER == root ]; then QUERY_USER=u\$SUDO_UID; else QUERY_USER=u\$UID; fi
 machinectl shell $1 /bin/su - \$QUERY_USER -c "$(echo "$DISABLE_MITSHM") && ls /usr/share/applications \
@@ -276,11 +276,11 @@ machinectl shell $1 /bin/su - \$QUERY_USER -c "$(echo "$DISABLE_MITSHM") && ls /
     && echo ldd /bin/xterm && ldd /bin/xterm | grep SHM"
 EOF
 
-chmod 755 /bin/$1-query
+chmod 755 /usr/local/bin/$1-query
 
 
 # 清理缓存
-cat > /bin/$1-clean <<EOF
+cat > /usr/local/bin/$1-clean <<EOF
 #!/bin/bash
 answer=No
 [[ ! "\$KEEP_QUIET" == "1" ]] && read -p "Delete the '~/.deepinwine' directory? [y/N]" answer
@@ -294,12 +294,12 @@ done
 machinectl shell $1 /bin/bash -c "apt clean && df -h && du -hd0 /opt /home /var /usr"
 EOF
 
-chmod 755 /bin/$1-clean
+chmod 755 /usr/local/bin/$1-clean
 
 
 
 # 安装QQ
-cat > /bin/$1-install-qq <<EOF
+cat > /usr/local/bin/$1-install-qq <<EOF
 #!/bin/bash
 $(echo -e "$INSTALL_QQ")
 sudo cp -f /var/lib/machines/$1/opt/apps/com.qq.im.deepin/entries/icons/hicolor/64x64/apps/com.qq.im.deepin.svg /usr/share/pixmaps/
@@ -319,30 +319,30 @@ MimeType=
 $(echo EOF)'
 EOF
 
-chmod 755 /bin/$1-install-qq
+chmod 755 /usr/local/bin/$1-install-qq
 
 # 配置QQ
-cat > /bin/$1-config-qq <<EOF
+cat > /usr/local/bin/$1-config-qq <<EOF
 #!/bin/bash
-source /bin/$1-config
+source /usr/local/bin/$1-config
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-QQ ~/.deepinwine/deepin-wine5/bin/winecfg"
 EOF
 
-chmod 755 /bin/$1-config-qq
+chmod 755 /usr/local/bin/$1-config-qq
 
 # 启动QQ
-cat > /bin/$1-qq <<EOF
+cat > /usr/local/bin/$1-qq <<EOF
 #!/bin/bash
-source /bin/$1-config
+source /usr/local/bin/$1-config
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.qq.im.deepin/entries/applications/com.qq.im.deepin.desktop"
 EOF
 
-chmod 755 /bin/$1-qq
+chmod 755 /usr/local/bin/$1-qq
 
 
 
 # 安装微信
-cat > /bin/$1-install-weixin <<EOF
+cat > /usr/local/bin/$1-install-weixin <<EOF
 #!/bin/bash
 $(echo -e "$INSTALL_WEIXIN")
 sudo cp -f /var/lib/machines/$1/opt/apps/com.qq.weixin.deepin/entries/icons/hicolor/64x64/apps/com.qq.weixin.deepin.svg /usr/share/pixmaps/
@@ -363,76 +363,76 @@ MimeType=
 $(echo EOF)'
 EOF
 
-chmod 755 /bin/$1-install-weixin
+chmod 755 /usr/local/bin/$1-install-weixin
 
 # 启动微信
-cat > /bin/$1-weixin <<EOF
+cat > /usr/local/bin/$1-weixin <<EOF
 #!/bin/bash
-source /bin/$1-config
+source /usr/local/bin/$1-config
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.qq.weixin.deepin/entries/applications/com.qq.weixin.deepin.desktop"
 EOF
 
-chmod 755 /bin/$1-weixin
+chmod 755 /usr/local/bin/$1-weixin
 
 
 
 # 配置云盘
-cat > /bin/$1-config-ecloud <<EOF
+cat > /usr/local/bin/$1-config-ecloud <<EOF
 #!/bin/bash
-source /bin/$1-config
+source /usr/local/bin/$1-config
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-eCloud/ ~/.deepinwine/deepin-wine5/bin/regedit ~/$USER_CLOUDDISK/丽娜/原创/ecloud.reg"
 EOF
 
-chmod 755 /bin/$1-config-ecloud
+chmod 755 /usr/local/bin/$1-config-ecloud
 
 # 启动云盘
-cat > /bin/$1-ecloud <<EOF
+cat > /usr/local/bin/$1-ecloud <<EOF
 #!/bin/bash
-source /bin/$1-config
+source /usr/local/bin/$1-config
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/cn.189.cloud.deepin/entries/applications/cn.189.cloud.deepin.desktop"
 EOF
 
-chmod 755 /bin/$1-ecloud
+chmod 755 /usr/local/bin/$1-ecloud
 
 
 
 # 安装文件管理器
-cat > /bin/$1-install-thunar <<EOF
+cat > /usr/local/bin/$1-install-thunar <<EOF
 #!/bin/bash
 machinectl shell $1 /bin/bash -c "apt update && apt install -y thunar catfish libexo-1-0 dbus-x11 xdg-utils --no-install-recommends && apt autopurge -y"
 if [ \$USER == root ]; then INSTALL_USER=u\$SUDO_UID; else INSTALL_USER=u\$UID; fi
 machinectl shell $1 /bin/su - \$INSTALL_USER -c "xdg-mime default Thunar.desktop inode/directory"
 EOF
 
-chmod 755 /bin/$1-install-thunar
+chmod 755 /usr/local/bin/$1-install-thunar
 
 # 启动文件管理器
-cat > /bin/$1-thunar <<EOF
+cat > /usr/local/bin/$1-thunar <<EOF
 #!/bin/bash
-source /bin/$1-config
+source /usr/local/bin/$1-config
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/Thunar.desktop"
 EOF
 
-chmod 755 /bin/$1-thunar
+chmod 755 /usr/local/bin/$1-thunar
 
 
 
 # 安装MPV
-cat > /bin/$1-install-mpv <<EOF
+cat > /usr/local/bin/$1-install-mpv <<EOF
 #!/bin/bash
 machinectl shell $1 /bin/bash -c "apt update && apt install -y mpv --no-install-recommends && apt autopurge -y"
 EOF
 
-chmod 755 /bin/$1-install-mpv
+chmod 755 /usr/local/bin/$1-install-mpv
 
 # 启动MPV
-cat > /bin/$1-mpv <<EOF
+cat > /usr/local/bin/$1-mpv <<EOF
 #!/bin/bash
-source /bin/$1-config
+source /usr/local/bin/$1-config
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/mpv.desktop"
 EOF
 
-chmod 755 /bin/$1-mpv
+chmod 755 /usr/local/bin/$1-mpv
 
 
 

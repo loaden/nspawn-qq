@@ -26,18 +26,18 @@ source `dirname ${BASH_SOURCE[0]}`/base-config.sh debian
 
 
 # 安装终端
-cat > /bin/debian-install-terminal <<EOF
+cat > /usr/local/bin/debian-install-terminal <<EOF
 #!/bin/bash
 machinectl shell debian /bin/bash -c "apt update && apt install -y xfce4-terminal && apt autopurge -y"
 EOF
 
-chmod 755 /bin/debian-install-terminal
+chmod 755 /usr/local/bin/debian-install-terminal
 
 # 启动终端
-cat > /bin/debian-terminal <<EOF
+cat > /usr/local/bin/debian-terminal <<EOF
 #!/bin/bash
-source /bin/debian-config
+source /usr/local/bin/debian-config
 machinectl shell debian /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/xfce4-terminal.desktop"
 EOF
 
-chmod 755 /bin/debian-terminal
+chmod 755 /usr/local/bin/debian-terminal

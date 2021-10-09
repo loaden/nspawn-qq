@@ -7,6 +7,11 @@ if [ $UID != 0 -o "$SUDO_USER" == "root" ]; then
     exit 1
 fi
 
+# 移除旧版本可能遗留文件
+if [[ ! -f /usr/local/bin/deepin-terminal && -f /bin/deepin-terminal ]]; then
+    rm -f /bin/debian-terminal
+fi
+
 # 开始移除
 source `dirname ${BASH_SOURCE[0]}`/base-remove.sh debian
-rm -f /bin/debian-terminal
+rm -f /usr/local/bin/debian-terminal

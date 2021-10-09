@@ -7,6 +7,14 @@ if [ $UID != 0 -o "$SUDO_USER" == "root" ]; then
     exit 1
 fi
 
+# 禁止套娃
+if [ -f /etc/os-version ]; then
+    if [[ $(grep -c Deepin /etc/os-version) ]] || [[ $(grep -c Deepin /etc/os-version) ]]; then
+        echo "你不能在Deepin或者UOS系统上再安装deepin容器，会造成文件误删除！"
+        exit -1
+    fi
+fi
+
 # 特殊处理
 [ -f /var/lib/machines/deepin/var/lib/deepin/deepin_security_verify.whitelist ] && chattr -i /var/lib/machines/deepin/var/lib/deepin/deepin_security_verify.whitelist
 rm -f /usr/share/debootstrap/scripts/apricot

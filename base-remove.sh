@@ -8,6 +8,8 @@ if [ $UID != 0 -o "$SUDO_USER" == "root" ]; then
 fi
 
 [[ $(machinectl list) =~ $1 ]] && machinectl stop $1
+systemctl disable systemd-nspawn@$1.service
+systemctl status systemd-nspawn@$1.service
 
 rm -f /var/lib/polkit-1/localauthority/10-vendor.d/machines.pkla
 rm -f /usr/share/polkit-1/rules.d/10-machines.rules

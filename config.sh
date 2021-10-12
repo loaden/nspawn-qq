@@ -9,7 +9,7 @@ fi
 
 # 配置Debian容器
 source `dirname ${BASH_SOURCE[0]}`/debian-config.sh
-sleep 1
+sleep 2
 
 # 配置Deepin容器
 source `dirname ${BASH_SOURCE[0]}`/deepin-config.sh

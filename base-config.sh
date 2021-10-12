@@ -70,7 +70,7 @@ chroot /var/lib/machines/$1/ /bin/bash /config.sh
 
 
 # 禁用MIT-SHM
-sleep 0.1
+sleep 0.5
 source `dirname ${BASH_SOURCE[0]}`/xnoshm.sh $1
 
 
@@ -220,7 +220,7 @@ systemctl daemon-reload
 
 
 # 开机启动容器
-sleep 0.3
+sleep 0.5
 # machinectl enable $1
 # systemctl cat systemd-nspawn@$1.service
 machinectl start $1
@@ -233,10 +233,10 @@ cat > /usr/local/bin/$1-config <<EOF
 #!/bin/bash
 
 # 判断容器是否启动
-[[ ! \$(machinectl list | grep $1) ]] && machinectl start $1 && sleep 0.2
+[[ ! \$(machinectl list | grep $1) ]] && machinectl start $1 && sleep 0.5
 
 # 使容器与宿主机使用相同用户目录
-machinectl shell $1 /bin/bash -c "rm -f \$HOME && ln -sf /home/u\$UID \$HOME"
+[ \$USER != root ] && machinectl shell $1 /bin/bash -c "rm -f \$HOME && ln -sf /home/u\$UID \$HOME"
 
 # 启动环境变量
 RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY GTK_IM_MODULE=\$GTK_IM_MODULE XMODIFIERS=\$XMODIFIERS QT_IM_MODULE=\$QT_IM_MODULE BROWSER=Thunar"
@@ -466,7 +466,7 @@ chmod 755 /usr/local/bin/$1-mpv
 
 
 # 添加启动器
-machinectl start $1 && sleep 0.3
+machinectl start $1 && sleep 0.5
 [[ $($1-query | grep com.qq.im.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-qq.desktop ] && $1-install-qq
 [[ $($1-query | grep com.qq.weixin.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-weixin.desktop ] && $1-install-weixin
 [ -f /usr/share/applications/deepin-qq.desktop ] && cat /usr/share/applications/deepin-qq.desktop | grep $1-

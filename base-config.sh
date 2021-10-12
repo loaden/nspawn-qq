@@ -198,7 +198,6 @@ Bind = /dev/shm
 Bind = /dev/input
 Bind = /dev/fuse
 $(echo "$NVIDIA_BIND")
-
 # 其它
 Bind = /home/share
 Bind = /usr/local/bin/$1-start:/bin/start

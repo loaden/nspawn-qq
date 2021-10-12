@@ -49,6 +49,7 @@ echo $1 > /etc/hostname
 /sbin/locale-gen
 locale
 $(echo -e "$SOURCES_LIST")
+apt update
 [[ ! \$(cat /etc/securetty | grep pts/0) ]] && echo -e "\n# systemd-container\npts/0\npts/1\npts/2\npts/3\npts/4\npts/5\npts/6\n" >> /etc/securetty
 [[ ! \$(cat /etc/securetty | grep pts/9) ]] && echo -e "pts/7\npts/8\npts/9\n" >> /etc/securetty
 mkdir -p /home/share && chmod 777 /home/share
@@ -442,7 +443,7 @@ chmod 755 /usr/local/bin/$1-ecloud
 cat > /usr/local/bin/$1-install-thunar <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt update && apt install -y thunar catfish libexo-1-0 dbus-x11 xdg-utils --no-install-recommends && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt install -y thunar catfish libexo-1-0 dbus-x11 xdg-utils --no-install-recommends && apt autopurge -y"
 if [ \$USER == root ]; then INSTALL_USER=u\$SUDO_UID; else INSTALL_USER=u\$UID; fi
 machinectl shell $1 /bin/su - \$INSTALL_USER -c "xdg-mime default Thunar.desktop inode/directory"
 EOF
@@ -465,7 +466,7 @@ chmod 755 /usr/local/bin/$1-thunar
 cat > /usr/local/bin/$1-install-mpv <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt update && apt install -y mpv --no-install-recommends && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt install -y mpv --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-mpv

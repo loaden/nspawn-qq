@@ -221,22 +221,37 @@ systemctl daemon-reload
 
 # 开机启动容器
 sleep 0.3
-machinectl enable $1
+# machinectl enable $1
 # systemctl cat systemd-nspawn@$1.service
 machinectl start $1
 machinectl list
 machinectl show $1
 
 
-# 配置容器权限与绑定
+# 配置容器参数
 cat > /usr/local/bin/$1-config <<EOF
 #!/bin/bash
 
 # 判断容器是否启动
-[[ ! \$(machinectl list | grep $1) ]] && machinectl start $1 && sleep 0.3
+[[ ! \$(machinectl list | grep $1) ]] && machinectl start $1 && sleep 0.2
 
 # 使容器与宿主机使用相同用户目录
 machinectl shell $1 /bin/bash -c "rm -f \$HOME && ln -sf /home/u\$UID \$HOME"
+
+# 启动环境变量
+RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY GTK_IM_MODULE=\$GTK_IM_MODULE XMODIFIERS=\$XMODIFIERS QT_IM_MODULE=\$QT_IM_MODULE BROWSER=Thunar"
+if [[ \$(loginctl show-session \$(loginctl | grep \$USER |awk '{print \$1}') -p Type) == *wayland* ]]; then
+    RUN_ENVIRONMENT="\$RUN_ENVIRONMENT XAUTHORITY=\$XAUTHORITY"
+fi
+EOF
+
+chmod 755 /usr/local/bin/$1-config
+cat /usr/local/bin/$1-config
+
+
+# 容器路径绑定
+cat > /usr/local/bin/$1-bind <<EOF
+#!/bin/bash
 
 # PulseAudio && D-Bus && DConf
 machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/pulse
@@ -258,21 +273,16 @@ machinectl bind --mkdir $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/us
 machinectl bind --mkdir $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
 machinectl bind --read-only --mkdir $1 \$HOME/.local/share/fonts /home/u\$UID/.local/share/fonts
 $(echo "$X11_BIND_AND_CONFIG")
-
-# 启动环境变量
-RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY GTK_IM_MODULE=\$GTK_IM_MODULE XMODIFIERS=\$XMODIFIERS QT_IM_MODULE=\$QT_IM_MODULE BROWSER=Thunar"
-if [[ \$(loginctl show-session \$(loginctl | grep \$USER |awk '{print \$1}') -p Type) == *wayland* ]]; then
-    RUN_ENVIRONMENT="\$RUN_ENVIRONMENT XAUTHORITY=\$XAUTHORITY"
-fi
 EOF
 
-chmod 755 /usr/local/bin/$1-config
-cat /usr/local/bin/$1-config
+chmod 755 /usr/local/bin/$1-bind
+cat /usr/local/bin/$1-bind
 
 
 # 查询应用
 cat > /usr/local/bin/$1-query <<EOF
 #!/bin/bash
+source /usr/local/bin/$1-config
 if [ \$USER == root ]; then QUERY_USER=u\$SUDO_UID; else QUERY_USER=u\$UID; fi
 machinectl shell $1 /bin/su - \$QUERY_USER -c "$(echo "$DISABLE_MITSHM") && ls /usr/share/applications \
     && find /opt -name "*.desktop" \
@@ -289,6 +299,7 @@ chmod 755 /usr/local/bin/$1-query
 # 清理缓存
 cat > /usr/local/bin/$1-clean <<EOF
 #!/bin/bash
+source /usr/local/bin/$1-config
 answer=No
 [[ ! "\$KEEP_QUIET" == "1" ]] && read -p "Delete the '~/.deepinwine' directory? [y/N]" answer
 for i in {1000..1005}; do
@@ -308,6 +319,7 @@ chmod 755 /usr/local/bin/$1-clean
 # 安装QQ
 cat > /usr/local/bin/$1-install-qq <<EOF
 #!/bin/bash
+source /usr/local/bin/$1-config
 $(echo -e "$INSTALL_QQ")
 sudo cp -f /var/lib/machines/$1/opt/apps/com.qq.im.deepin/entries/icons/hicolor/64x64/apps/com.qq.im.deepin.svg /usr/share/pixmaps/
 [ ! -f /usr/share/applications/deepin-qq.desktop ] && sudo bash -c 'cat > /usr/share/applications/deepin-qq.desktop <<$(echo EOF)
@@ -332,6 +344,7 @@ chmod 755 /usr/local/bin/$1-install-qq
 cat > /usr/local/bin/$1-config-qq <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-QQ ~/.deepinwine/deepin-wine5/bin/winecfg"
 EOF
 
@@ -341,6 +354,7 @@ chmod 755 /usr/local/bin/$1-config-qq
 cat > /usr/local/bin/$1-qq <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.qq.im.deepin/entries/applications/com.qq.im.deepin.desktop"
 EOF
 
@@ -351,6 +365,7 @@ chmod 755 /usr/local/bin/$1-qq
 # 安装微信
 cat > /usr/local/bin/$1-install-weixin <<EOF
 #!/bin/bash
+source /usr/local/bin/$1-config
 $(echo -e "$INSTALL_WEIXIN")
 sudo cp -f /var/lib/machines/$1/opt/apps/com.qq.weixin.deepin/entries/icons/hicolor/64x64/apps/com.qq.weixin.deepin.svg /usr/share/pixmaps/
 [ ! -f /usr/share/applications/deepin-weixin.desktop ] && sudo bash -c 'cat > /usr/share/applications/deepin-weixin.desktop <<$(echo EOF)
@@ -376,6 +391,7 @@ chmod 755 /usr/local/bin/$1-install-weixin
 cat > /usr/local/bin/$1-weixin <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.qq.weixin.deepin/entries/applications/com.qq.weixin.deepin.desktop"
 EOF
 
@@ -387,6 +403,7 @@ chmod 755 /usr/local/bin/$1-weixin
 cat > /usr/local/bin/$1-config-ecloud <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-eCloud/ ~/.deepinwine/deepin-wine5/bin/regedit ~/$USER_CLOUDDISK/丽娜/原创/ecloud.reg"
 EOF
 
@@ -396,6 +413,7 @@ chmod 755 /usr/local/bin/$1-config-ecloud
 cat > /usr/local/bin/$1-ecloud <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/cn.189.cloud.deepin/entries/applications/cn.189.cloud.deepin.desktop"
 EOF
 
@@ -406,6 +424,7 @@ chmod 755 /usr/local/bin/$1-ecloud
 # 安装文件管理器
 cat > /usr/local/bin/$1-install-thunar <<EOF
 #!/bin/bash
+source /usr/local/bin/$1-config
 machinectl shell $1 /bin/bash -c "apt update && apt install -y thunar catfish libexo-1-0 dbus-x11 xdg-utils --no-install-recommends && apt autopurge -y"
 if [ \$USER == root ]; then INSTALL_USER=u\$SUDO_UID; else INSTALL_USER=u\$UID; fi
 machinectl shell $1 /bin/su - \$INSTALL_USER -c "xdg-mime default Thunar.desktop inode/directory"
@@ -417,6 +436,7 @@ chmod 755 /usr/local/bin/$1-install-thunar
 cat > /usr/local/bin/$1-thunar <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/Thunar.desktop"
 EOF
 
@@ -427,6 +447,7 @@ chmod 755 /usr/local/bin/$1-thunar
 # 安装MPV
 cat > /usr/local/bin/$1-install-mpv <<EOF
 #!/bin/bash
+source /usr/local/bin/$1-config
 machinectl shell $1 /bin/bash -c "apt update && apt install -y mpv --no-install-recommends && apt autopurge -y"
 EOF
 
@@ -436,6 +457,7 @@ chmod 755 /usr/local/bin/$1-install-mpv
 cat > /usr/local/bin/$1-mpv <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/mpv.desktop"
 EOF
 

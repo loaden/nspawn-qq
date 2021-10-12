@@ -98,6 +98,7 @@ dex \$@
 EOF
 
 chmod 755 /usr/local/bin/$1-start
+echo
 echo cat /usr/local/bin/$1-start
 cat /usr/local/bin/$1-start
 
@@ -120,6 +121,8 @@ chmod 777 \$NSPAWN_LOG_FILE
 EOF
 
 chmod 755 /bin/systemd-nspawn-debug
+echo
+echo /bin/systemd-nspawn-debug
 cat /bin/systemd-nspawn-debug
 
 
@@ -207,6 +210,7 @@ EOF
 
 
 # 查看配置
+echo
 echo cat /etc/systemd/nspawn/$1.nspawn
 cat /etc/systemd/nspawn/$1.nspawn
 echo
@@ -246,6 +250,8 @@ fi
 EOF
 
 chmod 755 /usr/local/bin/$1-config
+echo
+echo cat /usr/local/bin/$1-config
 cat /usr/local/bin/$1-config
 
 
@@ -276,6 +282,8 @@ $(echo "$X11_BIND_AND_CONFIG")
 EOF
 
 chmod 755 /usr/local/bin/$1-bind
+echo
+echo cat /usr/local/bin/$1-bind
 cat /usr/local/bin/$1-bind
 
 
@@ -467,6 +475,7 @@ chmod 755 /usr/local/bin/$1-mpv
 
 # 添加启动器
 machinectl start $1 && sleep 0.5
+echo
 [[ $($1-query | grep com.qq.im.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-qq.desktop ] && $1-install-qq
 [[ $($1-query | grep com.qq.weixin.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-weixin.desktop ] && $1-install-weixin
 [ -f /usr/share/applications/deepin-qq.desktop ] && cat /usr/share/applications/deepin-qq.desktop | grep $1-

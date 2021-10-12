@@ -322,6 +322,16 @@ EOF
 chmod 755 /usr/local/bin/$1-clean
 
 
+# 系统升级
+cat > /usr/local/bin/$1-upgrade <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+machinectl shell $1 /bin/bash -c "apt update && apt upgrade -y && apt autopurge -y"
+EOF
+
+chmod 755 /usr/local/bin/$1-upgrade
+
+
 
 # 安装QQ
 cat > /usr/local/bin/$1-install-qq <<EOF

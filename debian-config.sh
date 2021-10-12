@@ -13,11 +13,11 @@ SOURCES_LIST="echo 'deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster main
 
 IFS='' read -r -d '' INSTALL_QQ <<EOF
 machinectl shell debian /bin/bash -c "[ ! -f /etc/apt/sources.list.d/deepin-wine.i-m.dev.list ] && apt install wget -y && wget -O- https://deepin-wine.i-m.dev/setup.sh | sh"
-machinectl shell debian /bin/bash -c "apt update && apt install -y com.qq.im.deepin x11-utils xterm:i386 && apt autopurge -y"
+machinectl shell debian /bin/bash -c "apt install -y com.qq.im.deepin x11-utils xterm:i386 && apt autopurge -y"
 EOF
 IFS='' read -r -d '' INSTALL_WEIXIN <<EOF
 machinectl shell debian /bin/bash -c "[ ! -f /etc/apt/sources.list.d/deepin-wine.i-m.dev.list ] && apt install wget -y && wget -O- https://deepin-wine.i-m.dev/setup.sh | sh"
-machinectl shell debian /bin/bash -c "apt update && apt install -y com.qq.weixin.deepin x11-utils && apt autopurge -y"
+machinectl shell debian /bin/bash -c "apt install -y com.qq.weixin.deepin x11-utils && apt autopurge -y"
 EOF
 
 
@@ -29,7 +29,7 @@ source `dirname ${BASH_SOURCE[0]}`/base-config.sh debian
 cat > /usr/local/bin/debian-install-terminal <<EOF
 #!/bin/bash
 source /usr/local/bin/debian-config
-machinectl shell debian /bin/bash -c "apt update && apt install -y xfce4-terminal && apt autopurge -y"
+machinectl shell debian /bin/bash -c "apt install -y xfce4-terminal && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/debian-install-terminal

@@ -16,6 +16,13 @@ if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p
     [ -f /bin/dnf ] && [ ! -f /bin/xhost ] && dnf install -y xhost
 fi
 
+# 禁用SELinux
+if [[ -f /bin/sestatus && $(sestatus |grep 'SELinux status:') == *enabled ]]; then
+    sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+    [ -f /etc/selinux/config ] && sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+    echo -e "\033[31m已禁用SELinux！如有需要，可手动开启：sudo sed -i 's/SELINUX=disabled/SELINUX=enforcing/g' /etc/sysconfig/selinux\033[0m"
+    setenforce 0
+fi
 
 # 初始化配置
 EXEC_FROM_CONFIG=1 source `dirname ${BASH_SOURCE[0]}`/remove-$1.sh
@@ -214,7 +221,6 @@ systemctl daemon-reload
 
 # 开机启动容器
 sleep 0.3
-[[ `cat /etc/os-release` == *Fedora* ]] && setenforce 0
 machinectl enable $1
 # systemctl cat systemd-nspawn@$1.service
 machinectl start $1

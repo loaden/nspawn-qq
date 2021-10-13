@@ -504,6 +504,27 @@ chmod 755 /usr/local/bin/$1-mpv
 
 
 
+# 安装LibreOffice
+cat > /usr/local/bin/$1-install-libreoffice <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+machinectl shell $1 /bin/bash -c "apt install -y libreoffice libreoffice-l10n-zh-cn && apt autopurge -y"
+EOF
+
+chmod 755 /usr/local/bin/$1-install-libreoffice
+
+# 启动LibreOffice
+cat > /usr/local/bin/$1-libreoffice <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
+machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/libreoffice-startcenter.desktop"
+EOF
+
+chmod 755 /usr/local/bin/$1-libreoffice
+
+
+
 # 添加启动器
 machinectl start $1 && sleep 0.5
 echo

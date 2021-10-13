@@ -482,6 +482,27 @@ chmod 755 /usr/local/bin/$1-shotwell
 
 
 
+# 安装网页浏览器
+cat > /usr/local/bin/$1-install-chromium <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+machinectl shell $1 /bin/bash -c "apt install -y chromium && apt autopurge -y"
+EOF
+
+chmod 755 /usr/local/bin/$1-install-chromium
+
+# 启动网页浏览器
+cat > /usr/local/bin/$1-chromium <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
+machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/chromium.desktop"
+EOF
+
+chmod 755 /usr/local/bin/$1-chromium
+
+
+
 # 安装MPV
 cat > /usr/local/bin/$1-install-mpv <<EOF
 #!/bin/bash

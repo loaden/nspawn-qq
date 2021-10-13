@@ -158,11 +158,11 @@ NVIDIA_BIND="
 Bind = /dev/nvidia0
 Bind = /dev/nvidiactl
 # Vulkan
-Bind = /dev/nvidia-modeset"
+Bind = /dev/nvidia-modeset
 $([[ $(lsmod | grep nvidia_uvm) ]] && echo \# OpenCL 与 CUDA)
 $([[ $(lsmod | grep nvidia_uvm) ]] && echo Bind = /dev/nvidia-uvm)
 $([[ $(lsmod | grep nvidia_uvm) ]] && echo Bind = /dev/nvidia-uvm-tools)
-
+ "
 
 # 重写启动服务参数，授予访问权限
 cat >> /etc/systemd/system/systemd-nspawn@$1.service.d/override.conf <<EOF

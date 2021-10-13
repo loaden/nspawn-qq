@@ -462,6 +462,27 @@ chmod 755 /usr/local/bin/$1-thunar
 
 
 
+# 安装图片浏览器
+cat > /usr/local/bin/$1-install-shotwell <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+machinectl shell $1 /bin/bash -c "apt install -y shotwell && apt autopurge -y"
+EOF
+
+chmod 755 /usr/local/bin/$1-install-shotwell
+
+# 启动图片浏览器
+cat > /usr/local/bin/$1-shotwell <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
+machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/shotwell.desktop"
+EOF
+
+chmod 755 /usr/local/bin/$1-shotwell
+
+
+
 # 安装MPV
 cat > /usr/local/bin/$1-install-mpv <<EOF
 #!/bin/bash

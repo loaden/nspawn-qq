@@ -296,6 +296,7 @@ machinectl shell $1 /bin/su - \$QUERY_USER -c "$(echo "$DISABLE_MITSHM") && ls /
     && echo && echo query inode/directory && xdg-mime query default inode/directory \
     && echo query video/mp4 && xdg-mime query default video/mp4 \
     && echo query audio/flac && xdg-mime query default audio/flac \
+    && echo query application/pdf && xdg-mime query default application/pdf \
     && echo && echo ldd /bin/bash && ldd /bin/bash | grep SHM \
     && echo ldd /bin/xterm && ldd /bin/xterm | grep SHM"
 EOF
@@ -508,6 +509,8 @@ cat > /usr/local/bin/$1-install-mupdf <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 machinectl shell $1 /bin/bash -c "apt install -y mupdf && apt autopurge -y"
+if [ \$USER == root ]; then INSTALL_USER=u\$SUDO_UID; else INSTALL_USER=u\$UID; fi
+machinectl shell $1 /bin/su - \$INSTALL_USER -c "xdg-mime default mupdf.desktop application/pdf"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-mupdf

@@ -453,7 +453,7 @@ chmod 755 /usr/local/bin/$1-ecloud
 cat > /usr/local/bin/$1-install-thunar <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt install -y thunar thunar-archive-plugin catfish mousepad libexo-1-0 dbus-x11 xdg-utils --no-install-recommends && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt install -y thunar thunar-archive-plugin xarchiver unrar catfish mousepad libexo-1-0 dbus-x11 xdg-utils --no-install-recommends && apt autopurge -y"
 if [ \$USER == root ]; then INSTALL_USER=u\$SUDO_UID; else INSTALL_USER=u\$UID; fi
 machinectl shell $1 /bin/su - \$INSTALL_USER -c "xdg-mime default Thunar.desktop inode/directory"
 EOF

@@ -49,7 +49,6 @@ echo $1 > /etc/hostname
 /sbin/locale-gen
 locale
 $(echo -e "$SOURCES_LIST")
-apt update
 [[ ! \$(cat /etc/securetty | grep pts/0) ]] && echo -e "\n# systemd-container\npts/0\npts/1\npts/2\npts/3\npts/4\npts/5\npts/6\n" >> /etc/securetty
 [[ ! \$(cat /etc/securetty | grep pts/9) ]] && echo -e "pts/7\npts/8\npts/9\n" >> /etc/securetty
 mkdir -p /home/share && chmod 777 /home/share

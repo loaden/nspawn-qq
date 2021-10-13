@@ -162,7 +162,7 @@ Bind = /dev/nvidia-modeset
 $([[ $(lsmod | grep nvidia_uvm) ]] && echo \# OpenCL 与 CUDA)
 $([[ $(lsmod | grep nvidia_uvm) ]] && echo Bind = /dev/nvidia-uvm)
 $([[ $(lsmod | grep nvidia_uvm) ]] && echo Bind = /dev/nvidia-uvm-tools)
- "
+"
 
 # 重写启动服务参数，授予访问权限
 cat >> /etc/systemd/system/systemd-nspawn@$1.service.d/override.conf <<EOF
@@ -197,7 +197,9 @@ Bind = /dev/snd
 Bind = /dev/shm
 Bind = /dev/input
 Bind = /dev/fuse
+
 $(echo "$NVIDIA_BIND")
+
 # 其它
 Bind = /home/share
 Bind = /usr/local/bin/$1-start:/bin/start
@@ -206,6 +208,13 @@ Bind = /usr/local/bin/$1-start:/bin/start
 VirtualEthernet = no
 Private = no
 EOF
+
+
+# 移除多余空行
+for i in {1..5}; do
+    perl -0777 -pi -e 's/\n\n\n/\n\n/g' /etc/systemd/nspawn/$1.nspawn
+    perl -0777 -pi -e 's/\n\n\n/\n\n/g' /etc/systemd/system/systemd-nspawn@$1.service.d/override.conf
+done
 
 
 # 查看配置

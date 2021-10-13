@@ -297,6 +297,7 @@ machinectl shell $1 /bin/su - \$QUERY_USER -c "$(echo "$DISABLE_MITSHM") && ls /
     && echo query video/mp4 && xdg-mime query default video/mp4 \
     && echo query audio/flac && xdg-mime query default audio/flac \
     && echo query application/pdf && xdg-mime query default application/pdf \
+    && echo query image/png && xdg-mime query default image/png \
     && echo && echo ldd /bin/bash && ldd /bin/bash | grep SHM \
     && echo ldd /bin/xterm && ldd /bin/xterm | grep SHM"
 EOF

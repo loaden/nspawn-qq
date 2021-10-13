@@ -503,6 +503,17 @@ chmod 755 /usr/local/bin/$1-chromium
 
 
 
+# 安装PDF浏览器
+cat > /usr/local/bin/$1-install-mupdf <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+machinectl shell $1 /bin/bash -c "apt install -y mupdf && apt autopurge -y"
+EOF
+
+chmod 755 /usr/local/bin/$1-install-mupdf
+
+
+
 # 安装MPV
 cat > /usr/local/bin/$1-install-mpv <<EOF
 #!/bin/bash

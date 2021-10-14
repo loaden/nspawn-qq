@@ -552,7 +552,7 @@ chmod 755 /usr/local/bin/$1-mpv
 cat > /usr/local/bin/$1-install-libreoffice <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt install -y libreoffice-writer libreoffice-impress libreoffice-calc libreoffice-gtk3 libreoffice-l10n-zh-cn --no-install-recommends && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt install -y libreoffice-writer libreoffice-impress libreoffice-calc libreoffice-gtk3 libreoffice-l10n-zh-cn libcanberra-gtk3-0 --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-libreoffice

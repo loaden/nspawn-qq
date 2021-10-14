@@ -1,7 +1,7 @@
 # nspawn-deepinwine
 
 #### 介绍
-利用systemd-nspawn容器跑Deepin 20.2.3或者Debian 10，安装deepinwine，稳定运行QQ、微信、钉钉、深度商店等应用。低内存，高性能，沙盒机制不污染宿主机，支持多用户，理论上可在任何Linux发行版上运行。成功解决MIT-SHM导致的崩溃，好开心！现在很稳定了。
+利用systemd-nspawn容器跑Deepin 20.2.4或者Debian 10，安装deepinwine，稳定运行QQ、微信、钉钉、深度商店等应用。低内存，高性能，沙盒机制不污染宿主机，支持多用户，理论上可在任何Linux发行版上运行。成功解决MIT-SHM导致的崩溃，好开心！现在很稳定了。
 
 #### 软件架构
 软件架构说明：amd64
@@ -16,12 +16,12 @@
 
 1.  在源码库脚本所在路径终端执行命令：sudo -s 获取管理员权限
 2.  执行：./nspawn-debian.sh 安装 Debian 10
-3.  或者：./nspawn-deepin.sh 安装 Deepin 20.2.3
+3.  或者：./nspawn-deepin.sh 安装 Deepin 20.2.4
 4.  也可以：sudo ./nspawn-debian.sh 这种方式
 5.  也可以同时安装两个容器：install.sh
 6.  安装应用，请终端执行：debian-install-qq 或者 deepin-install-qq
-7.  更多应用安装，请查看：ls \*-install-\*
-8.  启动器中查找QQ或者微信启动，也可以终端启动，例如：debian-qq
+7.  更多应用安装，请查看：ls /usr/local/bin/\*-install-\*
+8.  启动器中查找QQ或者微信启动，或终端启动，例如：debian-qq
 9.  卸载软件请先安装终端：debian-install-terminal，之后进终端命令卸载
 
 #### 多系统配置
@@ -35,24 +35,29 @@
 3.  可登录shell，执行：machinectl login debian，用户名u1000，密码passwd
 
 #### 软件列表
-1.  以 deepin 为例罗列应用，更多应用可在应用商店安装或者卸载。
+1.  以 deepin 为例罗列应用，带星号(*)的代表 debian 容器也有。
 2.  非本列表的应用，需要你在商店或者终端安装，然后添加启动脚本。
-3.  欢迎为应用添加启动器图标，期待你的PR。
+3.  如遇到容器中的无法打开链接之类的问题，请为容器安装相关软件。
+4.  终端中启动容器软件后，可以关闭终端窗口。
 
 | 应用名称      | 安装脚本                     | 启动脚本                  |
 | :---        | :----                       | :----                    |
-| QQ          | deepin-install-qq           | deepin-qq                |
-| 微信         | deepin-install-weixin       | deepin-weixin            |
+| QQ*         | deepin-install-qq           | deepin-qq                |
+| 微信*        | deepin-install-weixin       | deepin-weixin            |
+| 终端*        | deepin-install-terminal     | deepin-terminal          |
+| 文件管理器*   | deepin-install-thunar       | deepin-thunar            |
+| 浏览器*      | debian-install-chromium     | deepin-chromium          |
+| LibreOffice*| debian-install-libreoffice  | deepin-libreoffice       |
+| 媒体播放器*   | debian-install-mpv          | deepin-mpv               |
+| 图片浏览*     | debian-install-shotwell     | deepin-shotwell          |
+| PDF阅读*     | debian-install-mupdf        | deepin-mupdf             |
 | 商店         | deepin-install-app-store    | deepin-app-store         |
 | 迅雷         | deepin-install-xunlei       | deepin-xunlei            |
-| 终端         | deepin-install-terminal     | deepin-terminal          |
-| 文件管理器    | deepin-install-thunar       | deepin-thunar            |
 | 金山词霸      | deepin-install-powerword    | deepin-powerword         |
 | 腾讯会议      | deepin-install-wemeet       | deepin-wemeet            |
 | 央视影音      | deepin-install-cbox         | deepin-cbox              |
 | 飞书         | deepin-install-feishu       | deepin-feishu            |
 | 向日葵远程控制 | deepin-install-sunlogin     | deepin-sunlogin          |
-| 视频播放器    | deepin-install-mpv          | deepin-mpv               |
 | 百度网盘      | deepin-install-baidunetdisk | deepin-baidunetdisk      |
 | 腾讯视频      | deepin-install-tenvideo     | deepin-tenvideo          |
 | 反恐精英      | deepin-install-cstrike      | deepin-cstrike           |

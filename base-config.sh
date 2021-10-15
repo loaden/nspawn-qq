@@ -427,6 +427,17 @@ chmod 755 /usr/local/bin/$1-weixin
 
 
 
+# 安装云盘
+cat > /usr/local/bin/$1-install-ecloud <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
+ECLOUD_DEB=/home/u\$UID/\$(basename \$(xdg-user-dir DOWNLOAD))/cn.189.cloud.deepin_6.3.2-1.deb
+machinectl shell $1 /bin/bash -c "dpkg -i '\$ECLOUD_DEB'  && apt install -f && apt-mark hold cn.189.cloud.deepin"
+EOF
+
+chmod 755 /usr/local/bin/$1-install-ecloud
+
 # 配置云盘
 cat > /usr/local/bin/$1-config-ecloud <<EOF
 #!/bin/bash

@@ -46,11 +46,11 @@
 | 微信*        | deepin-install-weixin       | deepin-weixin            |
 | 终端*        | deepin-install-terminal     | deepin-terminal          |
 | 文件管理器*   | deepin-install-thunar       | deepin-thunar            |
-| 浏览器*      | debian-install-chromium     | deepin-chromium          |
-| LibreOffice*| debian-install-libreoffice  | deepin-libreoffice       |
-| 媒体播放器*   | debian-install-mpv          | deepin-mpv               |
-| 图片浏览*     | debian-install-shotwell     | deepin-shotwell          |
-| PDF阅读*     | debian-install-mupdf        | deepin-mupdf             |
+| 浏览器*      | deepin-install-chromium     | deepin-chromium          |
+| LibreOffice*| deepin-install-libreoffice  | deepin-libreoffice       |
+| 媒体播放器*   | deepin-install-mpv          | deepin-mpv               |
+| 图片浏览*     | deepin-install-shotwell     | deepin-shotwell          |
+| PDF阅读*     | deepin-install-mupdf        | deepin-mupdf             |
 | 商店         | deepin-install-app-store    | deepin-app-store         |
 | 迅雷         | deepin-install-xunlei       | deepin-xunlei            |
 | 金山词霸      | deepin-install-powerword    | deepin-powerword         |

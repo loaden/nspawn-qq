@@ -148,7 +148,7 @@ EOF
 
 # Nvidia显卡专用绑定
 NVIDIA_BIND=
-if [[ $(lspci -k |egrep -A2 VGA\|3D) == *nvidia* ]]; then
+if [[ $(lspci -k | egrep -A2 "VGA|3D" | grep 'Kernel driver in use') == *nvidia ]]; then
 NVIDIA_BIND="
 # NVIDIA
 # 视情况而定
@@ -157,8 +157,8 @@ NVIDIA_BIND="
 # OpenGL 与 nvidia-smi
 Bind = /dev/nvidia0
 Bind = /dev/nvidiactl
-# Vulkan
-Bind = /dev/nvidia-modeset
+$([[ $(lsmod | grep nvidia_modeset) ]] && echo \# Vulkan)
+$([[ $(lsmod | grep nvidia_modeset) ]] && echo Bind = /dev/nvidia-modeset)
 $([[ $(lsmod | grep nvidia_uvm) ]] && echo \# OpenCL 与 CUDA)
 $([[ $(lsmod | grep nvidia_uvm) ]] && echo Bind = /dev/nvidia-uvm)
 $([[ $(lsmod | grep nvidia_uvm) ]] && echo Bind = /dev/nvidia-uvm-tools)
@@ -170,8 +170,8 @@ cat >> /etc/systemd/system/systemd-nspawn@$1.service.d/override.conf <<EOF
 # nvidia-smi 需要
 DeviceAllow=/dev/nvidiactl rw
 DeviceAllow=/dev/nvidia0 rw
-# Vulkan 需要
-DeviceAllow=/dev/nvidia-modeset rw
+$([[ $(lsmod | grep nvidia_modeset) ]] && echo \# Vulkan 需要)
+$([[ $(lsmod | grep nvidia_modeset) ]] && echo DeviceAllow=/dev/nvidia-modeset rw)
 $([[ $(lsmod | grep nvidia_uvm) ]] && echo \# OpenCL 需要)
 $([[ $(lsmod | grep nvidia_uvm) ]] && echo DeviceAllow=/dev/nvidia-uvm rw)
 $([[ $(lsmod | grep nvidia_uvm) ]] && echo DeviceAllow=/dev/nvidia-uvm-tools rw)

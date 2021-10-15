@@ -43,3 +43,19 @@ machinectl shell debian /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/
 EOF
 
 chmod 755 /usr/local/bin/debian-terminal
+
+
+# 安装所有
+cat > /usr/local/bin/debian-install-all <<EOF
+debian-install-qq
+debian-install-weixin
+debian-install-terminal
+debian-install-thunar
+debian-install-chromium
+debian-install-libreoffice
+debian-install-mpv
+debian-install-shotwell
+debian-install-mupdf
+EOF
+
+chmod 755 /usr/local/bin/debian-install-all

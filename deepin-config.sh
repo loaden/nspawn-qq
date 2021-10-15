@@ -27,7 +27,7 @@ source `dirname ${BASH_SOURCE[0]}`/base-config.sh deepin
 cat > /usr/local/bin/deepin-install-terminal <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y lxterminal deepin-desktop-base --no-install-recommends && update-alternatives --set x-terminal-emulator /usr/bin/lxterminal && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y lxterminal libcanberra-gtk3-module deepin-desktop-base --no-install-recommends && update-alternatives --set x-terminal-emulator /usr/bin/lxterminal && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-terminal

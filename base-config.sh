@@ -443,7 +443,7 @@ cat > /usr/local/bin/$1-config-ecloud <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
-machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-eCloud/ ~/.deepinwine/deepin-wine5/bin/regedit ~/$USER_CLOUDDISK/丽娜/原创/ecloud.reg"
+machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-eCloud/ ~/.deepinwine/deepin-wine5/bin/regedit ~/$USER_DOWNLOAD/ecloud.reg"
 EOF
 
 chmod 755 /usr/local/bin/$1-config-ecloud

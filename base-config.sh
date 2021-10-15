@@ -248,7 +248,7 @@ cat > /usr/local/bin/$1-config <<EOF
 [[ ! \$(machinectl list | grep $1) ]] && machinectl start $1 && sleep 0.5
 
 # 使容器与宿主机使用相同用户目录
-#[ \$USER != root ] && machinectl shell $1 /bin/bash -c "rm -f \$HOME && ln -sf /home/u\$UID \$HOME"
+[ \$USER != root ] && machinectl shell $1 /bin/bash -c "find /home -maxdepth 1 -type l -delete && ln -sf /home/u\$UID /home/\$USER && chown u\$UID:u\$UID /home/\$USER"
 
 # 启动环境变量
 INPUT_ENGINE=\$(echo \$XMODIFIERS | awk -F "=" '/@im=/ {print \$ 2}')

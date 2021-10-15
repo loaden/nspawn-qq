@@ -38,6 +38,20 @@ source `dirname ${BASH_SOURCE[0]}`/polkit.sh
 source `dirname ${BASH_SOURCE[0]}`/user-dirs.sh
 
 
+# 设置容器目录权限
+cat > /lib/systemd/system/nspawn-$1.service <<EOF
+chmod 0777 /var/lib/machines/$1
+[Service]
+Type=simple
+ExecStart=/bin/bash -c "chmod 0755 /var/lib/machines/$1"
+[Install]
+WantedBy=machines.target
+After=machines.target
+EOF
+
+systemctl enable nspawn-$1.service
+
+
 # 配置容器
 [[ $(machinectl list) =~ $1 ]] && machinectl stop $1
 mkdir -p /home/share && chmod 777 /home/share

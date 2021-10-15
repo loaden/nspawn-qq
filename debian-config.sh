@@ -29,7 +29,7 @@ source `dirname ${BASH_SOURCE[0]}`/base-config.sh debian
 cat > /usr/local/bin/debian-install-terminal <<EOF
 #!/bin/bash
 source /usr/local/bin/debian-config
-machinectl shell debian /bin/bash -c "apt install -y xfce4-terminal && apt autopurge -y"
+machinectl shell debian /bin/bash -c "apt install -y xfce4-terminal libcanberra-gtk3-module --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/debian-install-terminal

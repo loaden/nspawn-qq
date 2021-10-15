@@ -263,7 +263,7 @@ cat > /usr/local/bin/$1-config <<EOF
 [[ ! \$(machinectl list | grep $1) ]] && machinectl start $1 && sleep 0.5
 
 # 使容器与宿主机使用相同用户目录
-[ \$USER != root ] && machinectl shell $1 /bin/bash -c "find /home -maxdepth 1 -type l -delete && ln -s /home/u\$UID /home/\$USER && chown u\$UID:u\$UID /home/\$USER"
+[ \$USER != root ] && machinectl shell $1 /bin/bash -c "rm -f /home/\$USER && ln -s /home/u\$UID /home/\$USER && chown u\$UID:u\$UID /home/\$USER"
 
 # 启动环境变量
 INPUT_ENGINE=\$(echo \$XMODIFIERS | awk -F "=" '/@im=/ {print \$ 2}')
@@ -338,12 +338,12 @@ answer=No
 [[ ! "\$KEEP_QUIET" == "1" ]] && read -p "Delete the '~/.deepinwine' directory? [y/N]" answer
 for i in {1000..1005}; do
     if [[ \${answer^^} == Y || \${answer^^} == YES ]]; then
-        machinectl shell $1 /bin/bash -c "rm -rf /home/u\$i/.deepinwine /home/u\$i/.cache/* && du -hd1 /home/u\$i"
-    else
-        machinectl shell $1 /bin/bash -c "rm -rf /home/u\$i/.cache/* && du -hd1 /home/u\$i"
+        machinectl shell $1 /bin/bash -c "rm -rf /home/u\$i/.deepinwine"
     fi
+    machinectl shell $1 /bin/bash -c "rm -rf /home/u\$i/.cache/* && ls /home/u\$i/.config | grep -v user-dirs | xargs rm -rf && ls /home/u\$i/.local/share | grep -v fonts | xargs rm -rf && du -hd1 /home/u\$i"
 done
-machinectl shell $1 /bin/bash -c "apt clean && df -h && du -hd0 /opt /home /var /usr"
+machinectl shell $1 /bin/bash -c "find /home -maxdepth 1 -type l -delete && apt clean && df -h && du -hd0 /opt /home /var /usr"
+[[ \$(machinectl list) =~ $1 ]] && machinectl stop $1
 EOF
 
 chmod 755 /usr/local/bin/$1-clean

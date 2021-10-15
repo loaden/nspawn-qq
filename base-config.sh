@@ -248,7 +248,7 @@ cat > /usr/local/bin/$1-config <<EOF
 [[ ! \$(machinectl list | grep $1) ]] && machinectl start $1 && sleep 0.5
 
 # 使容器与宿主机使用相同用户目录
-[ \$USER != root ] && machinectl shell $1 /bin/bash -c "rm -f \$HOME && ln -sf /home/u\$UID \$HOME"
+#[ \$USER != root ] && machinectl shell $1 /bin/bash -c "rm -f \$HOME && ln -sf /home/u\$UID \$HOME"
 
 # 启动环境变量
 RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY GTK_IM_MODULE=\$GTK_IM_MODULE XMODIFIERS=\$XMODIFIERS QT_IM_MODULE=\$QT_IM_MODULE BROWSER=Thunar"

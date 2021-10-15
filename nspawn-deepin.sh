@@ -13,8 +13,8 @@ fi
 [ -f /bin/pacman ] && pacman -S --noconfirm --needed debootstrap
 [ -f /bin/dnf ] && dnf install -y systemd-container debootstrap
 mkdir -p /home/$SUDO_USER/.machines/deepin
-ln -sf /home/$SUDO_USER/.machines/deepin /var/lib/machines/deepin
-ln -sf /usr/share/debootstrap/scripts/stable /usr/share/debootstrap/scripts/apricot
+ln -s /home/$SUDO_USER/.machines/deepin /var/lib/machines/deepin
+ln -s /usr/share/debootstrap/scripts/stable /usr/share/debootstrap/scripts/apricot
 debootstrap --include=systemd-container,dex,sudo,locales,dialog,fonts-noto-core,fonts-noto-cjk,neofetch,pulseaudio,bash-completion --no-check-gpg apricot /var/lib/machines/deepin https://community-packages.deepin.com/deepin
 
 

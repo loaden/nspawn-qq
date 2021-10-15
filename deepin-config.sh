@@ -383,3 +383,35 @@ machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/c
 EOF
 
 chmod 755 /usr/local/bin/deepin-baoweiluobo
+
+
+# 安装所有
+cat > /usr/local/bin/deepin-install-all <<EOF
+deepin-install-qq
+deepin-install-weixin
+deepin-install-terminal
+deepin-install-thunar
+deepin-install-chromium
+deepin-install-libreoffice
+deepin-install-mpv
+deepin-install-shotwell
+deepin-install-mupdf
+deepin-install-app-store
+deepin-install-xunlei
+deepin-install-powerword
+deepin-install-wemeet
+deepin-install-cbox
+deepin-install-feishu
+deepin-install-sunlogin
+deepin-install-baidunetdisk
+deepin-install-tenvideo
+deepin-install-cstrike
+deepin-install-foxwq
+deepin-install-dingtalk-wine
+deepin-install-dingtalk
+deepin-install-work-weixin
+deepin-install-wesing
+deepin-install-baoweiluobo
+EOF
+
+chmod 755 /usr/local/bin/deepin-install-all

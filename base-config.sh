@@ -251,7 +251,8 @@ cat > /usr/local/bin/$1-config <<EOF
 #[ \$USER != root ] && machinectl shell $1 /bin/bash -c "rm -f \$HOME && ln -sf /home/u\$UID \$HOME"
 
 # 启动环境变量
-RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY GTK_IM_MODULE=\$GTK_IM_MODULE XMODIFIERS=\$XMODIFIERS QT_IM_MODULE=\$QT_IM_MODULE BROWSER=Thunar"
+INPUT_ENGINE=\$(echo \$XMODIFIERS | awk -F "=" '/@im=/ {print \$ 2}')
+RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY XMODIFIERS=\$XMODIFIERS INPUT_METHOD=\$INPUT_ENGINE GTK_IM_MODULE=\$INPUT_ENGINE QT_IM_MODULE=\$INPUT_ENGINE QT4_IM_MODULE=\$INPUT_ENGINE SDL_IM_MODULE=\$INPUT_ENGINE BROWSER=Thunar"
 if [[ \$(loginctl show-session \$(loginctl | grep \$USER |awk '{print \$1}') -p Type) == *wayland* ]]; then
     RUN_ENVIRONMENT="\$RUN_ENVIRONMENT XAUTHORITY=\$XAUTHORITY"
 fi

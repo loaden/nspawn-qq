@@ -26,7 +26,7 @@ fi
 
 # 初始化配置
 EXEC_FROM_CONFIG=1 source `dirname ${BASH_SOURCE[0]}`/remove-$1.sh
-ln -sf /home/$SUDO_USER/.machines/$1 /var/lib/machines/$1
+ln -s /home/$SUDO_USER/.machines/$1 /var/lib/machines/
 [ ! -d /usr/local/bin ] && mkdir /usr/local/bin
 
 
@@ -133,9 +133,10 @@ cat > /etc/systemd/system/systemd-nspawn@$1.service.d/override.conf <<EOF
 [Unit]
 After=systemd-hostnamed.service
 [Service]
-ExecStartPost=systemd-nspawn-debug
+ExecStartPre=chmod 0755 /var/lib/machines/%i
 ExecStart=
 ExecStart=systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --network-veth -U --settings=override --machine=%i --setenv=LANGUAGE=zh_CN:zh --property=DeviceAllow='/dev/dri rw' --property=DeviceAllow='/dev/snd rw' --property=DeviceAllow='char-drm rwm' --property=DeviceAllow='/dev/shm rw' --property=DeviceAllow='char-input r'
+ExecStartPost=systemd-nspawn-debug
 # GPU etc.
 DeviceAllow=/dev/dri rw
 DeviceAllow=/dev/snd rw
@@ -248,7 +249,7 @@ cat > /usr/local/bin/$1-config <<EOF
 [[ ! \$(machinectl list | grep $1) ]] && machinectl start $1 && sleep 0.5
 
 # 使容器与宿主机使用相同用户目录
-[ \$USER != root ] && machinectl shell $1 /bin/bash -c "find /home -maxdepth 1 -type l -delete && ln -sf /home/u\$UID /home/\$USER && chown u\$UID:u\$UID /home/\$USER"
+[ \$USER != root ] && machinectl shell $1 /bin/bash -c "find /home -maxdepth 1 -type l -delete && ln -s /home/u\$UID /home/\$USER && chown u\$UID:u\$UID /home/\$USER"
 
 # 启动环境变量
 INPUT_ENGINE=\$(echo \$XMODIFIERS | awk -F "=" '/@im=/ {print \$ 2}')

@@ -3,8 +3,7 @@
 #### 介绍
 利用systemd-nspawn容器跑Deepin 20.2.4或者Debian 10，安装deepinwine，稳定运行QQ、微信、钉钉、深度商店等应用。低内存，高性能，沙盒机制不污染宿主机，支持多用户，理论上可在任何Linux发行版上运行。成功解决MIT-SHM导致的崩溃，好开心！现在很稳定了。
 
-#### <font color=#FF0000>技术支持QQ群：19346666、111601117</font>
-<br>
+<p>技术支持QQ群：19346666、111601117</p>
 
 #### 软件架构
 软件架构说明：amd64
@@ -35,7 +34,7 @@
 #### 高级用法
 1.  如果稳定性不佳，请同时禁用宿主机和容器的MIT-SHM扩展：sudo DISABLE_HOST_MITSHM=1 ./nspawn-config.sh
 2.  注意：禁用宿主机MIT-SHM后，需要重启电脑才生效！
-3.  可登录shell，执行：machinectl login debian，<font color=#FF0000>用户名u1000，密码passwd</font>
+3.  可登录shell，执行：machinectl login debian，<b>用户名u1000，密码passwd</b>
 
 #### 软件列表
 1.  以 deepin 为例罗列应用，带星号(*)的代表 debian 容器也有。

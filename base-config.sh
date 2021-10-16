@@ -7,6 +7,18 @@ if [ $UID != 0 -o ”$SUDO_USER“ == "root" ]; then
     exit 1
 fi
 
+# 多用户支持选项：启用动态绑定
+[[ ! $MULTIUSER_SUPPORT ]] && MULTIUSER_SUPPORT=1
+
+# systemd 247 bug 解决方案，禁止多用户支持，去除动态绑定
+# 详见：https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1816433.html
+if [[ $MULTIUSER_SUPPORT = 1 && $(systemd --version | grep systemd) =~ 247 ]]; then
+    MULTIUSER_SUPPORT=0
+    echo -e "\033[31m当前 systemd 有bug，不支持多用户动态绑定，已强制启用单用户模式。"
+    systemd --version | grep systemd
+    echo -e "\033[0m"
+fi
+
 # 必备软件包
 [ -f /bin/apt ] && [ ! -f /bin/machinectl ] && apt install -y systemd-container
 [ -f /bin/dnf ] && [ ! -f /bin/machinectl ] && dnf install -y systemd-container
@@ -88,16 +100,23 @@ sleep 0.5
 source `dirname ${BASH_SOURCE[0]}`/xnoshm.sh $1
 
 
+# 确保宿主机当前用户相关目录或文件存在
+su - $SUDO_USER -c "mkdir -p /home/$SUDO_USER/.local/share/fonts"
+su - $SUDO_USER -c "touch /home/$SUDO_USER/.config/user-dirs.dirs"
+su - $SUDO_USER -c "touch /home/$SUDO_USER/.config/user-dirs.locale"
+
+
 # 配置启动环境变量
 if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` == *wayland* ]]; then
 X11_BIND_AND_CONFIG="# Xauthority
 machinectl bind --read-only --mkdir $1 \$XAUTHORITY
-[ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$XAUTHORITY"
+[ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$XAUTHORITY
+"
 else
 X11_BIND_AND_CONFIG="# Xauthority
 machinectl bind --read-only --mkdir $1 \$XAUTHORITY /home/u\$UID/.Xauthority
 [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$XAUTHORITY /home/u\$UID/.Xauthority
-xhost +local:"
+"
 DESKTOP_ENVIRONMENT="
 export XAUTHORITY=/home/u\$UID/.Xauthority
 "
@@ -193,6 +212,43 @@ EOF
 fi
 
 
+# 静态绑定
+if [ $MULTIUSER_SUPPORT = 0 ]; then
+    if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` == *wayland* ]]; then
+        STATIC_XAUTHORITY_BIND="BindReadOnly = $XAUTHORITY"
+    else
+        STATIC_XAUTHORITY_BIND="BindReadOnly = $XAUTHORITY:/home/u$UID/.Xauthority"
+    fi
+
+    [ -d /home/$SUDO_USER/$USER_CLOUDDISK ] && STATIC_CLOUDDISK_BIND="Bind = /home/$SUDO_USER/$USER_CLOUDDISK:/home/u$SUDO_UID/$USER_CLOUDDISK"
+    [ -f /home/$SUDO_USER/.config/user-dirs.dirs ] && STATIC_USERDIRS_BIND="Bind = /home/$SUDO_USER/.config/user-dirs.dirs:/home/u$SUDO_UID/.config/user-dirs.dirs"
+    [ -f /home/$SUDO_USER/.config/user-dirs.locale ] && STATIC_USERLOCALE_BIND="Bind = /home/$SUDO_USER/.config/user-dirs.locale:/home/u$SUDO_UID/.config/user-dirs.locale"
+    [ -d /home/$SUDO_USER/.local/share/fonts ] && STATIC_FONTS_BIND="Bind = /home/$SUDO_USER/.local/share/fonts:/home/u$SUDO_UID/.local/share/fonts"
+
+    STATIC_BIND="# 单用户模式：静态绑定
+#---------------
+# PulseAudio && D-Bus && DConf
+BindReadOnly = /run/user/$SUDO_UID/pulse
+BindReadOnly = /run/user/$SUDO_UID/bus
+Bind = /run/user/$SUDO_UID/dconf
+#---------------
+# 主目录
+Bind = /home/$SUDO_USER/$USER_DOCUMENTS:/home/u$SUDO_UID/$USER_DOCUMENTS
+Bind = /home/$SUDO_USER/$USER_DOWNLOAD:/home/u$SUDO_UID/$USER_DOWNLOAD
+Bind = /home/$SUDO_USER/$USER_DESKTOP:/home/u$SUDO_UID/$USER_DESKTOP
+Bind = /home/$SUDO_USER/$USER_PICTURES:/home/u$SUDO_UID/$USER_PICTURES
+Bind = /home/$SUDO_USER/$USER_VIDEOS:/home/u$SUDO_UID/$USER_VIDEOS
+Bind = /home/$SUDO_USER/$USER_MUSIC:/home/u$SUDO_UID/$USER_MUSIC
+#---------------
+# 其它文件或目录
+$(echo "$STATIC_USERDIRS_BIND")
+$(echo "$STATIC_USERLOCALE_BIND")
+$(echo "$STATIC_FONTS_BIND")
+$(echo "$STATIC_CLOUDDISK_BIND")
+"
+fi
+
+
 # 创建容器配置文件
 [[ $(machinectl list) =~ $1 ]] && machinectl stop $1
 mkdir -p /etc/systemd/nspawn
@@ -213,6 +269,7 @@ Bind = /dev/input
 Bind = /dev/fuse
 
 $(echo "$NVIDIA_BIND")
+$(echo "$STATIC_BIND")
 
 # 其它
 Bind = /home/share
@@ -255,6 +312,7 @@ machinectl show $1
 
 
 # 配置容器参数
+[[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` != *wayland* ]] && XHOST_AUTH="xhost +local:"
 cat > /usr/local/bin/$1-config <<EOF
 #!/bin/bash
 
@@ -270,7 +328,14 @@ RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY XMODIFIERS=\$XMODIFIERS INPUT_MET
 if [[ \$(loginctl show-session \$(loginctl | grep \$USER |awk '{print \$1}') -p Type) == *wayland* ]]; then
     RUN_ENVIRONMENT="\$RUN_ENVIRONMENT XAUTHORITY=\$XAUTHORITY"
 fi
+
+$(echo $XHOST_AUTH)
 EOF
+
+# 移除多余空行
+for i in {1..3}; do
+    perl -0777 -pi -e 's/\n\n\n/\n\n/g' /usr/local/bin/$1-config
+done
 
 chmod 755 /usr/local/bin/$1-config
 echo
@@ -279,6 +344,11 @@ cat /usr/local/bin/$1-config
 
 
 # 容器路径绑定
+if [ $MULTIUSER_SUPPORT = 0 ]; then
+cat > /usr/local/bin/$1-bind <<EOF
+#!/bin/bash
+EOF
+else
 cat > /usr/local/bin/$1-bind <<EOF
 #!/bin/bash
 
@@ -297,12 +367,21 @@ machinectl bind --mkdir $1 \$HOME/$USER_DESKTOP /home/u\$UID/$USER_DESKTOP
 machinectl bind --mkdir $1 \$HOME/$USER_PICTURES /home/u\$UID/$USER_PICTURES
 machinectl bind --mkdir $1 \$HOME/$USER_VIDEOS /home/u\$UID/$USER_VIDEOS
 machinectl bind --mkdir $1 \$HOME/$USER_MUSIC /home/u\$UID/$USER_MUSIC
+
+# 其它目录和文件
 [ -d \$HOME/$USER_CLOUDDISK ] && machinectl bind --mkdir $1 \$HOME/$USER_CLOUDDISK /home/u\$UID/$USER_CLOUDDISK
-machinectl bind --mkdir $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
-machinectl bind --mkdir $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
-machinectl bind --read-only --mkdir $1 \$HOME/.local/share/fonts /home/u\$UID/.local/share/fonts
+[ -f \$HOME/.config/user-dirs.dirs ] && machinectl bind --mkdir $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
+[ -f \$HOME/.config/user-dirs.locale ] && machinectl bind --mkdir $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
+[ -d \$HOME/.local/share/fonts ] && machinectl bind --read-only --mkdir $1 \$HOME/.local/share/fonts /home/u\$UID/.local/share/fonts
+
 $(echo "$X11_BIND_AND_CONFIG")
 EOF
+fi
+
+# 移除多余空行
+for i in {1..3}; do
+    perl -0777 -pi -e 's/\n\n\n/\n\n/g' /usr/local/bin/$1-bind
+done
 
 chmod 755 /usr/local/bin/$1-bind
 echo

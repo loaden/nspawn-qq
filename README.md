@@ -34,6 +34,8 @@
 1.  如果稳定性不佳，请同时禁用宿主机和容器的MIT-SHM扩展：sudo DISABLE_HOST_MITSHM=1 ./nspawn-config.sh
 2.  注意：禁用宿主机MIT-SHM后，需要重启电脑才生效！
 3.  可登录shell，执行：machinectl login debian，<b>用户名u1000，密码passwd</b>
+4.  可禁止多用户模式：sudo MULTIUSER_SUPPORT=0 ./deepin-config.sh
+5.  注意：Debian 11 以及 Ubuntu 21.10 等系统因 systemd 247 版本存在 bug，将自动禁用多用户模式。
 
 #### 软件列表
 1.  以 deepin 为例罗列应用，带星号(*)的代表 debian 容器也有。

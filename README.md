@@ -8,14 +8,11 @@
 #### 软件架构
 软件架构说明：amd64
 
-
 #### 安装教程
-
 1.  下载或者克隆源码库
 2.  终端打开源码库所在路径
 
 #### 使用说明
-
 1.  执行：sudo ./nspawn-debian.sh 安装 Debian 10
 2.  或者：sudo ./nspawn-deepin.sh 安装 Deepin 20.2.4
 3.  也可以同时安装两个容器：sudo ./install.sh
@@ -28,6 +25,10 @@
 1.  自动安装的容器支持多系统共享，请提前做好 ~/.machines 的软链接
 2.  管理员权限执行：sudo ./debian-config.sh 或者 sudo ./deepin-config.sh
 3.  如果同时配置两个容器，可以终端管理员权限执行：sudo ./config.sh
+
+#### 升级方法
+1.  管理员权限执行：sudo ./debian-config.sh 或者 sudo ./deepin-config.sh
+2.  如果同时升级两个容器，可以终端管理员权限执行：sudo ./config.sh
 
 #### 高级用法
 1.  如果稳定性不佳，请同时禁用宿主机和容器的MIT-SHM扩展：sudo DISABLE_HOST_MITSHM=1 ./nspawn-config.sh
@@ -70,7 +71,6 @@
 | 更多...      | 欢迎...                      | PR...                    |
 
 #### 参与贡献
-
 1.  Fork 本仓库
 2.  新建 Feat_xxx 分支
 3.  提交代码

@@ -399,8 +399,7 @@ cat /usr/local/bin/$1-bind
 cat > /usr/local/bin/$1-query <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-if [ \$USER == root ]; then QUERY_USER=u\$SUDO_UID; else QUERY_USER=u\$UID; fi
-machinectl shell $1 /bin/su - \$QUERY_USER -c "$(echo "$DISABLE_MITSHM") && ls /usr/share/applications \
+machinectl shell $1 /bin/su - u\$UID -c "$(echo "$DISABLE_MITSHM") && ls /usr/share/applications \
     && find /opt -name "*.desktop" \
     && echo && echo query inode/directory && xdg-mime query default inode/directory \
     && echo query video/mp4 && xdg-mime query default video/mp4 \
@@ -566,8 +565,7 @@ cat > /usr/local/bin/$1-install-thunar <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 machinectl shell $1 /bin/bash -c "apt install -y thunar thunar-archive-plugin xarchiver unrar catfish mousepad:i386 libexo-1-0 dbus-x11 xdg-utils --no-install-recommends && apt autopurge -y"
-if [ \$USER == root ]; then INSTALL_USER=u\$SUDO_UID; else INSTALL_USER=u\$UID; fi
-machinectl shell $1 /bin/su - \$INSTALL_USER -c "xdg-mime default Thunar.desktop inode/directory"
+machinectl shell $1 /bin/su - u\$UID -c "xdg-mime default Thunar.desktop inode/directory"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-thunar
@@ -631,8 +629,7 @@ cat > /usr/local/bin/$1-install-mupdf <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 machinectl shell $1 /bin/bash -c "apt install -y mupdf && apt autopurge -y"
-if [ \$USER == root ]; then INSTALL_USER=u\$SUDO_UID; else INSTALL_USER=u\$UID; fi
-machinectl shell $1 /bin/su - \$INSTALL_USER -c "xdg-mime default mupdf.desktop application/pdf"
+machinectl shell $1 /bin/su - u\$UID -c "xdg-mime default mupdf.desktop application/pdf"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-mupdf

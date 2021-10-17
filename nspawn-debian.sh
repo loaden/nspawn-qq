@@ -22,9 +22,9 @@ source `dirname ${BASH_SOURCE[0]}`/debian-config.sh
 
 
 # 默认安装
-debian-install-terminal
-debian-install-thunar
-debian-install-qq
+su -w DISPLAY - $SUDO_USER -c "debian-install-terminal"
+su -w DISPLAY - $SUDO_USER -c "debian-install-thunar"
+su -w DISPLAY - $SUDO_USER -c "debian-install-qq"
 
 # 清理
-KEEP_QUIET=1 debian-clean
+su -w DISPLAY - $SUDO_USER -c "KEEP_QUIET=1 debian-clean"

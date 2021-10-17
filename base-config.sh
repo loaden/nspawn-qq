@@ -450,8 +450,8 @@ cat > /usr/local/bin/$1-install-qq <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 $(echo -e "$INSTALL_QQ")
-sudo cp -f /var/lib/machines/$1/opt/apps/com.qq.im.deepin/entries/icons/hicolor/64x64/apps/com.qq.im.deepin.svg /usr/share/pixmaps/
-[ ! -f /usr/share/applications/deepin-qq.desktop ] && sudo bash -c 'cat > /usr/share/applications/deepin-qq.desktop <<$(echo EOF)
+[ ! /usr/share/pixmaps/com.qq.im.deepin.svg ] && sudo -S cp -f /var/lib/machines/$1/opt/apps/com.qq.im.deepin/entries/icons/hicolor/64x64/apps/com.qq.im.deepin.svg /usr/share/pixmaps/
+[ ! -f /usr/share/applications/deepin-qq.desktop ] && sudo -S bash -c 'cat > /usr/share/applications/deepin-qq.desktop <<$(echo EOF)
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
@@ -496,8 +496,8 @@ cat > /usr/local/bin/$1-install-weixin <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 $(echo -e "$INSTALL_WEIXIN")
-sudo cp -f /var/lib/machines/$1/opt/apps/com.qq.weixin.deepin/entries/icons/hicolor/64x64/apps/com.qq.weixin.deepin.svg /usr/share/pixmaps/
-[ ! -f /usr/share/applications/deepin-weixin.desktop ] && sudo bash -c 'cat > /usr/share/applications/deepin-weixin.desktop <<$(echo EOF)
+[ ! /usr/share/pixmaps/com.qq.weixin.deepin.svg ] && sudo -S cp -f /var/lib/machines/$1/opt/apps/com.qq.weixin.deepin/entries/icons/hicolor/64x64/apps/com.qq.weixin.deepin.svg /usr/share/pixmaps/
+[ ! -f /usr/share/applications/deepin-weixin.desktop ] && sudo -S bash -c 'cat > /usr/share/applications/deepin-weixin.desktop <<$(echo EOF)
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
@@ -684,8 +684,8 @@ chmod 755 /usr/local/bin/$1-libreoffice
 # 添加启动器
 machinectl start $1 && sleep 0.5
 echo
-[[ $($1-query | grep com.qq.im.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-qq.desktop ] && $1-install-qq
-[[ $($1-query | grep com.qq.weixin.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-weixin.desktop ] && $1-install-weixin
+[[ $(su -w DISPLAY - $SUDO_USER -c "$1-query" | grep com.qq.im.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-qq.desktop ] && su -w DISPLAY - $SUDO_USER -c "$1-install-qq"
+[[ $(su -w DISPLAY - $SUDO_USER -c "$1-query" | grep com.qq.weixin.deepin.desktop) ]] && [ ! -f /usr/share/applications/deepin-weixin.desktop ] && su -w DISPLAY - $SUDO_USER -c "$1-install-weixin"
 [ -f /usr/share/applications/deepin-qq.desktop ] && cat /usr/share/applications/deepin-qq.desktop | grep $1-
 [ -f /usr/share/applications/deepin-weixin.desktop ] && cat /usr/share/applications/deepin-weixin.desktop | grep $1-
 

@@ -316,6 +316,12 @@ machinectl show $1
 cat > /usr/local/bin/$1-config <<EOF
 #!/bin/bash
 
+# 不能单独执行提醒
+if [[ \$(basename \$0) == $1-config ]]; then
+    echo "'\$(which \$(basename \$0))' 命令不能单独执行，如果你要配置容器，请添加脚本路径执行：./\$(basename \$0).sh"
+    exit 1
+fi
+
 # 仅允许普通用户权限执行
 if [[ \$EUID == 0 ]]; then
     echo "'`basename $0`' 命令只允许普通用户执行"

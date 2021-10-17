@@ -23,9 +23,9 @@ source `dirname ${BASH_SOURCE[0]}`/deepin-config.sh
 
 
 # 默认安装
-deepin-install-terminal
-deepin-install-thunar
-deepin-install-qq
+su -w DISPLAY - $SUDO_USER -c "deepin-install-terminal"
+su -w DISPLAY - $SUDO_USER -c "deepin-install-thunar"
+su -w DISPLAY - $SUDO_USER -c "deepin-install-qq"
 
 # 清理
-KEEP_QUIET=1 deepin-clean
+su -w DISPLAY - $SUDO_USER -c "KEEP_QUIET=1 deepin-clean"

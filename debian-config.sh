@@ -8,6 +8,13 @@ if [ $UID != 0 -o ”$SUDO_USER“ == "root" ]; then
 fi
 
 
+# 容器不存在时先创建
+if [ ! -d /home/$SUDO_USER/.machines/debian ]; then
+    source `dirname ${BASH_SOURCE[0]}`/nspawn-debian.sh
+    exit 0
+fi
+
+
 # 设置专属环境变量
 SOURCES_LIST="echo 'deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster main contrib non-free' > /etc/apt/sources.list"
 

@@ -316,6 +316,12 @@ machinectl show $1
 cat > /usr/local/bin/$1-config <<EOF
 #!/bin/bash
 
+# 仅允许普通用户权限执行
+if [[ \$EUID == 0 ]]; then
+    echo "'`basename $0`' 命令只允许普通用户执行"
+    exit 1
+fi
+
 # 判断容器是否启动
 [[ ! \$(machinectl list | grep $1) ]] && machinectl start $1 && sleep 0.5
 

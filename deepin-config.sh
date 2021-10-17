@@ -8,6 +8,13 @@ if [ $UID != 0 -o ”$SUDO_USER“ == "root" ]; then
 fi
 
 
+# 容器不存在时先创建
+if [ ! -d /home/$SUDO_USER/.machines/deepin ]; then
+    source `dirname ${BASH_SOURCE[0]}`/nspawn-deepin.sh
+    exit 0
+fi
+
+
 # 设置专属环境变量
 SOURCES_LIST="echo 'deb [by-hash=force] https://community-packages.deepin.com/deepin/ apricot main contrib non-free' > /etc/apt/sources.list
 echo 'deb https://com-store-packages.uniontech.com/appstore deepin appstore' > /etc/apt/sources.list.d/appstore.list"
@@ -18,6 +25,7 @@ EOF
 IFS='' read -r -d '' INSTALL_WEIXIN <<EOF
 machinectl shell deepin /bin/bash -c "dpkg --add-architecture i386 && apt update && apt install -y com.qq.weixin.deepin x11-utils && apt autopurge -y"
 EOF
+
 
 # 开始配置
 source `dirname ${BASH_SOURCE[0]}`/base-config.sh deepin

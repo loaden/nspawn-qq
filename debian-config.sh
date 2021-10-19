@@ -10,6 +10,7 @@ fi
 
 # 容器不存在时先创建
 if [ ! -d /home/$SUDO_USER/.machines/debian ]; then
+    echo "容器 debian 不存在，即将自动创建，请耐心等待..."
     source `dirname ${BASH_SOURCE[0]}`/nspawn-debian.sh
     exit 0
 fi

@@ -15,12 +15,12 @@ fi
 mkdir -p /home/$SUDO_USER/.machines/deepin
 ln -s /home/$SUDO_USER/.machines/deepin /var/lib/machines/deepin
 ln -s /usr/share/debootstrap/scripts/stable /usr/share/debootstrap/scripts/apricot
-debootstrap --include=systemd-container,dex,sudo,locales,dialog,fonts-noto-core,fonts-noto-cjk,neofetch,pulseaudio,bash-completion --no-check-gpg apricot /var/lib/machines/deepin https://community-packages.deepin.com/deepin
+[[ $? == 0 ]] && debootstrap --include=systemd-container,dex,sudo,locales,dialog,fonts-noto-core,fonts-noto-cjk,neofetch,pulseaudio,bash-completion --no-check-gpg apricot /var/lib/machines/deepin https://community-packages.deepin.com/deepin
 
 
 # 判断容器创建是否成功
-if [ $? ]; then
-    echo "创建容器 deepin 失败！请将运行日志反馈给我，谢谢。"
+if [[ $? == 1 ]]; then
+    echo "容器 deepin 已存在或者创建失败！请将运行日志反馈给我，谢谢。"
     exit 1
 fi
 

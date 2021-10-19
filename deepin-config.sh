@@ -10,6 +10,7 @@ fi
 
 # 容器不存在时先创建
 if [ ! -d /home/$SUDO_USER/.machines/deepin ]; then
+    echo "容器 deepin 不存在，即将自动创建，请耐心等待..."
     source `dirname ${BASH_SOURCE[0]}`/nspawn-deepin.sh
     exit 0
 fi

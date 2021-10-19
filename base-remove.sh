@@ -32,6 +32,7 @@ fi
 [ -f /lib/systemd/system/nspawn-$1.service ] && systemctl disable nspawn-$1.service
 rm -f /lib/systemd/system/nspawn-$1.service
 
+rm -rf /var/lib/machines/.machines
 rm -f /var/lib/machines/$1
 rm -f /home/nspawn.log
 rm -f /usr/local/bin/$1-install-*

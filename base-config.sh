@@ -93,7 +93,6 @@ done
 EOF
 
 chroot /var/lib/machines/$1/ /bin/bash /config.sh
-[[ $? != 0 ]] && echo "未知错误！" && exit -1
 
 
 # 禁用MIT-SHM

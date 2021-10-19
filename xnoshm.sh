@@ -1,5 +1,5 @@
 #!/bin/bash
-# 维护：Yuchen Deng QQ群：19346666、111601117
+# 维护：Yuchen Deng [Zz] QQ群：19346666、111601117
 
 # 不能单独执行提醒
 if [[ `basename $0` == xnoshm.sh ]]; then

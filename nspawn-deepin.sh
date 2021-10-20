@@ -35,4 +35,4 @@ su -w DISPLAY - $SUDO_USER -c "deepin-install-thunar"
 su -w DISPLAY - $SUDO_USER -c "deepin-install-qq"
 
 # 清理
-su -w DISPLAY - $SUDO_USER -c "KEEP_QUIET=1 deepin-clean"
+#su -w DISPLAY - $SUDO_USER -c "KEEP_QUIET=1 deepin-clean"

@@ -32,4 +32,4 @@ su -w DISPLAY - $SUDO_USER -c "debian-install-thunar"
 su -w DISPLAY - $SUDO_USER -c "debian-install-qq"
 
 # 清理
-su -w DISPLAY - $SUDO_USER -c "KEEP_QUIET=1 debian-clean"
+#su -w DISPLAY - $SUDO_USER -c "KEEP_QUIET=1 debian-clean"

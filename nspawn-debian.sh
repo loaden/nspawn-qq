@@ -14,8 +14,13 @@ fi
 [ -f /bin/dnf ] && dnf install -y systemd-container debootstrap
 mkdir -p /home/$SUDO_USER/.machines/debian
 ln -s /home/$SUDO_USER/.machines/debian /var/lib/machines/
-debootstrap --include=systemd-container,dex,sudo,locales,dialog,fonts-noto-core,fonts-noto-cjk,neofetch,pulseaudio,bash-completion --no-check-gpg buster /var/lib/machines/debian https://mirrors.tuna.tsinghua.edu.cn/debian
+[ ! -d /var/lib/machines/debian/home/u1000 ] && debootstrap --include=systemd-container,dex,sudo,locales,dialog,fonts-noto-core,fonts-noto-cjk,neofetch,pulseaudio,bash-completion --no-check-gpg buster /var/lib/machines/debian https://mirrors.tuna.tsinghua.edu.cn/debian
 
+# 判断容器创建是否成功
+if [[ $? == 1 ]]; then
+    echo "容器 debian 已存在或者创建失败！请将运行日志反馈给我，谢谢。"
+    exit 1
+fi
 
 # 配置容器
 source `dirname ${BASH_SOURCE[0]}`/debian-config.sh
@@ -27,4 +32,4 @@ su -w DISPLAY - $SUDO_USER -c "debian-install-thunar"
 su -w DISPLAY - $SUDO_USER -c "debian-install-qq"
 
 # 清理
-su -w DISPLAY - $SUDO_USER -c "KEEP_QUIET=1 debian-clean"
+#su -w DISPLAY - $SUDO_USER -c "KEEP_QUIET=1 debian-clean"

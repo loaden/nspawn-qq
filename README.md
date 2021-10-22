@@ -31,7 +31,7 @@
 2.  如果同时升级两个容器，可以终端管理员权限执行：sudo ./config.sh
 
 #### 高级用法
-1.  如果稳定性不佳，请同时禁用宿主机和容器的MIT-SHM扩展：sudo DISABLE_HOST_MITSHM=1 ./deepin-config.sh
+1.  如果稳定性不佳，请同时禁用宿主机和容器的MIT-SHM扩展：sudo DISABLE_HOST_MITSHM=1 ./deepin-config.sh (注意：深度商店点击链接崩溃是软件不稳定，不是容器不稳定)
 2.  注意：禁用宿主机MIT-SHM后，需要重启电脑才生效！
 3.  可登录shell，执行：machinectl login debian，<b>用户名u1000，密码passwd</b>
 4.  可禁止多用户模式：sudo MULTIUSER_SUPPORT=0 ./deepin-config.sh

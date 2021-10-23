@@ -38,7 +38,7 @@ fi
 
 # 初始化配置
 EXEC_FROM_CONFIG=1 source `dirname ${BASH_SOURCE[0]}`/remove-$1.sh
-ln -s /home/$SUDO_USER/.machines/$1 /var/lib/machines/
+ln -sfnv /home/$SUDO_USER/.machines/$1 /var/lib/machines/$1
 [ ! -d /usr/local/bin ] && mkdir /usr/local/bin
 
 
@@ -332,7 +332,7 @@ fi
 [[ ! \$(machinectl list | grep $1) ]] && machinectl start $1 && sleep 0.5
 
 # 使容器与宿主机使用相同用户目录
-[ \$USER != root ] && machinectl shell $1 /bin/bash -c "rm -f /home/\$USER && ln -s /home/u\$UID /home/\$USER && chown u\$UID:u\$UID /home/\$USER"
+[ \$USER != root ] && machinectl shell $1 /bin/bash -c "ln -sfnv /home/u\$UID /home/\$USER && chown u\$UID:u\$UID /home/\$USER"
 
 # 启动环境变量
 INPUT_ENGINE=\$(echo \$XMODIFIERS | awk -F "=" '/@im=/ {print \$ 2}')

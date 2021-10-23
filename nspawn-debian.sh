@@ -13,7 +13,7 @@ fi
 [ -f /bin/pacman ] && pacman -S --noconfirm --needed debootstrap
 [ -f /bin/dnf ] && dnf install -y systemd-container debootstrap
 mkdir -p /home/$SUDO_USER/.machines/debian
-ln -s /home/$SUDO_USER/.machines/debian /var/lib/machines/
+ln -sfnv /home/$SUDO_USER/.machines/debian /var/lib/machines/debian
 [ ! -d /var/lib/machines/debian/home/u1000 ] && debootstrap --include=systemd-container,dex,sudo,locales,dialog,fonts-noto-core,fonts-noto-cjk,neofetch,pulseaudio,bash-completion --no-check-gpg buster /var/lib/machines/debian https://mirrors.tuna.tsinghua.edu.cn/debian
 
 # 判断容器创建是否成功

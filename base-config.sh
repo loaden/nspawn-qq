@@ -540,6 +540,21 @@ source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
 ECLOUD_DEB=/home/u\$UID/\$(basename \$(xdg-user-dir DOWNLOAD))/cn.189.cloud.deepin_6.3.2-1.deb
 machinectl shell $1 /bin/bash -c "dpkg -i '\$ECLOUD_DEB'  && apt install -f && apt-mark hold cn.189.cloud.deepin"
+[ ! -f /usr/share/pixmaps/cn.189.cloud.deepin.svg ] && sudo -S cp -f /var/lib/machines/$1/opt/apps/cn.189.cloud.deepin/entries/icons/hicolor/64x64/apps/cn.189.cloud.deepin.svg /usr/share/pixmaps/
+[[ -f /usr/share/pixmaps/cn.189.cloud.deepin.svg  ]] && sudo -S bash -c 'cat > /usr/share/applications/deepin-ecloud.desktop <<$(echo EOF)
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+X-Created-By=Yuchen Deng
+Categories=Network;
+Icon=cn.189.cloud.deepin
+Exec=$1-ecloud %F
+Name=eCloud
+Name[zh_CN]=天翼云盘
+Comment=eCloud on Deepin Wine
+StartupWMClass=eCloud.exe
+MimeType=
+$(echo EOF)'
 EOF
 
 chmod 755 /usr/local/bin/$1-install-ecloud

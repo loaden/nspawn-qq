@@ -9,9 +9,10 @@ fi
 
 
 # 创建容器
-[ -f /bin/apt ] && apt install -y systemd-container debootstrap
-[ -f /bin/pacman ] && pacman -S --noconfirm --needed debootstrap
-[ -f /bin/dnf ] && dnf install -y systemd-container debootstrap
+[ -n $(which apt) ] && $(which apt) install -y systemd-container debootstrap
+[ -n $(which pacman) ] && $(which pacman) -S --noconfirm --needed debootstrap
+[ -n $(which dnf) ] && $(which dnf) install -y systemd-container debootstrap
+[ -z $(which debootstrap) ] && echo "工具debootstrap没有安装！请反馈您的系统，谢谢。" && exit -1
 mkdir -p /home/$SUDO_USER/.machines/debian
 ln -sfnv /home/$SUDO_USER/.machines/debian /var/lib/machines/debian
 [ ! -d /var/lib/machines/debian/home/u1000 ] && debootstrap --include=systemd-container,dex,sudo,locales,dialog,fonts-noto-core,fonts-noto-cjk,neofetch,pulseaudio,bash-completion --no-check-gpg buster /var/lib/machines/debian https://mirrors.tuna.tsinghua.edu.cn/debian

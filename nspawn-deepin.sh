@@ -12,6 +12,7 @@ fi
 [ -f /bin/apt ] && apt install -y systemd-container debootstrap
 [ -f /bin/pacman ] && pacman -S --noconfirm --needed debootstrap
 [ -f /bin/dnf ] && dnf install -y systemd-container debootstrap
+[ -z $(which debootstrap) ] && echo "安装失败！" && exit -1
 mkdir -p /home/$SUDO_USER/.machines/deepin
 ln -sfnv /home/$SUDO_USER/.machines/deepin /var/lib/machines/deepin
 ln -sfnv /usr/share/debootstrap/scripts/stable /usr/share/debootstrap/scripts/apricot

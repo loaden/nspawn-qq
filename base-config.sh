@@ -80,8 +80,7 @@ $(echo -e "$SOURCES_LIST")
 mkdir -p /home/share && chmod 777 /home/share
 [[ \$(/bin/cat /etc/passwd | grep user:) ]] && /sbin/userdel -r user
 for i in {1000..1005}; do
-    [[ \$(/bin/cat /etc/passwd | grep u\$i:) ]] && continue
-    /sbin/useradd -u \$i -m -s /bin/bash -G sudo u\$i
+    [[ ! \$(/bin/cat /etc/passwd | grep u\$i:) ]] && /sbin/useradd -u \$i -m -s /bin/bash -G sudo u\$i
     echo u\$i:passwd | /sbin/chpasswd
     cd /home/u\$i/
     mkdir -p .local/share/fonts .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK

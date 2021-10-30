@@ -368,23 +368,35 @@ cat > /usr/local/bin/$1-bind <<EOF
 machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/pulse
 [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/pulse
 machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/bus
+[ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/bus
 machinectl bind --mkdir $1 \$XDG_RUNTIME_DIR/dconf
+[ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$XDG_RUNTIME_DIR/dconf
 [[ \$(ls /tmp | grep dbus) ]] && machinectl bind --read-only --mkdir $1 /tmp/\$(ls /tmp | grep dbus)
+[[ \$(ls /tmp | grep dbus) ]] && [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 /tmp/\$(ls /tmp | grep dbus)
 
 # 主目录
 machinectl bind $1 \$HOME/$USER_DOCUMENTS /home/u\$UID/$USER_DOCUMENTS
 [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_DOCUMENTS /home/u\$UID/$USER_DOCUMENTS
 machinectl bind --mkdir $1 \$HOME/$USER_DOWNLOAD /home/u\$UID/$USER_DOWNLOAD
+[ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_DOWNLOAD /home/u\$UID/$USER_DOWNLOAD
 machinectl bind --mkdir $1 \$HOME/$USER_DESKTOP /home/u\$UID/$USER_DESKTOP
+[ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_DESKTOP /home/u\$UID/$USER_DESKTOP
 machinectl bind --mkdir $1 \$HOME/$USER_PICTURES /home/u\$UID/$USER_PICTURES
+[ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_PICTURES /home/u\$UID/$USER_PICTURES
 machinectl bind --mkdir $1 \$HOME/$USER_VIDEOS /home/u\$UID/$USER_VIDEOS
+[ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_VIDEOS /home/u\$UID/$USER_VIDEOS
 machinectl bind --mkdir $1 \$HOME/$USER_MUSIC /home/u\$UID/$USER_MUSIC
+[ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_MUSIC /home/u\$UID/$USER_MUSIC
 
 # 其它目录和文件
 [ -d \$HOME/$USER_CLOUDDISK ] && machinectl bind --mkdir $1 \$HOME/$USER_CLOUDDISK /home/u\$UID/$USER_CLOUDDISK
+[ -d \$HOME/$USER_CLOUDDISK ] && [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_CLOUDDISK /home/u\$UID/$USER_CLOUDDISK
 [ -f \$HOME/.config/user-dirs.dirs ] && machinectl bind --mkdir $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
+[ -f \$HOME/.config/user-dirs.dirs ] && [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
 [ -f \$HOME/.config/user-dirs.locale ] && machinectl bind --mkdir $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
+[ -f \$HOME/.config/user-dirs.locale ] && [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
 [ -d \$HOME/.local/share/fonts ] && machinectl bind --read-only --mkdir $1 \$HOME/.local/share/fonts /home/u\$UID/.local/share/fonts
+[ -d \$HOME/.local/share/fonts ] && [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$HOME/.local/share/fonts /home/u\$UID/.local/share/fonts
 
 $(echo "$X11_BIND_AND_CONFIG")
 EOF

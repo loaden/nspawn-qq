@@ -38,7 +38,7 @@ rm -f /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
 [ -f /etc/X11/xorg.conf ] && perl -0777 -pi -e 's/Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection\n//g' /etc/X11/xorg.conf
 [ -f /etc/X11/xorg.conf ] && [[ ! $(cat /etc/X11/xorg.conf) ]] && rm -f /etc/X11/xorg.conf
 
-rm -f /bin/systemd-nspawn-debug
+rm -f /usr/bin/systemd-nspawn-debug
 rm -rf /etc/systemd/system/systemd-nspawn@$1.service.d
 rm -f /etc/systemd/nspawn/$1.nspawn
 [[ -d /etc/systemd/nspawn && `ls -A /etc/systemd/nspawn |wc -w` == 0 ]] && rm -rf /home/share /etc/systemd/nspawn

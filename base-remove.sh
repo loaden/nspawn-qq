@@ -14,21 +14,6 @@ systemctl stop systemd-nspawn@$1.service
 rm -f /var/lib/polkit-1/localauthority/10-vendor.d/machines.pkla
 rm -f /usr/share/polkit-1/rules.d/10-machines.rules
 
-# 移除旧版本可能遗留文件
-if [[ ! -f /usr/local/bin/$1-start && -f /bin/$1-start ]]; then
-    rm -f /bin/$1-install-*
-    rm -f /bin/$1-start
-    rm -f /bin/$1-config
-    rm -f /bin/$1-query
-    rm -f /bin/$1-clean
-    rm -f /bin/$1-config-*
-    rm -f /bin/$1-qq
-    rm -f /bin/$1-weixin
-    rm -f /bin/$1-ecloud
-    rm -f /bin/$1-thunar
-    rm -f /bin/$1-mpv
-fi
-
 [ -f /lib/systemd/system/nspawn-$1.service ] && systemctl disable nspawn-$1.service
 rm -f /lib/systemd/system/nspawn-$1.service
 

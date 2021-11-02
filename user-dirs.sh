@@ -8,9 +8,9 @@ if [[ `basename $0` == user-dirs.sh ]]; then
 fi
 
 # 获取用户目录
-[ ! -f /bin/xdg-user-dir ] && [ -f /bin/apt ] && apt install -y xdg-user-dirs
-[ ! -f /bin/xdg-user-dir ] && [ -f /bin/dnf ] && dnf install -y xdg-user-dirs
-[ ! -f /bin/xdg-user-dir ] && [ -f /bin/pacman ] && pacman -S --noconfirm --needed xdg-user-dirs
+[ ! -f /usr/bin/xdg-user-dir ] && [ -f /usr/bin/apt ] && apt install -y xdg-user-dirs
+[ ! -f /usr/bin/xdg-user-dir ] && [ -f /usr/bin/dnf ] && dnf install -y xdg-user-dirs
+[ ! -f /usr/bin/xdg-user-dir ] && [ -f /usr/bin/pacman ] && pacman -S --noconfirm --needed xdg-user-dirs
 USER_DESKTOP=$(basename $(su - $SUDO_USER -c 'xdg-user-dir DESKTOP'))
 USER_DOWNLOAD=$(basename $(su - $SUDO_USER -c 'xdg-user-dir DOWNLOAD'))
 USER_TEMPLATES=$(basename $(su - $SUDO_USER -c 'xdg-user-dir TEMPLATES'))

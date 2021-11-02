@@ -20,16 +20,16 @@ if [[ $MULTIUSER_SUPPORT = 1 && $(systemd --version | grep systemd) =~ 247 ]]; t
 fi
 
 # 必备软件包
-[ -f /bin/apt ] && [ ! -f /bin/machinectl ] && apt install -y systemd-container
-[ -f /bin/dnf ] && [ ! -f /bin/machinectl ] && dnf install -y systemd-container
+[ -f /usr/bin/apt ] && [ ! -f /usr/bin/machinectl ] && apt install -y systemd-container
+[ -f /usr/bin/dnf ] && [ ! -f /usr/bin/machinectl ] && dnf install -y systemd-container
 if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` != *wayland* ]]; then
-    [ -f /bin/pacman ] && [ ! -f /bin/xhost ] && pacman -S xorg-xhost --noconfirm --needed
-    [ -f /bin/apt ] && [ ! -f /bin/xhost ] && apt install -y x11-xserver-utils
-    [ -f /bin/dnf ] && [ ! -f /bin/xhost ] && dnf install -y xhost
+    [ -f /usr/bin/pacman ] && [ ! -f /usr/bin/xhost ] && pacman -S xorg-xhost --noconfirm --needed
+    [ -f /usr/bin/apt ] && [ ! -f /usr/bin/xhost ] && apt install -y x11-xserver-utils
+    [ -f /usr/bin/dnf ] && [ ! -f /usr/bin/xhost ] && dnf install -y xhost
 fi
 
 # 禁用SELinux
-if [[ -f /bin/sestatus && $(sestatus |grep 'SELinux status:') == *enabled ]]; then
+if [[ -f /usr/bin/sestatus && $(sestatus |grep 'SELinux status:') == *enabled ]]; then
     sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
     [ -f /etc/selinux/config ] && sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
     echo -e "\033[31m已禁用SELinux！如有需要，可手动开启：sudo sed -i 's/SELINUX=disabled/SELINUX=enforcing/g' /etc/sysconfig/selinux\033[0m"
@@ -135,7 +135,7 @@ cat /usr/local/bin/$1-start
 
 
 # 调试
-cat > /bin/systemd-nspawn-debug <<EOF
+cat > /usr/bin/systemd-nspawn-debug <<EOF
 #!/bin/bash
 export NSPAWN_LOG_FILE=/home/nspawn.log
 touch \$NSPAWN_LOG_FILE
@@ -151,10 +151,10 @@ echo -e "echo /tmp " "\$(ls /tmp)" \n >> \$NSPAWN_LOG_FILE
 chmod 777 \$NSPAWN_LOG_FILE
 EOF
 
-chmod 755 /bin/systemd-nspawn-debug
+chmod 755 /usr/bin/systemd-nspawn-debug
 echo
-echo /bin/systemd-nspawn-debug
-cat /bin/systemd-nspawn-debug
+echo /usr/bin/systemd-nspawn-debug
+cat /usr/bin/systemd-nspawn-debug
 
 
 # 重写启动服务参数

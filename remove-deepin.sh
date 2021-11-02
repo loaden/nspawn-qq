@@ -11,26 +11,6 @@ fi
 [ -f /var/lib/machines/deepin/var/lib/deepin/deepin_security_verify.whitelist ] && chattr -i /var/lib/machines/deepin/var/lib/deepin/deepin_security_verify.whitelist
 rm -f /usr/share/debootstrap/scripts/apricot
 
-# 移除旧版本可能遗留文件
-if [[ ! -f /usr/local/bin/deepin-app-store && -f /bin/deepin-app-store ]]; then
-    rm -f /bin/deepin-terminal
-    rm -f /bin/deepin-app-store
-    rm -f /bin/deepin-wemeet
-    rm -f /bin/deepin-xunlei
-    rm -f /bin/deepin-tenvideo
-    rm -f /bin/deepin-powerword
-    rm -f /bin/deepin-cbox
-    rm -f /bin/deepin-feishu
-    rm -f /bin/deepin-sunlogin
-    rm -f /bin/deepin-foxwq
-    rm -f /bin/deepin-baidunetdisk
-    rm -f /bin/deepin-cstrike
-    rm -f /bin/deepin-dingtalk*
-    rm -f /bin/deepin-work-weixin
-    rm -f /bin/deepin-wesing
-    rm -f /bin/deepin-baoweiluobo
-fi
-
 # 开始移除
 source `dirname ${BASH_SOURCE[0]}`/base-remove.sh deepin
 rm -f /usr/local/bin/deepin-terminal

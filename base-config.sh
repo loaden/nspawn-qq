@@ -618,7 +618,7 @@ chmod 755 /usr/local/bin/$1-thunar
 cat > /usr/local/bin/$1-install-shotwell <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt install -y shotwell && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt install -y shotwell --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-shotwell
@@ -639,7 +639,7 @@ chmod 755 /usr/local/bin/$1-shotwell
 cat > /usr/local/bin/$1-install-chromium <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt install -y chromium && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt install -y chromium --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-chromium
@@ -660,7 +660,7 @@ chmod 755 /usr/local/bin/$1-chromium
 cat > /usr/local/bin/$1-install-mupdf <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt install -y mupdf && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt install -y mupdf --no-install-recommends && apt autopurge -y"
 machinectl shell $1 /bin/su - u\$UID -c "xdg-mime default mupdf.desktop application/pdf"
 EOF
 

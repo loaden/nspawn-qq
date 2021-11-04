@@ -39,7 +39,7 @@ else
         || \$(stat -c %Y /disable-MIT-SHM.c) > \$(stat -c %Y /lib/x86_64-linux-gnu/disable-MIT-SHM.so) ]]; then
         dpkg --add-architecture i386
         apt update
-        apt install -y gcc gcc-multilib libc6-dev libxext-dev
+        apt install -y gcc gcc-multilib libc6-dev libxext-dev --no-install-recommends
         mkdir -p /lib/x86_64-linux-gnu/
         gcc /disable-MIT-SHM.c -shared -o /lib/x86_64-linux-gnu/disable-MIT-SHM.so
         chmod u+s /lib/x86_64-linux-gnu/disable-MIT-SHM.so

@@ -21,10 +21,10 @@ SOURCES_LIST="echo 'deb [by-hash=force] https://community-packages.deepin.com/de
 echo 'deb https://com-store-packages.uniontech.com/appstore deepin appstore' > /etc/apt/sources.list.d/appstore.list"
 
 IFS='' read -r -d '' INSTALL_QQ <<EOF
-machinectl shell deepin /bin/bash -c "dpkg --add-architecture i386 && apt update && apt install -y com.qq.im.deepin x11-utils && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "dpkg --add-architecture i386 && apt update && apt install -y com.qq.im.deepin x11-utils --no-install-recommends && apt autopurge -y"
 EOF
 IFS='' read -r -d '' INSTALL_WEIXIN <<EOF
-machinectl shell deepin /bin/bash -c "dpkg --add-architecture i386 && apt update && apt install -y com.qq.weixin.deepin x11-utils && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "dpkg --add-architecture i386 && apt update && apt install -y com.qq.weixin.deepin x11-utils --no-install-recommends && apt autopurge -y"
 EOF
 
 
@@ -56,7 +56,7 @@ chmod 755 /usr/local/bin/deepin-terminal
 cat > /usr/local/bin/deepin-install-app-store <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y deepin-app-store && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y deepin-app-store --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-app-store
@@ -76,7 +76,7 @@ chmod 755 /usr/local/bin/deepin-app-store
 cat > /usr/local/bin/deepin-install-wemeet <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.qq.wemeet libgl1-mesa-dev && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.qq.wemeet libgl1-mesa-dev --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-wemeet
@@ -96,7 +96,7 @@ chmod 755 /usr/local/bin/deepin-wemeet
 cat > /usr/local/bin/deepin-install-xunlei <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.xunlei.download libxss1 libdbus-glib-1-2 && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.xunlei.download libxss1 libdbus-glib-1-2 --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-xunlei
@@ -116,7 +116,7 @@ chmod 755 /usr/local/bin/deepin-xunlei
 cat > /usr/local/bin/deepin-install-tenvideo <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.qq.tenvideo && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.qq.tenvideo --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-tenvideo
@@ -136,7 +136,7 @@ chmod 755 /usr/local/bin/deepin-tenvideo
 cat > /usr/local/bin/deepin-install-powerword <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.kingsoft.powerword && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.kingsoft.powerword --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-powerword
@@ -156,7 +156,7 @@ chmod 755 /usr/local/bin/deepin-powerword
 cat > /usr/local/bin/deepin-install-cbox <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.cbox.deepin && sed -i 's/LD_PRELOAD=/LD_DONT_PRELOAD=/g' /opt/apps/com.cbox.deepin/files/run.sh && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.cbox.deepin --no-install-recommends && sed -i 's/LD_PRELOAD=/LD_DONT_PRELOAD=/g' /opt/apps/com.cbox.deepin/files/run.sh && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-cbox
@@ -176,7 +176,7 @@ chmod 755 /usr/local/bin/deepin-cbox
 cat > /usr/local/bin/deepin-install-feishu <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.bytedance.feishu && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.bytedance.feishu --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-feishu
@@ -196,7 +196,7 @@ chmod 755 /usr/local/bin/deepin-feishu
 cat > /usr/local/bin/deepin-install-sunlogin <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.oray.sunlogin.client && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.oray.sunlogin.client --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-sunlogin
@@ -216,7 +216,7 @@ chmod 755 /usr/local/bin/deepin-sunlogin
 cat > /usr/local/bin/deepin-install-sunlogin <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.oray.sunlogin.client && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.oray.sunlogin.client --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-sunlogin
@@ -236,7 +236,7 @@ chmod 755 /usr/local/bin/deepin-sunlogin
 cat > /usr/local/bin/deepin-install-foxwq <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.foxwq.deepin && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.foxwq.deepin --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-foxwq
@@ -256,7 +256,7 @@ chmod 755 /usr/local/bin/deepin-foxwq
 cat > /usr/local/bin/deepin-install-baidunetdisk <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.baidu.baidunetdisk desktop-file-utils && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.baidu.baidunetdisk desktop-file-utils --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-baidunetdisk
@@ -276,7 +276,7 @@ chmod 755 /usr/local/bin/deepin-baidunetdisk
 cat > /usr/local/bin/deepin-install-cstrike <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y cn.linuxgame.cstrike fuse && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y cn.linuxgame.cstrike fuse --no-install-recommends && apt autopurge -y"
 sudo modprobe fuse
 EOF
 
@@ -297,7 +297,7 @@ chmod 755 /usr/local/bin/deepin-cstrike
 cat > /usr/local/bin/deepin-install-dingtalk-wine <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.dingtalk.deepin x11-utils && apt autopurge -y \
+machinectl shell deepin /bin/bash -c "apt install -y com.dingtalk.deepin x11-utils --no-install-recommends && apt autopurge -y \
     && ! grep -c DingTalkUpdater.exe /opt/apps/com.dingtalk.deepin/files/run.sh \
     && echo 'cp -f /dev/null ~/.deepinwine/Deepin-Dding/drive_c/Program\ Files/DingDing/DingTalkUpdater.exe' >> /opt/apps/com.dingtalk.deepin/files/run.sh \
     && sed -i 's/LD_PRELOAD=/LD_DONT_PRELOAD=/g' /opt/apps/com.dingtalk.deepin/files/run.sh"
@@ -308,7 +308,7 @@ chmod 755 /usr/local/bin/deepin-install-dingtalk-wine
 cat > /usr/local/bin/deepin-install-dingtalk <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.alibabainc.dingtalk libpulse-mainloop-glib0 && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.alibabainc.dingtalk libpulse-mainloop-glib0 --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-dingtalk
@@ -338,7 +338,7 @@ chmod 755 /usr/local/bin/deepin-dingtalk
 cat > /usr/local/bin/deepin-install-work-weixin <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.qq.weixin.work.deepin && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.qq.weixin.work.deepin --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-work-weixin
@@ -358,7 +358,7 @@ chmod 755 /usr/local/bin/deepin-work-weixin
 cat > /usr/local/bin/deepin-install-wesing <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.wesing.deepin && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.wesing.deepin --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-wesing
@@ -378,7 +378,7 @@ chmod 755 /usr/local/bin/deepin-wesing
 cat > /usr/local/bin/deepin-install-baoweiluobo <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.baoweiluobo.deepin && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.baoweiluobo.deepin --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-baoweiluobo

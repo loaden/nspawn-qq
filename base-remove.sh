@@ -30,6 +30,7 @@ rm -f /usr/local/bin/$1-qq
 rm -f /usr/local/bin/$1-weixin
 rm -f /usr/local/bin/$1-ecloud
 rm -f /usr/local/bin/$1-thunar
+rm -f /usr/local/bin/$1-file
 rm -f /usr/local/bin/$1-mpv
 
 [[ -d /home/share && `ls -A /home/share |wc -w` == 0 ]] && rm -rf /home/share

@@ -38,7 +38,6 @@ cat > /usr/local/bin/debian-install-all <<EOF
 debian-install-qq
 debian-install-weixin
 debian-install-terminal
-debian-install-thunar
 debian-install-file
 debian-install-chromium
 debian-install-libreoffice

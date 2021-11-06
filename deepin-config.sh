@@ -379,7 +379,6 @@ cat > /usr/local/bin/deepin-install-all <<EOF
 deepin-install-qq
 deepin-install-weixin
 deepin-install-terminal
-deepin-install-thunar
 deepin-install-file
 deepin-install-chromium
 deepin-install-libreoffice

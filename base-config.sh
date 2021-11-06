@@ -468,7 +468,7 @@ chmod 755 /usr/local/bin/$1-upgrade
 cat > /usr/local/bin/$1-install-terminal <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt install -y lxterminal --no-install-recommends && update-alternatives --set x-terminal-emulator /usr/bin/lxterminal && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt install -y xfce4-terminal --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-terminal
@@ -478,7 +478,7 @@ cat > /usr/local/bin/$1-terminal <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
-machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/lxterminal.desktop"
+machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/xfce4-terminal.desktop"
 EOF
 
 chmod 755 /usr/local/bin/$1-terminal
@@ -620,8 +620,8 @@ chmod 755 /usr/local/bin/$1-ecloud
 cat > /usr/local/bin/$1-install-file <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt install -y pcmanfm gpicview xarchiver unrar libcanberra-gtk-module --no-install-recommends && apt autopurge -y"
-machinectl shell $1 /bin/su - u\$UID -c "xdg-mime default pcmanfm.desktop inode/directory"
+machinectl shell $1 /bin/bash -c "apt install -y thunar thunar-archive-plugin unrar catfish libexo-1-0 gpicview --no-install-recommends && apt autopurge -y"
+machinectl shell $1 /bin/su - u\$UID -c "xdg-mime default Thunar.desktop inode/directory"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-file
@@ -631,32 +631,10 @@ cat > /usr/local/bin/$1-file <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
-machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/pcmanfm.desktop"
-EOF
-
-chmod 755 /usr/local/bin/$1-file
-
-
-
-# 安装Thunar
-cat > /usr/local/bin/$1-install-thunar <<EOF
-#!/bin/bash
-source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt install -y thunar thunar-archive-plugin catfish libexo-1-0 --no-install-recommends && apt autopurge -y"
-machinectl shell $1 /bin/su - u\$UID -c "xdg-mime default Thunar.desktop inode/directory"
-EOF
-
-chmod 755 /usr/local/bin/$1-install-thunar
-
-# 启动Thunar
-cat > /usr/local/bin/$1-thunar <<EOF
-#!/bin/bash
-source /usr/local/bin/$1-config
-source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/Thunar.desktop"
 EOF
 
-chmod 755 /usr/local/bin/$1-thunar
+chmod 755 /usr/local/bin/$1-file
 
 
 

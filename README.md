@@ -48,7 +48,7 @@
 | QQ*         | deepin-install-qq           | deepin-qq                |
 | 微信*        | deepin-install-weixin       | deepin-weixin            |
 | 终端*        | deepin-install-terminal     | deepin-terminal          |
-| 文件管理器*   | deepin-install-thunar       | deepin-thunar            |
+| 文件管理器*   | deepin-install-file         | deepin-file              |
 | 浏览器*      | deepin-install-chromium     | deepin-chromium          |
 | LibreOffice*| deepin-install-libreoffice  | deepin-libreoffice       |
 | 媒体播放器*   | deepin-install-mpv          | deepin-mpv               |

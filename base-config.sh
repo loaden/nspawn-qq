@@ -468,7 +468,7 @@ chmod 755 /usr/local/bin/$1-upgrade
 cat > /usr/local/bin/$1-install-terminal <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt install -y lxterminal libcanberra-gtk3-module --no-install-recommends && update-alternatives --set x-terminal-emulator /usr/bin/lxterminal && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt install -y lxterminal --no-install-recommends && update-alternatives --set x-terminal-emulator /usr/bin/lxterminal && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-terminal
@@ -739,7 +739,7 @@ chmod 755 /usr/local/bin/$1-mpv
 cat > /usr/local/bin/$1-install-libreoffice <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt install -y libreoffice-writer libreoffice-impress libreoffice-calc libreoffice-gtk3 libreoffice-style-breeze libreoffice-style-elementary libreoffice-l10n-zh-cn libcanberra-gtk3-module packagekit-gtk3-module --no-install-recommends && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt install -y libreoffice-writer libreoffice-impress libreoffice-calc libreoffice-gtk3 libreoffice-style-breeze libreoffice-style-elementary libreoffice-l10n-zh-cn --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-libreoffice

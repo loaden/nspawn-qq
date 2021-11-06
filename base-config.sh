@@ -72,8 +72,12 @@ echo $1 > /etc/hostname
 [[ ! \$(cat /etc/hosts | grep $1) ]] && echo "127.0.0.1 $1" >> /etc/hosts
 /bin/sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
 /bin/sed -i 's/# zh_CN.UTF-8/zh_CN.UTF-8/g' /etc/locale.gen
+/bin/dpkg --add-architecture i386
+/bin/apt update
+/bin/apt install --yes --no-install-recommends procps dbus-x11 xdg-utils dex sudo locales pulseaudio bash-completion
+/bin/apt install --yes --no-install-recommends mousepad:i386
 /sbin/locale-gen
-locale
+/bin/locale
 $(echo -e "$SOURCES_LIST")
 [[ ! -f /etc/securetty || ! \$(cat /etc/securetty | grep pts/0) ]] && echo -e "\n# systemd-container\npts/0\npts/1\npts/2\npts/3\npts/4\npts/5\npts/6" >> /etc/securetty
 [[ ! \$(cat /etc/securetty | grep pts/9) ]] && echo -e "pts/7\npts/8\npts/9\n" >> /etc/securetty
@@ -443,8 +447,7 @@ for i in {1000..1005}; do
     machinectl shell $1 /bin/bash -c "rm -rf /home/u\$i/.cache/* && ls /home/u\$i/.config | grep -v user-dirs | xargs rm -rf && ls /home/u\$i/.local/share | grep -v fonts | xargs rm -rf && du -hd1 /home/u\$i"
 done
 machinectl shell $1 /bin/bash -c "find /home -maxdepth 1 -type l -delete && apt clean && df -h && du -hd0 /opt /home /var /usr"
-machinectl shell $1 /bin/bash -c "apt purge -y mousepad xterm:i386 && apt autopurge -y"
-[[ \$(machinectl list) =~ $1 ]] && machinectl stop $1
+machinectl shell $1 /bin/bash -c "apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/$1-clean
@@ -458,6 +461,27 @@ machinectl shell $1 /bin/bash -c "apt update && apt upgrade -y && apt autopurge 
 EOF
 
 chmod 755 /usr/local/bin/$1-upgrade
+
+
+
+# 安装终端
+cat > /usr/local/bin/$1-install-terminal <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+machinectl shell $1 /bin/bash -c "apt install -y lxterminal libcanberra-gtk3-module --no-install-recommends && update-alternatives --set x-terminal-emulator /usr/bin/lxterminal && apt autopurge -y"
+EOF
+
+chmod 755 /usr/local/bin/$1-install-terminal
+
+# 启动终端
+cat > /usr/local/bin/$1-terminal <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
+machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/lxterminal.desktop"
+EOF
+
+chmod 755 /usr/local/bin/$1-terminal
 
 
 
@@ -593,16 +617,38 @@ chmod 755 /usr/local/bin/$1-ecloud
 
 
 # 安装文件管理器
+cat > /usr/local/bin/$1-install-file <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+machinectl shell $1 /bin/bash -c "apt install -y pcmanfm gpicview xarchiver unrar libcanberra-gtk-module --no-install-recommends && apt autopurge -y"
+machinectl shell $1 /bin/su - u\$UID -c "xdg-mime default pcmanfm.desktop inode/directory"
+EOF
+
+chmod 755 /usr/local/bin/$1-install-file
+
+# 启动文件管理器
+cat > /usr/local/bin/$1-file <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
+machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/pcmanfm.desktop"
+EOF
+
+chmod 755 /usr/local/bin/$1-file
+
+
+
+# 安装Thunar
 cat > /usr/local/bin/$1-install-thunar <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt install -y thunar thunar-archive-plugin xarchiver unrar zstd catfish mousepad:i386 libexo-1-0 dbus-x11 xdg-utils --no-install-recommends && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt install -y thunar thunar-archive-plugin catfish libexo-1-0 --no-install-recommends && apt autopurge -y"
 machinectl shell $1 /bin/su - u\$UID -c "xdg-mime default Thunar.desktop inode/directory"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-thunar
 
-# 启动文件管理器
+# 启动Thunar
 cat > /usr/local/bin/$1-thunar <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config

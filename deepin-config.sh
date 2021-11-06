@@ -32,31 +32,11 @@ EOF
 source `dirname ${BASH_SOURCE[0]}`/base-config.sh deepin
 
 
-# 安装终端
-cat > /usr/local/bin/deepin-install-terminal <<EOF
-#!/bin/bash
-source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y lxterminal libcanberra-gtk3-module deepin-desktop-base --no-install-recommends && update-alternatives --set x-terminal-emulator /usr/bin/lxterminal && apt autopurge -y"
-EOF
-
-chmod 755 /usr/local/bin/deepin-install-terminal
-
-# 启动终端
-cat > /usr/local/bin/deepin-terminal <<EOF
-#!/bin/bash
-source /usr/local/bin/deepin-config
-source /usr/local/bin/deepin-bind
-machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/lxterminal.desktop"
-EOF
-
-chmod 755 /usr/local/bin/deepin-terminal
-
-
 # 安装深度商店
 cat > /usr/local/bin/deepin-install-app-store <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y deepin-app-store --no-install-recommends && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y deepin-app-store deepin-desktop-base --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-app-store
@@ -400,6 +380,7 @@ deepin-install-qq
 deepin-install-weixin
 deepin-install-terminal
 deepin-install-thunar
+deepin-install-file
 deepin-install-chromium
 deepin-install-libreoffice
 deepin-install-mpv

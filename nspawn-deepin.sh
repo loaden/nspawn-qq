@@ -16,7 +16,7 @@ fi
 mkdir -p /home/$SUDO_USER/.machines/deepin
 ln -sfnv /home/$SUDO_USER/.machines/deepin /var/lib/machines/deepin
 ln -sfnv /usr/share/debootstrap/scripts/stable /usr/share/debootstrap/scripts/apricot
-[ ! -d /var/lib/machines/deepin/home/u1000 ] && debootstrap --variant=minbase --include=systemd-container,procps,dex,sudo,locales,pulseaudio,bash-completion --no-check-gpg apricot /var/lib/machines/deepin https://community-packages.deepin.com/deepin
+[ ! -d /var/lib/machines/deepin/home/u1000 ] && debootstrap --variant=minbase --include=systemd-container --no-check-gpg apricot /var/lib/machines/deepin https://community-packages.deepin.com/deepin
 
 
 # 判断容器创建是否成功
@@ -32,7 +32,7 @@ source `dirname ${BASH_SOURCE[0]}`/deepin-config.sh
 
 # 默认安装
 su -w DISPLAY - $SUDO_USER -c "deepin-install-terminal"
-su -w DISPLAY - $SUDO_USER -c "deepin-install-thunar"
+su -w DISPLAY - $SUDO_USER -c "deepin-install-file"
 su -w DISPLAY - $SUDO_USER -c "deepin-install-qq"
 
 # 清理

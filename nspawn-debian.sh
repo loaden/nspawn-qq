@@ -15,7 +15,7 @@ fi
 [ -z $(which debootstrap) ] && echo "工具debootstrap没有安装！请反馈您的系统，谢谢。" && exit -1
 mkdir -p /home/$SUDO_USER/.machines/debian
 ln -sfnv /home/$SUDO_USER/.machines/debian /var/lib/machines/debian
-[ ! -d /var/lib/machines/debian/home/u1000 ] && debootstrap --variant=minbase --include=systemd-container,procps,dex,sudo,locales,pulseaudio,bash-completion --no-check-gpg buster /var/lib/machines/debian https://mirrors.tuna.tsinghua.edu.cn/debian
+[ ! -d /var/lib/machines/debian/home/u1000 ] && debootstrap --variant=minbase --include=systemd-container --no-check-gpg buster /var/lib/machines/debian https://mirrors.tuna.tsinghua.edu.cn/debian
 
 # 判断容器创建是否成功
 if [[ $? == 1 ]]; then
@@ -29,7 +29,7 @@ source `dirname ${BASH_SOURCE[0]}`/debian-config.sh
 
 # 默认安装
 su -w DISPLAY - $SUDO_USER -c "debian-install-terminal"
-su -w DISPLAY - $SUDO_USER -c "debian-install-thunar"
+su -w DISPLAY - $SUDO_USER -c "debian-install-file"
 su -w DISPLAY - $SUDO_USER -c "debian-install-qq"
 
 # 清理

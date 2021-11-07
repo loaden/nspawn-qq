@@ -69,18 +69,19 @@ systemctl enable nspawn-$1.service
 mkdir -p /home/share && chmod 777 /home/share
 cat > /var/lib/machines/$1/config.sh <<EOF
 echo $1 > /etc/hostname
-[[ ! \$(cat /etc/hosts | grep $1) ]] && echo "127.0.0.1 $1" >> /etc/hosts
-/bin/sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
-/bin/sed -i 's/# zh_CN.UTF-8/zh_CN.UTF-8/g' /etc/locale.gen
 /bin/dpkg --add-architecture i386
 /bin/apt update
-/bin/apt install --yes --no-install-recommends procps dbus-x11 xdg-utils dex sudo locales pulseaudio bash-completion
-/bin/apt install --yes --no-install-recommends mousepad:i386
+/bin/apt install --yes pulseaudio locales
+/bin/apt install --yes --no-install-recommends sudo procps xdg-utils dbus-x11 dex bash-completion
+/bin/apt install --yes --no-install-recommends less:i386
+echo -e "127.1 $1\n::1 $1" > /etc/hosts
+/bin/sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
+/bin/sed -i 's/# zh_CN.UTF-8/zh_CN.UTF-8/g' /etc/locale.gen
 /sbin/locale-gen
 /bin/locale
 $(echo -e "$SOURCES_LIST")
 [[ ! -f /etc/securetty || ! \$(cat /etc/securetty | grep pts/0) ]] && echo -e "\n# systemd-container\npts/0\npts/1\npts/2\npts/3\npts/4\npts/5\npts/6" >> /etc/securetty
-[[ ! \$(cat /etc/securetty | grep pts/9) ]] && echo -e "pts/7\npts/8\npts/9\n" >> /etc/securetty
+[[ ! \$(cat /etc/securetty | grep pts/9) ]] && echo -e "pts/7\npts/8\npts/9" >> /etc/securetty
 mkdir -p /home/share && chmod 777 /home/share
 [[ \$(/bin/cat /etc/passwd | grep user:) ]] && /sbin/userdel -r user
 for i in {1000..1005}; do
@@ -428,7 +429,7 @@ machinectl shell $1 /bin/su - u\$UID -c "$(echo "$DISABLE_MITSHM") && ls /usr/sh
     && echo query application/pdf && xdg-mime query default application/pdf \
     && echo query image/png && xdg-mime query default image/png \
     && echo && echo ldd /bin/bash && ldd /bin/bash | grep SHM \
-    && echo ldd /bin/mousepad && ldd /bin/mousepad | grep SHM"
+    && echo ldd /bin/less && ldd /bin/less | grep SHM"
 EOF
 
 chmod 755 /usr/local/bin/$1-query
@@ -620,7 +621,7 @@ chmod 755 /usr/local/bin/$1-ecloud
 cat > /usr/local/bin/$1-install-file <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt install -y thunar thunar-archive-plugin unrar catfish libexo-1-0 gpicview --no-install-recommends && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt install -y thunar thunar-archive-plugin unrar catfish libexo-1-0 mousepad gpicview --no-install-recommends && apt autopurge -y"
 machinectl shell $1 /bin/su - u\$UID -c "xdg-mime default Thunar.desktop inode/directory"
 EOF
 

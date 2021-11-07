@@ -621,7 +621,7 @@ chmod 755 /usr/local/bin/$1-ecloud
 cat > /usr/local/bin/$1-install-file <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt install -y thunar thunar-archive-plugin unrar catfish libexo-1-0 mousepad gpicview --no-install-recommends && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt install -y thunar thunar-archive-plugin unrar catfish libexo-1-0 mousepad gpicview libcanberra-gtk-module --no-install-recommends && apt autopurge -y"
 machinectl shell $1 /bin/su - u\$UID -c "xdg-mime default Thunar.desktop inode/directory"
 EOF
 

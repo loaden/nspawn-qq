@@ -95,6 +95,8 @@ done
 for i in {1000..1005}; do
     [[ ! \$(groups u\$i | grep audio) ]] && adduser u\$i audio
 done
+# No password for sudo
+sed -i "s/.*sudo.*ALL=(ALL:ALL) ALL/%sudo ALL=(ALL) NOPASSWD:ALL/" /etc/sudoers
 EOF
 
 # 进入容器环境

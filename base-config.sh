@@ -148,6 +148,34 @@ sleep 0.5
 source `dirname ${BASH_SOURCE[0]}`/xnoshm.sh $1
 
 
+#卸载不必要组件
+cat > $ROOT/clean.sh <<EOF
+# Save space
+rm -rf /usr/share/doc
+rm -rf /usr/share/man
+rm -rf /tmp/*
+
+# Clean up and exit
+no_need_pkgs="mime-support bsdmainutils compton debconf-i18n \
+    dictionaries-common eject emacsen-common gdbm-l10n \
+    iptables locales logrotate menu tasksel tzdata util-linux-locales \
+    vim-common whiptail xdg-utils xserver-xorg-video-vmware xxd
+    "
+for i in \$no_need_pkgs; do
+    echo [ apt purge \$i ]
+    apt purge --yes \$i 2>/dev/null
+done
+
+apt autopurge --yes
+apt clean
+EOF
+
+chroot_mount
+chroot $ROOT /bin/bash /clean.sh
+rm -f $ROOT/clean.sh
+chroot_umount
+
+
 # 确保宿主机当前用户相关目录或文件存在
 su - $SUDO_USER -c "mkdir -p /home/$SUDO_USER/.local/share/fonts"
 su - $SUDO_USER -c "touch /home/$SUDO_USER/.config/user-dirs.dirs"

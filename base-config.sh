@@ -157,10 +157,9 @@ rm -rf /usr/share/man
 rm -rf /tmp/*
 
 # Clean up and exit
-no_need_pkgs="mime-support bsdmainutils compton debconf-i18n \
-    dictionaries-common eject emacsen-common gdbm-l10n \
-    iptables locales logrotate menu tasksel tzdata util-linux-locales \
-    vim-common whiptail xdg-utils xserver-xorg-video-vmware xxd
+no_need_pkgs="bsdmainutils compton debconf-i18n dictionaries-common eject \
+    emacsen-common fonts-noto-core fonts-symbola gdbm-l10n iptables \
+    logrotate menu tasksel tzdata vim-common whiptail xxd
     "
 for i in \$no_need_pkgs; do
     echo [ apt purge \$i ]
@@ -399,17 +398,29 @@ if [[ \$(basename \$0) == $1-config ]]; then
     exit 1
 fi
 
-# 仅允许普通用户权限执行
-if [[ \$EUID == 0 ]]; then
-    echo "'`basename $0`' 命令只允许普通用户执行"
-    exit 1
+# 获取HOST家目录、HOST用户名以及容器登录UID
+if [ \$EUID == 0 ]; then
+    HOST_HOME=\$(su - \$SUDO_USER -c "env | grep HOME= | awk -F '=' '/HOME=/ {print \$ 2}'")
+    HOST_USER=\$SUDO_USER
+    LOGIN_UID=\$SUDO_UID
+else
+    HOST_HOME=\$HOME
+    HOST_USER=\$USER
+    LOGIN_UID=\$UID
 fi
+
+echo HOST_HOME=\$HOST_HOME
+echo HOST_USER=\$HOST_USER
+echo LOGIN_UID=\$LOGIN_UID
+
+SHELL_OPTIONS="--uid=\$LOGIN_UID --setenv=HOST_USER=\$HOST_USER --setenv=HOST_HOME=\$HOST_HOME"
+echo SHELL_OPTIONS=\$SHELL_OPTIONS
 
 # 判断容器是否启动
 [[ ! \$(machinectl list | grep $1) ]] && machinectl start $1 && sleep 0.5
 
 # 使容器与宿主机使用相同用户目录
-[ \$USER != root ] && machinectl shell $1 /bin/bash -c "ln -sfnv /home/u\$UID /home/\$USER && chown u\$UID:u\$UID /home/\$USER"
+machinectl \$SHELL_OPTIONS shell $1 /bin/bash -c 'sudo ln -sfnv \$HOME \$HOST_HOME && sudo chown \$USER:\$USER \$HOST_HOME'
 
 # 启动环境变量
 INPUT_ENGINE=\$(echo \$XMODIFIERS | awk -F "=" '/@im=/ {print \$ 2}')
@@ -417,8 +428,6 @@ RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY XMODIFIERS=\$XMODIFIERS INPUT_MET
 if [[ \$(loginctl show-session \$(loginctl | grep \$USER |awk '{print \$1}') -p Type) == *wayland* ]]; then
     RUN_ENVIRONMENT="\$RUN_ENVIRONMENT XAUTHORITY=\$XAUTHORITY"
 fi
-
-$(echo $XHOST_AUTH)
 EOF
 
 # 移除多余空行
@@ -436,10 +445,24 @@ cat /usr/local/bin/$1-config
 if [ $MULTIUSER_SUPPORT = 0 ]; then
 cat > /usr/local/bin/$1-bind <<EOF
 #!/bin/bash
+
+# 仅允许普通用户权限执行
+if [ \$EUID == 0 ]; then
+    echo \$(basename \$0)" 命令只允许普通用户执行
+    exit 1
+fi
+
+$(echo $XHOST_AUTH)
 EOF
 else
 cat > /usr/local/bin/$1-bind <<EOF
 #!/bin/bash
+
+# 仅允许普通用户权限执行
+if [ \$EUID == 0 ]; then
+    echo \$(basename \$0)" 命令只允许普通用户执行
+    exit 1
+fi
 
 # PulseAudio && D-Bus && DConf
 machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/pulse
@@ -476,6 +499,7 @@ machinectl bind --mkdir $1 \$HOME/$USER_MUSIC /home/u\$UID/$USER_MUSIC
 [ -d \$HOME/.local/share/fonts ] && [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$HOME/.local/share/fonts /home/u\$UID/.local/share/fonts
 
 $(echo "$X11_BIND_AND_CONFIG")
+$(echo $XHOST_AUTH)
 EOF
 fi
 

@@ -538,14 +538,23 @@ cat > /usr/local/bin/$1-clean <<EOF
 source /usr/local/bin/$1-config
 answer=No
 [[ ! "\$KEEP_QUIET" == "1" ]] && read -p "Delete the '~/.deepinwine' directory? [y/N]" answer
-for i in {1000..1005}; do
-    if [[ \${answer^^} == Y || \${answer^^} == YES ]]; then
-        machinectl shell $1 /bin/bash -c "rm -rf /home/u\$i/.deepinwine"
-    fi
-    machinectl shell $1 /bin/bash -c "rm -rf /home/u\$i/.cache/* && ls /home/u\$i/.config | grep -v user-dirs | xargs rm -rf && ls /home/u\$i/.local/share | grep -v fonts | xargs rm -rf && du -hd1 /home/u\$i"
-done
-machinectl shell $1 /bin/bash -c "apt autopurge -y && apt clean && rm -rf /usr/share/doc && rm -rf /usr/share/man && rm -rf /tmp/*"
-machinectl shell $1 /bin/bash -c "find /home -maxdepth 1 -type l -delete && df -h && du -hd0 /opt /home /var /usr"
+[[ \${answer^^} == Y || \${answer^^} == YES ]] && DELETE_WINE=yes
+machinectl --setenv=DELETE_WINE=\$DELETE_WINE shell $1 /bin/bash -c 'env ;
+    for i in \$(find /home -maxdepth 1 -type d | grep /home/ | grep -v /home/share); do
+        [ "\$DELETE_WINE" == "yes" ] && echo rm -rf \$i/.deepinwine && rm -rf \$i/.deepinwine ;
+        rm -rf \$i/.cache/* ;
+        ls \$i/.config | grep -v user-dirs | xargs rm -rf ;
+        ls \$i/.local/share | grep -v fonts | xargs rm -rf ;
+        du -hd0 \$i ;
+    done;
+    apt autopurge -y ;
+    apt clean ;
+    rm -rf /usr/share/doc ;
+    rm -rf /usr/share/man ;
+    rm -rf /tmp/* ;
+    find /home -maxdepth 1 -type l -delete ;
+    df -h && du -hd0 /opt /home /var /usr ;
+'
 EOF
 
 chmod 755 /usr/local/bin/$1-clean

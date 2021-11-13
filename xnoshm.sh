@@ -20,7 +20,7 @@ if [[ $DISABLE_HOST_MITSHM == 1 ]]; then
         mkdir -p /etc/X11/xorg.conf.d
         echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
     fi
-    cat > /var/lib/machines/$1/disable-MIT-SHM.sh <<EOF
+    cat > $ROOT/disable-MIT-SHM.sh <<EOF
     rm -f /lib/i386-linux-gnu/disable-MIT-SHM.so
     rm -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so
     mkdir -p /etc/X11/xorg.conf.d
@@ -30,8 +30,8 @@ EOF
 else
     rm -f /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
     [[ -d /etc/X11/xorg.conf.d && `ls -A /etc/X11/xorg.conf.d |wc -w` == 0 ]] && rm -rf /etc/X11/xorg.conf.d
-    cp -fp `dirname ${BASH_SOURCE[0]}`/xnoshm.c /var/lib/machines/$1/disable-MIT-SHM.c
-    cat > /var/lib/machines/$1/disable-MIT-SHM.sh <<EOF
+    cp -fp `dirname ${BASH_SOURCE[0]}`/xnoshm.c $ROOT/disable-MIT-SHM.c
+    cat > $ROOT/disable-MIT-SHM.sh <<EOF
     rm -rf /etc/X11/xorg.conf.d
     rm -f /etc/X11/xorg.conf
     if [[ ! -f /lib/i386-linux-gnu/disable-MIT-SHM.so || ! -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so
@@ -57,7 +57,9 @@ else
 EOF
 fi
 
-chroot /var/lib/machines/$1/ /bin/bash /disable-MIT-SHM.sh
+chroot_mount
+chroot $ROOT /bin/bash /disable-MIT-SHM.sh
+chroot_umount
 
 # 导出SHM相关环境变量
 DISABLE_MITSHM="[[ -f /lib/x86_64-linux-gnu/disable-MIT-SHM.so && -f /lib/i386-linux-gnu/disable-MIT-SHM.so ]] && export LD_PRELOAD=disable-MIT-SHM.so

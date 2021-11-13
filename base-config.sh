@@ -38,7 +38,8 @@ fi
 
 # 初始化配置
 EXEC_FROM_CONFIG=1 source `dirname ${BASH_SOURCE[0]}`/remove-$1.sh
-ln -sfnv /home/$SUDO_USER/.machines/$1 /var/lib/machines/$1
+ROOT=/var/lib/machines/$1
+ln -sfnv /home/$SUDO_USER/.machines/$1 $ROOT
 [ ! -d /usr/local/bin ] && mkdir /usr/local/bin
 
 
@@ -52,10 +53,10 @@ source `dirname ${BASH_SOURCE[0]}`/user-dirs.sh
 
 # 设置容器目录权限
 cat > /lib/systemd/system/nspawn-$1.service <<EOF
-chmod 0777 /var/lib/machines/$1
+chmod 0777 $ROOT
 [Service]
 Type=simple
-ExecStart=/bin/bash -c "chmod 0755 /var/lib/machines/$1"
+ExecStart=/bin/bash -c "chmod 0755 $ROOT"
 [Install]
 WantedBy=machines.target
 After=machines.target
@@ -67,7 +68,7 @@ systemctl enable nspawn-$1.service
 # 配置容器
 [[ $(machinectl list) =~ $1 ]] && machinectl stop $1
 mkdir -p /home/share && chmod 777 /home/share
-cat > /var/lib/machines/$1/config.sh <<EOF
+cat > $ROOT/config.sh <<EOF
 echo $1 > /etc/hostname
 /bin/dpkg --add-architecture i386
 /bin/apt update
@@ -96,7 +97,50 @@ for i in {1000..1005}; do
 done
 EOF
 
-chroot /var/lib/machines/$1/ /bin/bash /config.sh
+# 进入容器环境
+function chroot_mount() {
+    #
+    # Execute system mounts
+    #
+    mount -t sysfs -o nodev,noexec,nosuid sysfs $ROOT/sys
+    mount -t proc -o nodev,noexec,nosuid proc $ROOT/proc
+
+    # Some things don't work properly without /etc/mtab.
+    ln -sf $ROOT/proc/mounts $ROOT/etc/mtab
+
+    # Note that this only becomes /dev on the real filesystem if udev's scripts
+    # are used; which they will be, but it's worth pointing out
+    if ! mount -t devtmpfs -o mode=0755 udev $ROOT/dev; then
+        echo "W: devtmpfs not available, falling back to tmpfs for $ROOT/dev"
+        mount -t tmpfs -o mode=0755 udev $ROOT/dev
+        [ -e $ROOT/dev/console ] || mknod -m 0600 $ROOT/dev/console c 5 1
+        [ -e $ROOT/dev/null ] || mknod $ROOT/dev/null c 1 3
+    fi
+    mkdir -p $ROOT/dev/pts
+    mount -t devpts -o noexec,nosuid,gid=5,mode=0620 devpts $ROOT/dev/pts || true
+    mount -t tmpfs -o "noexec,nosuid,size=10%,mode=0755" tmpfs $ROOT/run
+    mkdir $ROOT/run/initramfs
+
+    # Compatibility symlink for the pre-oneiric locations
+    ln -sf $ROOT/run/initramfs $ROOT/dev/.initramfs
+}
+
+function chroot_umount() {
+    #
+    # Execute system umounts
+    #
+    sleep 1
+    umount -lf $ROOT/sys 2>/dev/null
+    umount -lf $ROOT/proc 2>/dev/null
+    umount -lf $ROOT/dev/pts 2>/dev/null
+    umount -lf $ROOT/dev 2>/dev/null
+    umount -lf $ROOT/run 2>/dev/null
+    sleep 1
+}
+
+chroot_mount
+chroot $ROOT /bin/bash /config.sh
+chroot_umount
 
 
 # 禁用MIT-SHM
@@ -491,7 +535,7 @@ cat > /usr/local/bin/$1-install-qq <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 $(echo -e "$INSTALL_QQ")
-[ ! -f /usr/share/pixmaps/com.qq.im.deepin.svg ] && sudo -S cp -f /var/lib/machines/$1/opt/apps/com.qq.im.deepin/entries/icons/hicolor/64x64/apps/com.qq.im.deepin.svg /usr/share/pixmaps/
+[ ! -f /usr/share/pixmaps/com.qq.im.deepin.svg ] && sudo -S cp -f $ROOT/opt/apps/com.qq.im.deepin/entries/icons/hicolor/64x64/apps/com.qq.im.deepin.svg /usr/share/pixmaps/
 [[ ! -f /usr/share/applications/deepin-qq.desktop && -f /usr/share/pixmaps/com.qq.im.deepin.svg ]] && sudo -S bash -c 'cat > /usr/share/applications/deepin-qq.desktop <<$(echo EOF)
 [Desktop Entry]
 Encoding=UTF-8
@@ -537,7 +581,7 @@ cat > /usr/local/bin/$1-install-weixin <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 $(echo -e "$INSTALL_WEIXIN")
-[ ! -f /usr/share/pixmaps/com.qq.weixin.deepin.svg ] && sudo -S cp -f /var/lib/machines/$1/opt/apps/com.qq.weixin.deepin/entries/icons/hicolor/64x64/apps/com.qq.weixin.deepin.svg /usr/share/pixmaps/
+[ ! -f /usr/share/pixmaps/com.qq.weixin.deepin.svg ] && sudo -S cp -f $ROOT/opt/apps/com.qq.weixin.deepin/entries/icons/hicolor/64x64/apps/com.qq.weixin.deepin.svg /usr/share/pixmaps/
 [[ ! -f /usr/share/applications/deepin-weixin.desktop && -f /usr/share/pixmaps/com.qq.weixin.deepin.svg ]] && sudo -S bash -c 'cat > /usr/share/applications/deepin-weixin.desktop <<$(echo EOF)
 [Desktop Entry]
 Encoding=UTF-8
@@ -576,7 +620,7 @@ source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
 ECLOUD_DEB=/home/u\$UID/\$(basename \$(xdg-user-dir DOWNLOAD))/cn.189.cloud.deepin_6.3.2-1.deb
 machinectl shell $1 /bin/bash -c "dpkg -i '\$ECLOUD_DEB'  && apt install -f && apt-mark hold cn.189.cloud.deepin"
-[ ! -f /usr/share/pixmaps/cn.189.cloud.deepin.svg ] && sudo -S cp -f /var/lib/machines/$1/opt/apps/cn.189.cloud.deepin/entries/icons/hicolor/64x64/apps/cn.189.cloud.deepin.svg /usr/share/pixmaps/
+[ ! -f /usr/share/pixmaps/cn.189.cloud.deepin.svg ] && sudo -S cp -f $ROOT/opt/apps/cn.189.cloud.deepin/entries/icons/hicolor/64x64/apps/cn.189.cloud.deepin.svg /usr/share/pixmaps/
 [[ ! -f /usr/share/applications/deepin-ecloud.desktop && -f /usr/share/pixmaps/cn.189.cloud.deepin.svg  ]] && sudo -S bash -c 'cat > /usr/share/applications/deepin-ecloud.desktop <<$(echo EOF)
 [Desktop Entry]
 Encoding=UTF-8

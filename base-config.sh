@@ -447,8 +447,8 @@ for i in {1000..1005}; do
     fi
     machinectl shell $1 /bin/bash -c "rm -rf /home/u\$i/.cache/* && ls /home/u\$i/.config | grep -v user-dirs | xargs rm -rf && ls /home/u\$i/.local/share | grep -v fonts | xargs rm -rf && du -hd1 /home/u\$i"
 done
-machinectl shell $1 /bin/bash -c "find /home -maxdepth 1 -type l -delete && apt clean && df -h && du -hd0 /opt /home /var /usr"
-machinectl shell $1 /bin/bash -c "apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt autopurge -y && apt clean && rm -rf /usr/share/doc && rm -rf /usr/share/man && rm -rf /tmp/*"
+machinectl shell $1 /bin/bash -c "find /home -maxdepth 1 -type l -delete && df -h && du -hd0 /opt /home /var /usr"
 EOF
 
 chmod 755 /usr/local/bin/$1-clean

@@ -72,8 +72,7 @@ cat > $ROOT/config.sh <<EOF
 echo $1 > /etc/hostname
 /bin/dpkg --add-architecture i386
 /bin/apt update
-/bin/apt install --yes pulseaudio locales
-/bin/apt install --yes --no-install-recommends sudo procps xdg-utils dbus-x11 dex bash-completion
+/bin/apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd locales xdg-utils dbus-x11 dex bash-completion
 /bin/apt install --yes --no-install-recommends less:i386
 echo -e "127.1 $1\n::1 $1" > /etc/hosts
 /bin/sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen

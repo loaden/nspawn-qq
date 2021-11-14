@@ -122,7 +122,7 @@ rm -rf /usr/share/man
 rm -rf /tmp/*
 
 # Clean up and exit
-no_need_pkgs="bsdmainutils compton debconf-i18n eject \
+no_need_pkgs="bsdmainutils compton debconf-i18n \
     fonts-noto-core fonts-symbola gdbm-l10n iptables \
     logrotate menu tasksel tzdata vim-common whiptail xxd
     "

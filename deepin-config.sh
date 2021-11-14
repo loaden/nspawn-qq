@@ -21,10 +21,10 @@ SOURCES_LIST="echo 'deb [by-hash=force] https://community-packages.deepin.com/de
 echo 'deb https://com-store-packages.uniontech.com/appstore deepin appstore' > /etc/apt/sources.list.d/appstore.list"
 
 IFS='' read -r -d '' INSTALL_QQ <<EOF
-machinectl shell deepin /bin/bash -c "dpkg --add-architecture i386 && apt update && apt install -y com.qq.im.deepin x11-utils --no-install-recommends && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.qq.im.deepin x11-utils --no-install-recommends && apt autopurge -y"
 EOF
 IFS='' read -r -d '' INSTALL_WEIXIN <<EOF
-machinectl shell deepin /bin/bash -c "dpkg --add-architecture i386 && apt update && apt install -y com.qq.weixin.deepin x11-utils --no-install-recommends && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.qq.weixin.deepin x11-utils --no-install-recommends && apt autopurge -y"
 EOF
 
 

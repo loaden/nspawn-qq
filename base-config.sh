@@ -70,8 +70,11 @@ systemctl enable nspawn-$1.service
 mkdir -p /home/share && chmod 777 /home/share
 cat > $ROOT/config.sh <<EOF
 echo $1 > /etc/hostname
-/bin/dpkg --add-architecture i386
-/bin/apt update
+/bin/dpkg --status less:i386 1>/dev/null 2>&1
+if [ $? ]; then
+    /bin/dpkg --add-architecture i386
+    /bin/apt update
+fi
 /bin/apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd locales xdg-utils dbus-x11 dex bash-completion neofetch
 /bin/apt install --yes --no-install-recommends less:i386
 echo -e "127.1 $1\n::1 $1" > /etc/hosts

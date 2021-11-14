@@ -130,13 +130,13 @@ function chroot_umount() {
     #
     # Execute system umounts
     #
-    sleep 1
+    sleep 0.3
     umount -lf $ROOT/sys 2>/dev/null
     umount -lf $ROOT/proc 2>/dev/null
     umount -lf $ROOT/dev/pts 2>/dev/null
     umount -lf $ROOT/dev 2>/dev/null
     umount -lf $ROOT/run 2>/dev/null
-    sleep 1
+    sleep 0.3
 }
 
 chroot_mount
@@ -402,25 +402,25 @@ fi
 if [ \$EUID == 0 ]; then
     HOST_HOME=\$(su - \$SUDO_USER -c "env | grep HOME= | awk -F '=' '/HOME=/ {print \$ 2}'")
     HOST_USER=\$SUDO_USER
-    LOGIN_UID=\$SUDO_UID
+    USER_UID=\$SUDO_UID
 else
     HOST_HOME=\$HOME
     HOST_USER=\$USER
-    LOGIN_UID=\$UID
+    USER_UID=\$UID
 fi
 
+SHELL_OPTIONS="--uid=\$USER_UID --setenv=HOST_USER=\$HOST_USER --setenv=HOST_HOME=\$HOST_HOME"
 echo HOST_HOME=\$HOST_HOME
 echo HOST_USER=\$HOST_USER
-echo LOGIN_UID=\$LOGIN_UID
-
-SHELL_OPTIONS="--uid=\$LOGIN_UID --setenv=HOST_USER=\$HOST_USER --setenv=HOST_HOME=\$HOST_HOME"
-echo SHELL_OPTIONS=\$SHELL_OPTIONS
+echo USER_UID=\$USER_UID
 
 # 判断容器是否启动
 [[ ! \$(machinectl list | grep $1) ]] && machinectl start $1 && sleep 0.5
 
 # 使容器与宿主机使用相同用户目录
-machinectl \$SHELL_OPTIONS shell $1 /bin/bash -c 'sudo ln -sfnv \$HOME \$HOST_HOME && sudo chown \$USER:\$USER \$HOST_HOME'
+machinectl --setenv=USER_UID=\$USER_UID --setenv=HOST_HOME=\$HOST_HOME shell $1 /bin/bash -c '
+    ln -sfnv /home/u\$USER_UID \$HOST_HOME && chown -h \$USER_UID:\$USER_UID \$HOST_HOME
+'
 
 # 启动环境变量
 INPUT_ENGINE=\$(echo \$XMODIFIERS | awk -F "=" '/@im=/ {print \$ 2}')
@@ -448,7 +448,7 @@ cat > /usr/local/bin/$1-bind <<EOF
 
 # 仅允许普通用户权限执行
 if [ \$EUID == 0 ]; then
-    echo \$(basename \$0)" 命令只允许普通用户执行
+    echo \$(basename \$0) 命令只允许普通用户执行
     exit 1
 fi
 
@@ -460,7 +460,7 @@ cat > /usr/local/bin/$1-bind <<EOF
 
 # 仅允许普通用户权限执行
 if [ \$EUID == 0 ]; then
-    echo \$(basename \$0)" 命令只允许普通用户执行
+    echo \$(basename \$0) 命令只允许普通用户执行
     exit 1
 fi
 

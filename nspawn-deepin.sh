@@ -31,9 +31,9 @@ source `dirname ${BASH_SOURCE[0]}`/deepin-config.sh
 
 
 # 默认安装
-su -w DISPLAY - $SUDO_USER -c "deepin-install-terminal"
-su -w DISPLAY - $SUDO_USER -c "deepin-install-file"
-su -w DISPLAY - $SUDO_USER -c "deepin-install-qq"
+deepin-install-terminal
+deepin-install-file
+deepin-install-qq
 
 # 清理
-su -w DISPLAY - $SUDO_USER -c "KEEP_QUIET=1 deepin-clean"
+KEEP_QUIET=1 deepin-clean

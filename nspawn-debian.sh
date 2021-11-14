@@ -28,9 +28,9 @@ source `dirname ${BASH_SOURCE[0]}`/debian-config.sh
 
 
 # 默认安装
-su -w DISPLAY - $SUDO_USER -c "debian-install-terminal"
-su -w DISPLAY - $SUDO_USER -c "debian-install-file"
-su -w DISPLAY - $SUDO_USER -c "debian-install-qq"
+debian-install-terminal
+debian-install-file
+debian-install-qq
 
 # 清理
-su -w DISPLAY - $SUDO_USER -c "KEEP_QUIET=1 debian-clean"
+KEEP_QUIET=1 debian-clean

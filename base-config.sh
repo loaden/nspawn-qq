@@ -518,15 +518,18 @@ cat /usr/local/bin/$1-bind
 cat > /usr/local/bin/$1-query <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/su - u\$UID -c "$(echo "$DISABLE_MITSHM") && ls /usr/share/applications \
-    && find /opt -name "*.desktop" \
-    && echo && echo query inode/directory && xdg-mime query default inode/directory \
-    && echo query video/mp4 && xdg-mime query default video/mp4 \
-    && echo query audio/flac && xdg-mime query default audio/flac \
-    && echo query application/pdf && xdg-mime query default application/pdf \
-    && echo query image/png && xdg-mime query default image/png \
-    && echo && echo ldd /bin/bash && ldd /bin/bash | grep SHM \
-    && echo ldd /bin/less && ldd /bin/less | grep SHM"
+
+machinectl \$SHELL_OPTIONS shell $1 /bin/bash -c 'env ;
+    ls -l /usr/share/applications ;
+    echo -n $(find /opt -name "*.desktop") ;
+    echo && echo query inode/directory && xdg-mime query default inode/directory ;
+    echo query video/mp4 && xdg-mime query default video/mp4 ;
+    echo query audio/flac && xdg-mime query default audio/flac ;
+    echo query application/pdf && xdg-mime query default application/pdf ;
+    echo query image/png && xdg-mime query default image/png ;
+    echo && echo ldd /bin/bash && echo -n $(ldd /bin/bash | grep SHM || true) ;
+    echo ldd /bin/less && echo -n $(ldd /bin/less | grep SHM || true) ;
+'
 EOF
 
 chmod 755 /usr/local/bin/$1-query

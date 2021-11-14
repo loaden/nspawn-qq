@@ -98,50 +98,7 @@ done
 sed -i "s/.*sudo.*ALL=(ALL:ALL) ALL/%sudo ALL=(ALL) NOPASSWD:ALL/" /etc/sudoers
 EOF
 
-# 进入容器环境
-function chroot_mount() {
-    #
-    # Execute system mounts
-    #
-    mount -t sysfs -o nodev,noexec,nosuid sysfs $ROOT/sys
-    mount -t proc -o nodev,noexec,nosuid proc $ROOT/proc
-
-    # Some things don't work properly without /etc/mtab.
-    ln -sf $ROOT/proc/mounts $ROOT/etc/mtab
-
-    # Note that this only becomes /dev on the real filesystem if udev's scripts
-    # are used; which they will be, but it's worth pointing out
-    if ! mount -t devtmpfs -o mode=0755 udev $ROOT/dev; then
-        echo "W: devtmpfs not available, falling back to tmpfs for $ROOT/dev"
-        mount -t tmpfs -o mode=0755 udev $ROOT/dev
-        [ -e $ROOT/dev/console ] || mknod -m 0600 $ROOT/dev/console c 5 1
-        [ -e $ROOT/dev/null ] || mknod $ROOT/dev/null c 1 3
-    fi
-    mkdir -p $ROOT/dev/pts
-    mount -t devpts -o noexec,nosuid,gid=5,mode=0620 devpts $ROOT/dev/pts || true
-    mount -t tmpfs -o "noexec,nosuid,size=10%,mode=0755" tmpfs $ROOT/run
-    mkdir $ROOT/run/initramfs
-
-    # Compatibility symlink for the pre-oneiric locations
-    ln -sf $ROOT/run/initramfs $ROOT/dev/.initramfs
-}
-
-function chroot_umount() {
-    #
-    # Execute system umounts
-    #
-    sleep 0.3
-    umount -lf $ROOT/sys 2>/dev/null
-    umount -lf $ROOT/proc 2>/dev/null
-    umount -lf $ROOT/dev/pts 2>/dev/null
-    umount -lf $ROOT/dev 2>/dev/null
-    umount -lf $ROOT/run 2>/dev/null
-    sleep 0.3
-}
-
-chroot_mount
 chroot $ROOT /bin/bash /config.sh
-chroot_umount
 
 
 # 禁用MIT-SHM
@@ -170,10 +127,8 @@ apt autopurge --yes
 apt clean
 EOF
 
-chroot_mount
 chroot $ROOT /bin/bash /clean.sh
 rm -f $ROOT/clean.sh
-chroot_umount
 
 
 # 确保宿主机当前用户相关目录或文件存在

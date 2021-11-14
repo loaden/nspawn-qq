@@ -60,9 +60,8 @@ else
 EOF
 fi
 
-chroot_mount
 chroot $ROOT /bin/bash /$DISABLE_MIT_SHM_SH
-chroot_umount
+
 
 # 导出SHM相关环境变量
 DISABLE_MITSHM="[[ -f /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO && -f /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO ]] && export LD_PRELOAD=$DISABLE_MIT_SHM_SO

@@ -843,12 +843,11 @@ EOF
 chmod 755 /usr/local/bin/$1-libreoffice
 
 
-
 # 添加启动器
 machinectl start $1 && sleep 0.5
 echo
-[ -n "$(su -w DISPLAY - $SUDO_USER -c "$1-query" | grep com.qq.im.deepin.desktop)" ] && [[ ! -f /usr/share/applications/deepin-qq.desktop || ! -f /usr/share/pixmaps/com.qq.im.deepin.svg ]] && su -w DISPLAY - $SUDO_USER -c "$1-install-qq"
-[ -n "$(su -w DISPLAY - $SUDO_USER -c "$1-query" | grep com.qq.weixin.deepin.desktop)" ] && [[ ! -f /usr/share/applications/deepin-weixin.desktop || ! -f /usr/share/pixmaps/com.qq.weixin.deepin.svg ]] && su -w DISPLAY - $SUDO_USER -c "$1-install-weixin"
+[ -n "$($1-query | grep com.qq.im.deepin.desktop)" ] && [[ ! -f /usr/share/applications/deepin-qq.desktop || ! -f /usr/share/pixmaps/com.qq.im.deepin.svg ]] && $1-install-qq
+[ -n "$($1-query | grep com.qq.weixin.deepin.desktop)" ] && [[ ! -f /usr/share/applications/deepin-weixin.desktop || ! -f /usr/share/pixmaps/com.qq.weixin.deepin.svg ]] && $1-install-weixin
 [ -f /usr/share/applications/deepin-qq.desktop ] && cat /usr/share/applications/deepin-qq.desktop | grep $1-
 [ -f /usr/share/applications/deepin-weixin.desktop ] && cat /usr/share/applications/deepin-weixin.desktop | grep $1-
 

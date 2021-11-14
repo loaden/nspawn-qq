@@ -70,8 +70,12 @@ systemctl enable nspawn-$1.service
 mkdir -p /home/share && chmod 777 /home/share
 cat > $ROOT/config.sh <<EOF
 echo $1 > /etc/hostname
-/bin/dpkg --status less:i386 1>/dev/null 2>&1
-if [ $? ]; then
+rm -f /var/lib/dpkg/lock
+rm -f /var/lib/dpkg/lock-frontend
+rm -f /var/cache/apt/archives/lock
+dpkg --configure -a
+apt install -f
+if [ ! -f /bin/less ]; then
     /bin/dpkg --add-architecture i386
     /bin/apt update
 fi
@@ -112,13 +116,14 @@ source `dirname ${BASH_SOURCE[0]}`/xnoshm.sh $1
 #卸载不必要组件
 cat > $ROOT/clean.sh <<EOF
 # Save space
+[ -L /bin/X11 ] && unlink /bin/X11
 rm -rf /usr/share/doc
 rm -rf /usr/share/man
 rm -rf /tmp/*
 
 # Clean up and exit
-no_need_pkgs="bsdmainutils compton debconf-i18n dictionaries-common eject \
-    emacsen-common fonts-noto-core fonts-symbola gdbm-l10n iptables \
+no_need_pkgs="bsdmainutils compton debconf-i18n eject \
+    fonts-noto-core fonts-symbola gdbm-l10n iptables \
     logrotate menu tasksel tzdata vim-common whiptail xxd
     "
 for i in \$no_need_pkgs; do

@@ -202,6 +202,7 @@ cat > /usr/local/bin/$1-start  <<EOF
 export XDG_RUNTIME_DIR=/run/user/\$UID
 export PULSE_SERVER=unix:\$XDG_RUNTIME_DIR/pulse/native
 $(echo "$DISABLE_MITSHM")
+env
 dex \$@
 EOF
 

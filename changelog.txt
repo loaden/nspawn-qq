@@ -1,0 +1,45 @@
+git log v3.2..v3.3 --oneline >changelog.txt
+170e0b0 不卸载eject
+9187a76 确保配置时update只执行一次
+db5fb5b 优化配置与清理
+dd461da update只执行一次
+86d637d 添加neofetch
+7bd040a 移除mount
+4daebf4 启动前输出环境变量
+810bed7 完善query和SHM配置
+3596a64 修复安装与配置报错
+dc78aea 重写query
+1791710 优化config
+e79a15b 重写clean脚本
+714edec 重写config脚本
+c2cea4a Fix denpency
+6626b39 终端免密码安装软件
+394ac16 最小化基本系统安装
+10624e6 优化容器配置
+892a8f4 优化清理函数
+684b2d1 添加xarchiver
+662073e deepin特殊包
+c2506de 添加gtk依赖
+0617fd2 Revert "移除不必要的依赖"
+4cd0c21 修复严重错误
+7f0c6ff Revert "取消最小化"
+e256ca9 取消最小化
+550cea1 默认XFCE文管和终端
+2357407 移除不必要的依赖
+dd16356 更轻量级文管和终端
+da238bc 添加procps
+d2acabc 添加zstd
+05b81e7 恢复清理
+b0599e7 去除wqy字体
+3fa3bbd 改用wqy中文字体
+af2a19c 精简不必要的依赖
+4916448 修复安装判断
+79aac9c 精简初始安装
+a228ff9 完善容器tty配置
+98bb774 避免有可能的/bin不存在
+83279db 不再移除旧版本遗留文件
+b98a92c 完善用户修改目录名称问题
+4f21aa6 输出更多调试信息
+6e6221e 同步容器改进
+74306ce 优化容器工具安装
+cb41aab 添加工具包检测

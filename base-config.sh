@@ -518,17 +518,16 @@ cat /usr/local/bin/$1-bind
 cat > /usr/local/bin/$1-query <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-
-machinectl \$SHELL_OPTIONS shell $1 /bin/bash -c 'env ;
+machinectl \$SHELL_OPTIONS --setenv=LD_PRELOAD=$DISABLE_MIT_SHM_SO shell $1 /bin/bash -c 'env ;
     ls -l /usr/share/applications ;
-    echo -n $(find /opt -name "*.desktop") ;
-    echo && echo query inode/directory && xdg-mime query default inode/directory ;
-    echo query video/mp4 && xdg-mime query default video/mp4 ;
-    echo query audio/flac && xdg-mime query default audio/flac ;
-    echo query application/pdf && xdg-mime query default application/pdf ;
-    echo query image/png && xdg-mime query default image/png ;
-    echo && echo ldd /bin/bash && echo -n $(ldd /bin/bash | grep SHM || true) ;
-    echo ldd /bin/less && echo -n $(ldd /bin/less | grep SHM || true) ;
+    echo -n \$(find /opt -name "*.desktop") && echo ;
+    [ -n "\$(xdg-mime query default inode/directory)" ] && echo -n "The default open of inode/directory is " && xdg-mime query default inode/directory ;
+    [ -n "\$(xdg-mime query default video/mp4)" ] && echo -n "The default open of video/mp4 is " && xdg-mime query default video/mp4 ;
+    [ -n "\$(xdg-mime query default audio/flac)" ] && echo -n "The default open of audio/flac is " && xdg-mime query default audio/flac ;
+    [ -n "\$(xdg-mime query default application/pdf)" ] && echo -n "The default open of application/pdf is " && xdg-mime query default application/pdf ;
+    [ -n "\$(xdg-mime query default image/png)" ] && echo -n "The default open of image/png is " && xdg-mime query default image/png ;
+    echo && echo ldd /bin/bash && echo \$(ldd /bin/bash | grep SHM) ;
+    echo ldd /bin/less && echo \$(ldd /bin/less | grep SHM) ;
 '
 EOF
 

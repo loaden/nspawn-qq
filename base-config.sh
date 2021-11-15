@@ -12,7 +12,7 @@ fi
 
 # systemd 247 bug 解决方案，禁止多用户支持，去除动态绑定
 # 详见：https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1816433.html
-if [[ $MULTIUSER_SUPPORT = 1 && $(systemd --version | grep systemd) =~ 247 ]]; then
+if [[ $MULTIUSER_SUPPORT = 1 && $(/usr/bin/systemctl --version | grep systemd) =~ 247 ]]; then
     MULTIUSER_SUPPORT=0
     echo -e "\033[31m当前 systemd 有bug，不支持多用户动态绑定，已强制启用单用户模式。"
     systemd --version | grep systemd
@@ -69,40 +69,40 @@ systemctl enable nspawn-$1.service
 [[ $(machinectl list) =~ $1 ]] && machinectl stop $1
 mkdir -p /home/share && chmod 777 /home/share
 cat > $ROOT/config.sh <<EOF
-echo $1 > /etc/hostname
-rm -f /var/lib/dpkg/lock
-rm -f /var/lib/dpkg/lock-frontend
-rm -f /var/cache/apt/archives/lock
-dpkg --configure -a
-apt install -f
+/bin/echo $1 > /etc/hostname
+/bin/rm -f /var/lib/dpkg/lock
+/bin/rm -f /var/lib/dpkg/lock-frontend
+/bin/rm -f /var/cache/apt/archives/lock
+/bin/dpkg --configure -a
+/bin/apt install -f
 if [ ! -f /bin/less ]; then
     /bin/dpkg --add-architecture i386
     /bin/apt update
 fi
 /bin/apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd locales xdg-utils dbus-x11 dex bash-completion neofetch
 /bin/apt install --yes --no-install-recommends less:i386
-echo -e "127.1 $1\n::1 $1" > /etc/hosts
+/bin/echo -e "127.1 $1\n::1 $1" > /etc/hosts
 /bin/sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
 /bin/sed -i 's/# zh_CN.UTF-8/zh_CN.UTF-8/g' /etc/locale.gen
 /sbin/locale-gen
 /bin/locale
-$(echo -e "$SOURCES_LIST")
-[[ ! -f /etc/securetty || ! \$(cat /etc/securetty | grep pts/0) ]] && echo -e "\n# systemd-container\npts/0\npts/1\npts/2\npts/3\npts/4\npts/5\npts/6" >> /etc/securetty
-[[ ! \$(cat /etc/securetty | grep pts/9) ]] && echo -e "pts/7\npts/8\npts/9" >> /etc/securetty
-mkdir -p /home/share && chmod 777 /home/share
-[[ \$(/bin/cat /etc/passwd | grep user:) ]] && /sbin/userdel -r user
+$(/bin/echo -e "$SOURCES_LIST")
+[[ ! -f /etc/securetty || ! \$(/bin/cat /etc/securetty | /bin/grep pts/0) ]] && /bin/echo -e "\n# systemd-container\npts/0\npts/1\npts/2\npts/3\npts/4\npts/5\npts/6" >> /etc/securetty
+[[ ! \$(/bin/cat /etc/securetty | /bin/grep pts/9) ]] && /bin/echo -e "pts/7\npts/8\npts/9" >> /etc/securetty
+/bin/mkdir -p /home/share && /bin/chmod 777 /home/share
+[[ \$(/bin/cat /etc/passwd | /bin/grep user:) ]] && /sbin/userdel -r user
 for i in {1000..1005}; do
-    [[ ! \$(/bin/cat /etc/passwd | grep u\$i:) ]] && /sbin/useradd -u \$i -m -s /bin/bash -G sudo u\$i
-    echo u\$i:passwd | /sbin/chpasswd
+    [[ ! \$(/bin/cat /etc/passwd | /bin/grep u\$i:) ]] && /sbin/useradd -u \$i -m -s /bin/bash -G sudo u\$i
+    /bin/echo u\$i:passwd | /sbin/chpasswd
     cd /home/u\$i/
-    mkdir -p .local/share/fonts .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
-    chown -R u\$i:u\$i .local .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
+    /bin/mkdir -p .local/share/fonts .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
+    /bin/chown -R u\$i:u\$i .local .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
 done
 for i in {1000..1005}; do
-    [[ ! \$(groups u\$i | grep audio) ]] && adduser u\$i audio
+    [[ ! \$(/bin/groups u\$i | /bin/grep audio) ]] && /bin/adduser u\$i audio
 done
 # No password for sudo
-sed -i "s/.*sudo.*ALL=(ALL:ALL) ALL/%sudo ALL=(ALL) NOPASSWD:ALL/" /etc/sudoers
+/bin/sed -i "s/.*sudo.*ALL=(ALL:ALL) ALL/%sudo ALL=(ALL) NOPASSWD:ALL/" /etc/sudoers
 EOF
 
 chroot $ROOT /bin/bash /config.sh
@@ -116,10 +116,10 @@ source `dirname ${BASH_SOURCE[0]}`/xnoshm.sh $1
 #卸载不必要组件
 cat > $ROOT/clean.sh <<EOF
 # Save space
-[ -L /bin/X11 ] && unlink /bin/X11
-rm -rf /usr/share/doc
-rm -rf /usr/share/man
-rm -rf /tmp/*
+[ -L /bin/X11 ] && /bin/unlink /bin/X11
+/bin/rm -rf /usr/share/doc
+/bin/rm -rf /usr/share/man
+/bin/rm -rf /tmp/*
 
 # Clean up and exit
 no_need_pkgs="bsdmainutils compton debconf-i18n \
@@ -127,12 +127,12 @@ no_need_pkgs="bsdmainutils compton debconf-i18n \
     logrotate menu tasksel tzdata vim-common whiptail xxd
     "
 for i in \$no_need_pkgs; do
-    echo [ apt purge \$i ]
-    apt purge --yes \$i 2>/dev/null
+    /bin/echo [ /bin/apt purge \$i ]
+    /bin/apt purge --yes \$i 2>/dev/null
 done
 
-apt autopurge --yes
-apt clean
+/bin/apt autopurge --yes
+/bin/apt clean
 EOF
 
 chroot $ROOT /bin/bash /clean.sh

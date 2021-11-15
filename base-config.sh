@@ -17,6 +17,7 @@ if [[ $MULTIUSER_SUPPORT = 1 && $(/usr/bin/systemctl --version | grep systemd) =
     echo -e "\033[31m当前 systemd 有bug，不支持多用户动态绑定，已强制启用单用户模式。"
     systemd --version | grep systemd
     echo -e "\033[0m"
+    sleep 3
 fi
 
 # 必备软件包

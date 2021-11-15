@@ -7,7 +7,6 @@ echo -n -e "\033[31m需要我自动帮您删除~/.machines/debian吗？[y/N]\033
 read -p " " choice
 case $choice in
 Y | y) sudo rm -rf $HOME/.machines/debian && echo $HOME/.machines/debian 已被删除！;;
-N | n | '') echo 再见！;;
-*) echo 错误选择，请手动删除！;;
+N | n | '') echo 再见！ && sleep 2 && exit ;;
+*) echo 错误选择，请手动删除！ && sleep 2 && exit 1 ;;
 esac
-

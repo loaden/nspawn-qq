@@ -609,7 +609,13 @@ chmod 755 /usr/local/bin/$1-qq
 cat > /usr/local/bin/$1-install-weixin <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-$(echo -e "$INSTALL_WEIXIN")
+DEB_FILE=\$(find \$(xdg-user-dir DOWNLOAD) -name com.qq.weixin.*.deb)
+if [ -z "\$DEB_FILE" ]; then
+    $(echo -e "$INSTALL_WEIXIN")
+else
+    source /usr/local/bin/$1-bind
+    machinectl shell $1 /bin/bash -c "dpkg -i \${DEB_FILE/\$USER/u\$UID} ; apt install -f ; apt-mark hold com.qq.weixin.deepin"
+fi
 [ ! -f /usr/share/pixmaps/com.qq.weixin.deepin.svg ] && sudo -S cp -f $ROOT/opt/apps/com.qq.weixin.deepin/entries/icons/hicolor/64x64/apps/com.qq.weixin.deepin.svg /usr/share/pixmaps/
 [[ ! -f /usr/share/applications/deepin-weixin.desktop && -f /usr/share/pixmaps/com.qq.weixin.deepin.svg ]] && sudo -S bash -c 'cat > /usr/share/applications/deepin-weixin.desktop <<$(echo EOF)
 [Desktop Entry]
@@ -646,9 +652,13 @@ chmod 755 /usr/local/bin/$1-weixin
 cat > /usr/local/bin/$1-install-ecloud <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
+DEB_FILE=\$(find \$(xdg-user-dir DOWNLOAD) -name cn.189.cloud.*.deb)
+if [ -z "\$DEB_FILE" ]; then
+    echo 安装包不存在！
+    exit
+fi
 source /usr/local/bin/$1-bind
-ECLOUD_DEB=/home/u\$UID/\$(basename \$(xdg-user-dir DOWNLOAD))/cn.189.cloud.deepin_6.3.2-1.deb
-machinectl shell $1 /bin/bash -c "dpkg -i '\$ECLOUD_DEB'  && apt install -f && apt-mark hold cn.189.cloud.deepin"
+machinectl shell $1 /bin/bash -c "dpkg -i \${DEB_FILE/\$USER/u\$UID} ; apt install -f ; apt-mark hold cn.189.cloud.deepin"
 [ ! -f /usr/share/pixmaps/cn.189.cloud.deepin.svg ] && sudo -S cp -f $ROOT/opt/apps/cn.189.cloud.deepin/entries/icons/hicolor/64x64/apps/cn.189.cloud.deepin.svg /usr/share/pixmaps/
 [[ ! -f /usr/share/applications/deepin-ecloud.desktop && -f /usr/share/pixmaps/cn.189.cloud.deepin.svg  ]] && sudo -S bash -c 'cat > /usr/share/applications/deepin-ecloud.desktop <<$(echo EOF)
 [Desktop Entry]

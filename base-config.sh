@@ -484,8 +484,8 @@ cat > /usr/local/bin/$1-query <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 machinectl \$SHELL_OPTIONS --setenv=LD_PRELOAD=$DISABLE_MIT_SHM_SO shell $1 /bin/bash -c 'env ;
-    ls -l /usr/share/applications ;
-    echo -n \$(find /opt -name "*.desktop") && echo ;
+    echo /usr/share/applications && ls -l /usr/share/applications ;
+    find /opt -name "*.desktop" && echo ;
     [ -n "\$(xdg-mime query default inode/directory)" ] && echo -n "The default open of inode/directory is " && xdg-mime query default inode/directory ;
     [ -n "\$(xdg-mime query default video/mp4)" ] && echo -n "The default open of video/mp4 is " && xdg-mime query default video/mp4 ;
     [ -n "\$(xdg-mime query default audio/flac)" ] && echo -n "The default open of audio/flac is " && xdg-mime query default audio/flac ;

@@ -33,6 +33,16 @@ EOF
 source `dirname ${BASH_SOURCE[0]}`/base-config.sh debian
 
 
+# 更新商店
+cat > /usr/local/bin/debian-update-store <<EOF
+#!/bin/bash
+source /usr/local/bin/debian-config
+machinectl shell debian /bin/bash -c "apt install wget -y && wget -O- https://deepin-wine.i-m.dev/setup.sh | sh"
+EOF
+
+chmod 755 /usr/local/bin/debian-update-store
+
+
 # 安装所有
 cat > /usr/local/bin/debian-install-all <<EOF
 debian-install-qq

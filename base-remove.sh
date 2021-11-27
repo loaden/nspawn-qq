@@ -11,9 +11,6 @@ fi
 systemctl disable systemd-nspawn@$1.service
 systemctl stop systemd-nspawn@$1.service
 
-rm -f /var/lib/polkit-1/localauthority/10-vendor.d/machines.pkla
-rm -f /usr/share/polkit-1/rules.d/10-machines.rules
-
 [ -f /lib/systemd/system/nspawn-$1.service ] && systemctl disable nspawn-$1.service
 rm -f /lib/systemd/system/nspawn-$1.service
 
@@ -52,6 +49,11 @@ fi
 if [[ ! $EXEC_FROM_CONFIG ]] && [ -f /usr/share/applications/deepin-weixin.desktop ] && [[ $(cat /usr/share/applications/deepin-weixin.desktop | grep $1-) ]]; then
     rm -f /usr/share/pixmaps/com.qq.weixin.deepin.svg
     rm -f /usr/share/applications/deepin-weixin.desktop
+fi
+
+if [ ! -f /usr/local/bin/*-config ]; then
+    rm -f /var/lib/polkit-1/localauthority/10-vendor.d/machines.pkla
+    rm -f /usr/share/polkit-1/rules.d/10-machines.rules
 fi
 
 [[ ! $EXEC_FROM_CONFIG ]] && echo "为防止数据意外丢失，您需要手动删除 ~/.machines/$1 文件夹！"

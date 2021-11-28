@@ -1,6 +1,12 @@
 #!/bin/bash
 # 维护：Yuchen Deng [Zz] QQ群：19346666、111601117
 
+# 仅允许普通用户权限执行
+if [ $EUID == 0 ]; then
+    echo $(basename $0) 命令只允许普通用户执行
+    exit 1
+fi
+
 sudo `dirname ${BASH_SOURCE[0]}`/nspawn-deepinwine/remove-deepin.sh
 
 echo -n -e "\033[31m需要我自动帮您删除~/.machines/deepin吗？[y/N]\033[0m"

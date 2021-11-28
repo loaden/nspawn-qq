@@ -1,4 +1,19 @@
-git log v3.2..v3.3 --oneline >changelog.txt
+git log v3.3.1..v3.3.2 --oneline
+5040587 修复安装脚本
+8b49d04 添加更新商店命令
+c8dc340 优化卸载
+bad4d7f Merge branch 'master' of gitee.com:loaden/nspawn-deepinwine
+9f4f736 优化查询输出
+7e280ca 优化离线安装
+
+git log v3.3..v3.3.1 --oneline
+dbc92fd 修复安装脚本
+48fede8 改进安装脚本
+7de43eb Add install scripts
+7a50673 Config Fixes
+52ea243 添加changelog
+
+git log v3.2..v3.3 --oneline
 170e0b0 不卸载eject
 9187a76 确保配置时update只执行一次
 db5fb5b 优化配置与清理
@@ -43,3 +58,264 @@ b98a92c 完善用户修改目录名称问题
 6e6221e 同步容器改进
 74306ce 优化容器工具安装
 cb41aab 添加工具包检测
+
+git log v3.1..v3.2 --oneline
+97c85a4 优化字符串判断
+2de1963 优化创造启动器的条件
+7a9a35f 添加天翼云盘启动器
+d76297d 修正嵌套软链接
+8e30966 添加解释
+673ede7 Merge branch 'master' of gitee.com:loaden/nspawn-deepinwine
+85f18f3  修正拼写
+38cd7a3 安装完成后不清理
+5452d3d 修正QQ微信图标
+c9f5a86 不能判断chroot的返回值
+1328b53 继续优化安装判断
+4bafd6e 完善安装判断
+db4bd9e 判断容器创建是否成功
+024e595 更新维护人
+ec894ff 提醒用户错误执行配置脚本
+033ace1 完善执行脚本用户权限判断
+797b3d0 添加不能单独执行提示
+ce4cc84 删除过时代码
+ec49a3d 配置过程不删除启动器
+073a8d0 安装或配置容器时，以普通用户身份执行安装
+865694b 安装与启动只允许普通用户权限执行
+312e73a 容器不存在时先创建
+99f2ec8 清理时删除被淘汰软件
+47d5b8b mousepad改32位
+
+git log v3.0..v3.1 --oneline
+10360ed 添加多用户模式开关
+926b3db 优化启动环境变量输出
+03e1820 添加升级说明
+73f3606 优化交互
+a1b17c1 加粗QQ群
+b07284a 去掉颜色，不支持
+8dd4b36 用户名和密码红色标注
+8899032 添加技术支持QQ群提示
+1f82e92 优化清理函数
+987c45f 添加安装所有脚本
+1a9a92e 修正拼写
+6f5eac5 解决多用户共享权限
+3e3554f 不覆盖软链接
+e2e0ff5 消除终端启动警告
+2ac1199 优化同用户目录
+84ee51b 修复N卡可能的绑定失败
+81d9748 完善输入法环境变量设置
+f229076 Merge branch 'master' of github.com:loaden/nspawn-deepinwine
+b457561 暂停容器与宿主机使用相同用户目录
+6c33976 优化云盘配置脚本
+7e708ee 添加云盘脚本安装
+c44b9cb 修正LibreOffice启动警告
+2526add LibreOffice添加breeze图标
+2e57f33 默认安装deepin-desktop-base
+563d0fc LibreOffice安装elementary图标
+0545651 解决LibreOffice启动警告
+
+git log v2.2..v3.0 --oneline
+0754605 删除部分屏幕截图
+4466df0 更新ReadME
+7ba45eb 添加解压工具
+ab61a0c 修正LibreOffice样式
+f80dc74 移除多余空行
+1192263 修复Nvidia绑定
+9d41e56 添加图片打开方式查询
+04462fb 完善PDF默认打开方式
+d8935ef 添加PDF浏览器
+8ec9905 LibreOffice只安装基本组件
+330289f 添加网页浏览器
+4a70858 添加mousepad
+e0d3ab3 去掉多余update
+87f55d5 添加LibreOffice
+c8d4596 添加图片浏览器
+807718a 添加压缩解压插件
+0b84e54 优化安装性能
+b1e2046 添加系统升级脚本
+3a6ae04 移除多余空行
+cf181e8 增强日志可读性
+47f0d66 增大延时
+cb7d934 按需启动容器
+eb8a5ab 禁用SELinux
+3418965 微调移除
+2836432 让卸载更完整
+5ea208b 修复脚本目录不存在
+4dccd04 避免可能的误删除
+3f5e2da 禁止套娃
+f5c0216 启动器不存在时才创建
+b6f4fa5 完善hostname设置
+5453160 修正启动器配置
+8177386 交互优化
+29f58a6 完善clean
+39f3bcb 修正管理员权限
+da56186 修正卸载
+f96053c 修正初始化配置中可能的误删除
+c7390dc 优化卸载脚本
+a6b2f1d 统一风格
+152e2fb 添加原生钉钉
+17e1fda 避免需要管理员权限删除钉钉容器
+8fb90cf 彻底解决钉钉自动升级问题
+cb36371 修正钉钉启动
+e835b3e 取消.cache绑定
+2100a17 优化清理脚本
+5bf1dbd 精简Thunar安装
+8497a24 修复央视影音SHM禁用
+c1da070 deepin容器设置默认终端
+81c5fc2 完善文件管理器安装
+9492bd4 将容器用户添加到audio组中
+25d328d 添加pts/7-9
+14b07fa 添加/dev/snd绑定
+6b9398e 禁止钉钉自动升级
+53e6e06 修正钉钉SHM禁用失败
+68cd2b2 查询时去除过多的空行
+2666e27 容器配置添加1秒延时
+38f929f 细节修正与完善
+96c93cd 添加SHM禁用查询
+ade6d9d x11-utils应该提前安装
+8b9a232 添加保卫萝卜
+149065a 添加全民K歌
+f61099f 添加更多软件截图
+ebca04b 添加钉钉和企业微信
+c49b50c 修正百度网盘安装
+2c9878f 修复拼写
+5183d4f 内核要加载fuse
+8e5acdc 添加软件列表
+90fec9d 重命名软件截图
+eecb143 添加反恐精英
+c1fd8d2 完善设备绑定
+9e026aa 添加百度网盘
+2a48757 添加野狐围棋
+13961b0 添加向日葵远程控制
+f08b3e5 添加飞书
+a677837 添加央视影音
+a1dc713 添加金山词霸
+7c1be2b 添加腾讯视频
+6040ef0 修正deepin卸载
+a24a267 丰富调试信息
+1a25f91 移除模块代码重构
+b3b6bd7 文件名完善
+58c953b 修正语法歧义引起的错误
+fa00c98 简化语法
+1641bb9 代码重构
+cc5b045 修正Thunar默认文件管理器注册
+047551f 添加屏幕截图
+d81a61c Merge branch 'master' of github.com:loaden/nspawn-deepinwine
+2b16809 运行前判断容器是否启动
+
+git log v2.1..v2.2 --oneline
+5a37c8f 完善默认安装
+956a023 解决打开文件夹
+687c5d9 deepin安装deepin-desktop-base
+12f3dd1 卸载前先停止容器
+4520dbd 添加登录shell说明
+f1b88cb 允许root登录tty
+
+git log v2.0..v2.1 --oneline
+686071c 确保欺骗库目录存在
+6bd3dc3 确认编译欺骗库成功才卸载编译器
+3b7eba0 两次chroot之间加上sleep 0.1
+e6523f1 执行chatt之前先判断
+d92c162 默认安装终端和QQ
+e5fabc4 配置时打印启动器命令
+05ab1c5 尝试解决可能的/dev/dri绑定失败
+03abee0 设置开机启动
+78dda46 完善查询功能
+c450484 修正xdg-user-dir检测
+5afe4b2 Merge branch 'stable'
+862d070 修复星号显示
+413583e 添加致谢
+
+git log v1.02..v2.0 --oneline
+93a1916 Merge branch 'master' into stable
+e8a3c4d 细节优化
+5d83c9e 智能添加启动器
+f854f10 完善ReadMe
+9b802b7 微调
+c3b89f1 确保xdg-user-dir在RPM系存在
+9e10295 获取用户路径时判断工具是否存在
+d635347 添加必备软件包
+1d850df 解决Arch下不存在xhost
+bfb2c6d 默认不禁用宿主机MITSHM
+9c19e8d 删除调试代码
+6295488 安装后即刻清理缓存
+884b495 下载deepin容器时修改保护属性
+5bc6692 修正nvidia-uvm判断
+eb6aef8 修正Nvidia绑定
+ccf1678 修正初始配置
+eeaedb8 更新ReadME
+5b15983 重写所有SHM函数
+54d7f41 添加更多的伪造函数
+ee431d8 根据时间戳编译欺骗库
+3cc1c5b 删除deepin的capability
+4d36936 修正默认类型注册与查询
+6e42f29 修正QQ启动错误
+38891b5 添加mpv安装
+3d2ce0c 注册默认文件管理器
+c61b909 删除WAYLAND_DISPLAY环境变量
+34157f7 清除旧版本遗留配置
+5222a12 为两个容器启用不同的capability
+1266086 取消容器MITSHM扩展禁用
+db2f4a0 默认绑定/dev/shm
+efc1085 修复卸载错误
+aa527ff 完善ReadMe
+a4d7448 添加选项控制禁用MITSHM的模式
+29a4d78 完善MIT-SHM禁用
+06b5a7f Merge branch 'stable'
+0bf897a 伪造函数的基础上再禁用容器MITSHM扩展
+110a1ad 代码格式化
+c02fd12 添加加载权限
+3ae6148 逻辑优化
+a0522dc 修改编译选项
+55b0bd0 成功欺骗！
+729a2c4 修正动态库提前加载
+216a2fa 同时编译32位和64位欺骗库
+5f84d04 Merge remote-tracking branch 'origin/stable'
+7f9663a 独立MITSHM禁用模块
+
+git log v1.01..v1.02 --oneline
+7bce104 修正QQ启动错误
+
+git log v1.0..v1.01 --oneline
+cb78843 添加RPM系安装支持
+a694502 修复用户判断错误
+
+git log v1.0 --oneline
+d50b488 更好的查看服务的方法
+8181a5e 运行时判断输入法模块
+eddff58 添加NOSHM环境变量
+428eb91 添加卸载脚本
+a5afe93 添加迅雷
+7fcf91e 修正微信启动
+9a0ffec Arch包不重复安装
+15ae1bc 安装可能缺少的包
+eff7079 完善Debian安装deepinwine
+1d3daf8 采用更可靠的判断用户是否存在的方法
+48323ec 当用户存在时，不再删除用户
+7ae8435 修复循环软链接
+f80be3f 安装QQ前确保启动容器
+5d2eb52 Arch不更新包管理数据
+92239e4 移除不必要的绑定
+690c52e 默认安装QQ
+200d172 启动时指定语言
+7ff27cd 修改ReadMe
+f0fc748 自动生成locales
+563d5e8 修复微信安装错误
+9adcdc3 完善代码缩进
+e118325 使容器与宿主机使用相同用户目录
+f52c400 判断是否添加云盘目录
+45d6911 修复错误引号
+0520050 不硬编码用户目录
+86ae8b3 Merge branch 'master' of https://gitee.com/loaden/nspawn-deepinwine
+e37c798 禁用宿主机MIT-SHM功能
+503fe53 支持Arch系一键安装配置
+4ee83f9 空格隔开下一行，不然难受
+354365c 判断包管理类型
+2fc049e 还原初始化配置
+5bf6e87 安装语言提醒
+a5741ae 添加批量安装和多系统共享
+12a66cc add README.md.
+1b6ade8 代码重构，支持一键安装
+e4ee9ce 共享同一份授权修改脚本
+739c112 安装脚本中添加启动器
+bfa9461 add LICENSE.
+08015c5 初始化导入

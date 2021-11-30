@@ -21,14 +21,19 @@ rm -f /usr/local/bin/$1-install-*
 rm -f /usr/local/bin/$1-start
 rm -f /usr/local/bin/$1-config
 rm -f /usr/local/bin/$1-query
+rm -f /usr/local/bin/$1-bind
 rm -f /usr/local/bin/$1-clean
+rm -f /usr/local/bin/$1-update
+rm -f /usr/local/bin/$1-upgrade
 rm -f /usr/local/bin/$1-config-*
 rm -f /usr/local/bin/$1-qq
 rm -f /usr/local/bin/$1-weixin
 rm -f /usr/local/bin/$1-ecloud
-rm -f /usr/local/bin/$1-thunar
 rm -f /usr/local/bin/$1-file
 rm -f /usr/local/bin/$1-mpv
+rm -f /usr/local/bin/$1-chromium
+rm -f /usr/local/bin/$1-shotwell
+rm -f /usr/local/bin/$1-libreoffice
 
 [[ -d /home/share && `ls -A /home/share |wc -w` == 0 ]] && rm -rf /home/share
 rm -f /etc/X11/xorg.conf.d/disable-MIT-SHM.conf

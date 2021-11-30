@@ -104,6 +104,8 @@ for i in {1000..1005}; do
 done
 # No password for sudo
 /bin/sed -i "s/.*sudo.*ALL=(ALL:ALL) ALL/%sudo ALL=(ALL) NOPASSWD:ALL/" /etc/sudoers
+# 移除奇怪的软链接
+[ -L /bin/X11 ] && /bin/unlink /bin/X11
 EOF
 
 chroot $ROOT /bin/bash /config.sh
@@ -115,9 +117,9 @@ source `dirname ${BASH_SOURCE[0]}`/xnoshm.sh $1
 
 
 #卸载不必要组件
-cat > $ROOT/clean.sh <<EOF
+if [ ! -f $ROOT/clean.sh ]; then
+    cat > $ROOT/clean.sh <<EOF
 # Save space
-[ -L /bin/X11 ] && /bin/unlink /bin/X11
 /bin/rm -rf /usr/share/doc
 /bin/rm -rf /usr/share/man
 /bin/rm -rf /tmp/*
@@ -125,7 +127,8 @@ cat > $ROOT/clean.sh <<EOF
 # Clean up and exit
 no_need_pkgs="bsdmainutils compton debconf-i18n \
     fonts-noto-core fonts-symbola gdbm-l10n iptables \
-    logrotate menu tasksel tzdata vim-common whiptail xxd
+    logrotate menu tasksel tzdata vim-common \
+    whiptail xxd
     "
 for i in \$no_need_pkgs; do
     /bin/echo [ /bin/apt purge \$i ]
@@ -137,7 +140,7 @@ done
 EOF
 
 chroot $ROOT /bin/bash /clean.sh
-rm -f $ROOT/clean.sh
+fi
 
 
 # 确保宿主机当前用户相关目录或文件存在

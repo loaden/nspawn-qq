@@ -543,7 +543,9 @@ fi
 if [ ! -d \$HOME/.nspawn-deepinwine/.git ]; then
     /usr/bin/git clone https://gitee.com/loaden/nspawn-deepinwine.git \$HOME/.nspawn-deepinwine
 else
-    /usr/bin/git pull
+    pushd \$HOME/.nspawn-deepinwine
+        /usr/bin/git pull
+    popd
 fi
 if [ ! -f \$HOME/.nspawn-deepinwine/$1-config.sh ]; then
     echo 意外错误，请手动删除 \$HOME/.nspawn-deepinwine 文件夹后再试。

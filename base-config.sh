@@ -527,6 +527,31 @@ EOF
 chmod 755 /usr/local/bin/$1-clean
 
 
+# 软件升级
+cat > /usr/local/bin/$1-update <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
+if [ ! -f /usr/bin/git ]; then
+    [ -f /usr/bin/apt ] && sudo /usr/bin/apt install -y git
+    [ -f /usr/bin/pacman ] && sudo /usr/bin/pacman -S git
+    [ -f /usr/bin/dnf ] && sudo /usr/bin/dnf install -y git
+fi
+if [ ! -d \$HOME/.nspawn-deepinwine/.git ]; then
+    /usr/bin/git clone https://gitee.com/loaden/nspawn-deepinwine.git \$HOME/.nspawn-deepinwine
+else
+    /usr/bin/git pull
+fi
+if [ ! -f \$HOME/.nspawn-deepinwine/$1-config.sh ]; then
+    echo 意外错误，请手动删除 \$HOME/.nspawn-deepinwine 文件夹后再试。
+else
+    sudo \$HOME/.nspawn-deepinwine/$1-config.sh
+fi
+EOF
+
+chmod 755 /usr/local/bin/$1-update
+
+
 # 系统升级
 cat > /usr/local/bin/$1-upgrade <<EOF
 #!/bin/bash

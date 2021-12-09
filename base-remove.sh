@@ -27,6 +27,7 @@ rm -f /usr/local/bin/$1-update
 rm -f /usr/local/bin/$1-upgrade
 rm -f /usr/local/bin/$1-config-*
 rm -f /usr/local/bin/$1-qq
+rm -f /usr/local/bin/$1-tim
 rm -f /usr/local/bin/$1-weixin
 rm -f /usr/local/bin/$1-ecloud
 rm -f /usr/local/bin/$1-file

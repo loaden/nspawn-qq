@@ -46,6 +46,7 @@
 | 应用名称      | 安装脚本                     | 启动脚本                  |
 | :---        | :----                       | :----                    |
 | QQ*         | deepin-install-qq           | deepin-qq                |
+| TIM*        | deepin-install-tim          | deepin-tim               |
 | 微信*        | deepin-install-weixin       | deepin-weixin            |
 | 终端*        | deepin-install-terminal     | deepin-terminal          |
 | 文件管理器*   | deepin-install-file         | deepin-file              |

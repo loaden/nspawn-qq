@@ -23,6 +23,9 @@ echo 'deb https://com-store-packages.uniontech.com/appstore deepin appstore' > /
 IFS='' read -r -d '' INSTALL_QQ <<EOF
 machinectl shell deepin /bin/bash -c "apt install -y com.qq.im.deepin x11-utils --no-install-recommends && apt autopurge -y"
 EOF
+IFS='' read -r -d '' INSTALL_TIM <<EOF
+machinectl shell deepin /bin/bash -c "apt install -y com.qq.office.deepin x11-utils --no-install-recommends && apt autopurge -y"
+EOF
 IFS='' read -r -d '' INSTALL_WEIXIN <<EOF
 machinectl shell deepin /bin/bash -c "apt install -y com.qq.weixin.deepin x11-utils --no-install-recommends && apt autopurge -y"
 EOF

@@ -635,6 +635,52 @@ chmod 755 /usr/local/bin/$1-qq
 
 
 
+# 安装TIM
+cat > /usr/local/bin/$1-install-tim <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+$(echo -e "$INSTALL_TIM")
+[ ! -f /usr/share/pixmaps/com.qq.office.deepin.svg ] && sudo -S cp -f $ROOT/opt/apps/com.qq.office.deepin/entries/icons/hicolor/64x64/apps/com.qq.office.deepin.svg /usr/share/pixmaps/
+[[ ! -f /usr/share/applications/deepin-tim.desktop && -f /usr/share/pixmaps/com.qq.office.deepin.svg ]] && sudo -S bash -c 'cat > /usr/share/applications/deepin-tim.desktop <<$(echo EOF)
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Categories=Network;
+Icon=com.qq.office.deepin
+Exec=$1-tim %F
+Terminal=false
+Name=TIM
+Name[zh_CN]=TIM
+Comment=Tencent TIM Client on Deepin Wine
+StartupWMClass=TIM.exe
+MimeType=
+$(echo EOF)'
+EOF
+
+chmod 755 /usr/local/bin/$1-install-tim
+
+# 配置TIM
+cat > /usr/local/bin/$1-config-tim <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
+machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-TIM ~/.deepinwine/deepin-wine5/bin/winecfg"
+EOF
+
+chmod 755 /usr/local/bin/$1-config-tim
+
+# 启动TIM
+cat > /usr/local/bin/$1-tim <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
+machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.qq.office.deepin/entries/applications/com.qq.office.deepin.desktop"
+EOF
+
+chmod 755 /usr/local/bin/$1-tim
+
+
+
 # 安装微信
 cat > /usr/local/bin/$1-install-weixin <<EOF
 #!/bin/bash
@@ -851,8 +897,10 @@ chmod 755 /usr/local/bin/$1-libreoffice
 machinectl start $1 && sleep 0.5
 echo
 [ -n "$($1-query | grep com.qq.im.deepin.desktop)" ] && [[ ! -f /usr/share/applications/deepin-qq.desktop || ! -f /usr/share/pixmaps/com.qq.im.deepin.svg ]] && $1-install-qq
+[ -n "$($1-query | grep com.qq.office.deepin.desktop)" ] && [[ ! -f /usr/share/applications/deepin-tim.desktop || ! -f /usr/share/pixmaps/com.qq.office.deepin.svg ]] && $1-install-tim
 [ -n "$($1-query | grep com.qq.weixin.deepin.desktop)" ] && [[ ! -f /usr/share/applications/deepin-weixin.desktop || ! -f /usr/share/pixmaps/com.qq.weixin.deepin.svg ]] && $1-install-weixin
 [ -f /usr/share/applications/deepin-qq.desktop ] && cat /usr/share/applications/deepin-qq.desktop | grep $1-
+[ -f /usr/share/applications/deepin-tim.desktop ] && cat /usr/share/applications/deepin-tim.desktop | grep $1-
 [ -f /usr/share/applications/deepin-weixin.desktop ] && cat /usr/share/applications/deepin-weixin.desktop | grep $1-
 
 # 开机启动

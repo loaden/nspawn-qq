@@ -1,7 +1,7 @@
 # nspawn-deepinwine
 
 #### 介绍
-利用systemd-nspawn容器跑Deepin 20.2.4或者Debian 10，安装deepinwine，稳定运行QQ、微信、钉钉、深度商店等应用。低内存，高性能，沙盒机制不污染宿主机，支持多用户，理论上可在任何Linux发行版上运行。成功解决MIT-SHM导致的崩溃，好开心！现在很稳定了。
+利用systemd-nspawn容器跑Deepin 20.2.4或者Debian 10，安装deepinwine，稳定运行QQ、TIM、微信、钉钉、深度商店等应用。低内存，高性能，沙盒机制不污染宿主机，支持多用户，理论上可在任何Linux发行版上运行。成功解决MIT-SHM导致的崩溃，好开心！现在很稳定了。
 
 <p><b>技术支持QQ群：19346666、111601117</b></p>
 
@@ -19,7 +19,7 @@
 4.  安装应用，请终端执行：debian-install-qq 或者 deepin-install-qq
 5.  更多应用安装，请查看：ls /usr/local/bin/\*-install-\*
 6.  启动器中查找QQ或者微信启动，或终端启动，例如：debian-qq
-7.  卸载软件请先安装终端：debian-install-terminal，之后进终端命令卸载
+7.  卸载软件请先查询 debian-query 后进终端命令卸载：debian-terminal
 
 #### 多系统配置
 1.  自动安装的容器支持多系统共享，请提前做好 ~/.machines 的软链接
@@ -27,8 +27,8 @@
 3.  如果同时配置两个容器，可以终端管理员权限执行：sudo ./config.sh
 
 #### 升级方法
-1.  管理员权限执行：sudo ./debian-config.sh 或者 sudo ./deepin-config.sh
-2.  如果同时升级两个容器，可以终端管理员权限执行：sudo ./config.sh
+1.  普通用户权限执行：debian-update 或者 deepin-update
+2.  如果需要升级容器，执行：debian-upgrade
 
 #### 高级用法
 1.  如果稳定性不佳，请同时禁用宿主机和容器的MIT-SHM扩展：sudo DISABLE_HOST_MITSHM=1 ./deepin-config.sh (注意：深度商店点击链接崩溃是软件不稳定，不是容器不稳定)

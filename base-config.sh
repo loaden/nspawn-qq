@@ -664,7 +664,7 @@ cat > /usr/local/bin/$1-config-tim <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
-machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-TIM ~/.deepinwine/deepin-wine5/bin/winecfg"
+machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-TIM ~/.deepinwine/deepin-wine6-stable/bin/winecfg"
 EOF
 
 chmod 755 /usr/local/bin/$1-config-tim

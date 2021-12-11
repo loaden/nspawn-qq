@@ -52,6 +52,11 @@ if [[ ! $EXEC_FROM_CONFIG ]] && [ -f /usr/share/applications/deepin-qq.desktop ]
     rm -f /usr/share/applications/deepin-qq.desktop
 fi
 
+if [[ ! $EXEC_FROM_CONFIG ]] && [ -f /usr/share/applications/deepin-tim.desktop ] && [[ $(cat /usr/share/applications/deepin-tim.desktop | grep $1-) ]]; then
+    rm -f /usr/share/pixmaps/com.qq.office.deepin.svg
+    rm -f /usr/share/applications/deepin-tim.desktop
+fi
+
 if [[ ! $EXEC_FROM_CONFIG ]] && [ -f /usr/share/applications/deepin-weixin.desktop ] && [[ $(cat /usr/share/applications/deepin-weixin.desktop | grep $1-) ]]; then
     rm -f /usr/share/pixmaps/com.qq.weixin.deepin.svg
     rm -f /usr/share/applications/deepin-weixin.desktop

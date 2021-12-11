@@ -639,7 +639,13 @@ chmod 755 /usr/local/bin/$1-qq
 cat > /usr/local/bin/$1-install-tim <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-$(echo -e "$INSTALL_TIM")
+DEB_FILE=\$(find \$(xdg-user-dir DOWNLOAD) -name com.qq.office.*.deb)
+if [ -z "\$DEB_FILE" ]; then
+    $(echo -e "$INSTALL_TIM")
+else
+    source /usr/local/bin/$1-bind
+    machinectl shell $1 /bin/bash -c "dpkg -i \${DEB_FILE/\$USER/u\$UID} ; apt install -f ; apt-mark hold com.qq.office.deepin"
+fi
 [ ! -f /usr/share/pixmaps/com.qq.office.deepin.svg ] && sudo -S cp -f $ROOT/opt/apps/com.qq.office.deepin/entries/icons/hicolor/64x64/apps/com.qq.office.deepin.svg /usr/share/pixmaps/
 [[ ! -f /usr/share/applications/deepin-tim.desktop && -f /usr/share/pixmaps/com.qq.office.deepin.svg ]] && sudo -S bash -c 'cat > /usr/share/applications/deepin-tim.desktop <<$(echo EOF)
 [Desktop Entry]

@@ -718,6 +718,16 @@ EOF
 
 chmod 755 /usr/local/bin/$1-install-weixin
 
+# 配置微信
+cat > /usr/local/bin/$1-config-weixin <<EOF
+#!/bin/bash
+source /usr/local/bin/$1-config
+source /usr/local/bin/$1-bind
+machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-WeChat /opt/deepin-wine6-stable/bin/winecfg"
+EOF
+
+chmod 755 /usr/local/bin/$1-config-weixin
+
 # 启动微信
 cat > /usr/local/bin/$1-weixin <<EOF
 #!/bin/bash

@@ -729,7 +729,11 @@ cat > /usr/local/bin/$1-config-weixin <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
-machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-WeChat /opt/deepin-wine6-stable/bin/winecfg"
+if [[ -n \$(apt list com.qq.weixin.deepin 2>/dev/null | grep Zz) ]]; then
+    machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-WeChat ~/.deepinwine/deepin-wine5/bin/winecfg"
+else
+    machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-WeChat /opt/deepin-wine6-stable/bin/winecfg"
+fi
 EOF
 
 chmod 755 /usr/local/bin/$1-config-weixin

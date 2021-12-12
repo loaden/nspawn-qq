@@ -746,11 +746,11 @@ cat > /usr/local/bin/$1-install-ecloud <<EOF
 source /usr/local/bin/$1-config
 DEB_FILE=\$(find \$(xdg-user-dir DOWNLOAD) -name cn.189.cloud.*.deb)
 if [ -z "\$DEB_FILE" ]; then
-    echo 安装包不存在！
-    exit
+    machinectl shell deepin /bin/bash -c "apt install -y cn.189.cloud.deepin x11-utils --no-install-recommends && apt autopurge -y"
+else
+    source /usr/local/bin/$1-bind
+    machinectl shell $1 /bin/bash -c "dpkg -i \${DEB_FILE/\$USER/u\$UID} ; apt install -f ; apt-mark hold cn.189.cloud.deepin"
 fi
-source /usr/local/bin/$1-bind
-machinectl shell $1 /bin/bash -c "dpkg -i \${DEB_FILE/\$USER/u\$UID} ; apt install -f ; apt-mark hold cn.189.cloud.deepin"
 [ ! -f /usr/share/pixmaps/cn.189.cloud.deepin.svg ] && sudo -S cp -f $ROOT/opt/apps/cn.189.cloud.deepin/entries/icons/hicolor/64x64/apps/cn.189.cloud.deepin.svg /usr/share/pixmaps/
 [[ ! -f /usr/share/applications/deepin-ecloud.desktop && -f /usr/share/pixmaps/cn.189.cloud.deepin.svg  ]] && sudo -S bash -c 'cat > /usr/share/applications/deepin-ecloud.desktop <<$(echo EOF)
 [Desktop Entry]

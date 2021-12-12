@@ -4,6 +4,7 @@
 利用systemd-nspawn容器跑Deepin 20.2.4或者Debian 10，安装deepinwine，稳定运行QQ、TIM、微信、钉钉、深度商店等应用。低内存，高性能，沙盒机制不污染宿主机，支持多用户，理论上可在任何Linux发行版上运行。成功解决MIT-SHM导致的崩溃，好开心！现在很稳定了。
 
 <p><b>技术支持QQ群：19346666、111601117</b></p>
+TIM、天翼云盘需要离线安装，请加群下载，商店版本不稳定。
 
 #### 软件架构
 软件架构说明：amd64
@@ -36,6 +37,7 @@
 3.  可登录shell，执行：machinectl login debian，<b>用户名u1000，密码passwd</b>
 4.  可禁止多用户模式：sudo MULTIUSER_SUPPORT=0 ./deepin-config.sh
 5.  注意：Debian 11 以及 Ubuntu 21.10 等系统因 systemd 247 版本存在 bug，将自动禁用多用户模式。
+6.  QQ、TIM等容器配置，可执行：deepin-config-qq 或者 debian-config-tim
 
 #### 软件列表
 1.  以 deepin 为例罗列应用，带星号(*)的代表 debian 容器也有。
@@ -48,6 +50,7 @@
 | QQ*         | deepin-install-qq           | deepin-qq                |
 | TIM*        | deepin-install-tim          | deepin-tim               |
 | 微信*        | deepin-install-weixin       | deepin-weixin            |
+| 天翼云盘*     | deepin-install-ecloud       | deepin-ecloud            |
 | 终端*        | deepin-install-terminal     | deepin-terminal          |
 | 文件管理器*   | deepin-install-file         | deepin-file              |
 | 浏览器*      | deepin-install-chromium     | deepin-chromium          |

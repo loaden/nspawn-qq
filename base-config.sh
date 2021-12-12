@@ -593,7 +593,13 @@ chmod 755 /usr/local/bin/$1-terminal
 cat > /usr/local/bin/$1-install-qq <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-$(echo -e "$INSTALL_QQ")
+DEB_FILE=\$(find \$(xdg-user-dir DOWNLOAD) -name com.qq.im.*.deb)
+if [ -z "\$DEB_FILE" ]; then
+    $(echo -e "$INSTALL_QQ")
+else
+    source /usr/local/bin/$1-bind
+    machinectl shell $1 /bin/bash -c "dpkg -i \${DEB_FILE/\$USER/u\$UID} ; apt install -f ; apt-mark hold com.qq.im.deepin"
+fi
 [ ! -f /usr/share/pixmaps/com.qq.im.deepin.svg ] && sudo -S cp -f $ROOT/opt/apps/com.qq.im.deepin/entries/icons/hicolor/64x64/apps/com.qq.im.deepin.svg /usr/share/pixmaps/
 [[ ! -f /usr/share/applications/deepin-qq.desktop && -f /usr/share/pixmaps/com.qq.im.deepin.svg ]] && sudo -S bash -c 'cat > /usr/share/applications/deepin-qq.desktop <<$(echo EOF)
 [Desktop Entry]

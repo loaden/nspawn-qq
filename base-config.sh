@@ -729,11 +729,18 @@ cat > /usr/local/bin/$1-config-weixin <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
-if [ -n "\$(grep Zz /opt/apps/com.qq.weixin.deepin/info)" ]; then
-    machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-WeChat ~/.deepinwine/deepin-wine5/bin/winecfg"
-else
-    machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-WeChat /opt/deepin-wine6-stable/bin/winecfg"
-fi
+# INPUT_ENGINE=\$(echo \$XMODIFIERS | awk -F "=" '/@im=/ {print \$ 2}')
+# RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY XMODIFIERS=\$XMODIFIERS INPUT_METHOD=\$INPUT_ENGINE GTK_IM_MODULE=\$INPUT_ENGINE QT_IM_MODULE=\$INPUT_ENGINE QT4_IM_MODULE=\$INPUT_ENGINE SDL_IM_MODULE=\$INPUT_ENGINE BROWSER=Thunar"
+# if [[ \$(loginctl show-session \$(loginctl | grep \$USER |awk '{print \$1}') -p Type) == *wayland* ]]; then
+#     RUN_ENVIRONMENT="\$RUN_ENVIRONMENT XAUTHORITY=\$XAUTHORITY"
+# fi
+machinectl shell $1 /bin/su - u\$UID -c ''"\$RUN_ENVIRONMENT"' WINEPREFIX=~/.deepinwine/Deepin-WeChat \
+    \$(if [[ \$(grep version /opt/apps/com.qq.weixin.deepin/info) =~ Zz ]]; then
+        echo ~/.deepinwine/deepin-wine5
+    else
+        echo /opt/deepin-wine6-stable
+    fi)/bin/winecfg
+'
 EOF
 
 chmod 755 /usr/local/bin/$1-config-weixin

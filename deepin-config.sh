@@ -291,7 +291,7 @@ chmod 755 /usr/local/bin/deepin-install-dingtalk-wine
 cat > /usr/local/bin/deepin-install-dingtalk <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.alibabainc.dingtalk libpulse-mainloop-glib0 --no-install-recommends && apt autopurge -y"
+machinectl shell deepin /bin/bash -c "apt install -y com.alibabainc.dingtalk libpulse-mainloop-glib0 libglu1-mesa libnss3 libxss1 libqt5gui5 --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-dingtalk

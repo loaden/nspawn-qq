@@ -234,11 +234,11 @@ NVIDIA_BIND="
 # OpenGL 与 nvidia-smi
 Bind = /dev/nvidia0
 Bind = /dev/nvidiactl
-$([[ $(lsmod | grep nvidia_modeset) ]] && echo \# Vulkan)
-$([[ $(lsmod | grep nvidia_modeset) ]] && echo Bind = /dev/nvidia-modeset)
-$([[ $(lsmod | grep nvidia_uvm) ]] && echo \# OpenCL 与 CUDA)
-$([[ $(lsmod | grep nvidia_uvm) ]] && echo Bind = /dev/nvidia-uvm)
-$([[ $(lsmod | grep nvidia_uvm) ]] && echo Bind = /dev/nvidia-uvm-tools)
+$([ -e /dev/nvidia-modeset ] && echo \# Vulkan)
+$([ -e /dev/nvidia-modeset ] && echo Bind = /dev/nvidia-modeset)
+$([ -e /dev/nvidia-uvm ] && echo \# OpenCL 与 CUDA)
+$([ -e /dev/nvidia-uvm ] && echo Bind = /dev/nvidia-uvm)
+$([ -e /dev/nvidia-uvm-tools ] && echo Bind = /dev/nvidia-uvm-tools)
 "
 
 # 重写启动服务参数，授予访问权限
@@ -247,11 +247,11 @@ cat >> /etc/systemd/system/systemd-nspawn@$1.service.d/override.conf <<EOF
 # nvidia-smi 需要
 DeviceAllow=/dev/nvidiactl rw
 DeviceAllow=/dev/nvidia0 rw
-$([[ $(lsmod | grep nvidia_modeset) ]] && echo \# Vulkan 需要)
-$([[ $(lsmod | grep nvidia_modeset) ]] && echo DeviceAllow=/dev/nvidia-modeset rw)
-$([[ $(lsmod | grep nvidia_uvm) ]] && echo \# OpenCL 需要)
-$([[ $(lsmod | grep nvidia_uvm) ]] && echo DeviceAllow=/dev/nvidia-uvm rw)
-$([[ $(lsmod | grep nvidia_uvm) ]] && echo DeviceAllow=/dev/nvidia-uvm-tools rw)
+$([ -e /dev/nvidia-modeset ] && echo \# Vulkan 需要)
+$([ -e /dev/nvidia-modeset ] && echo DeviceAllow=/dev/nvidia-modeset rw)
+$([ -e /dev/nvidia-uvm ] && echo \# OpenCL 需要)
+$([ -e /dev/nvidia-uvm ] && echo DeviceAllow=/dev/nvidia-uvm rw)
+$([ -e /dev/nvidia-uvm-tools ] && echo DeviceAllow=/dev/nvidia-uvm-tools rw)
 EOF
 fi
 

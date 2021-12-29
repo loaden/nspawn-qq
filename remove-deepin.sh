@@ -29,3 +29,8 @@ rm -f /usr/local/bin/deepin-dingtalk*
 rm -f /usr/local/bin/deepin-work-weixin
 rm -f /usr/local/bin/deepin-wesing
 rm -f /usr/local/bin/deepin-baoweiluobo
+
+if [[ ! $EXEC_FROM_CONFIG ]] && [ -f /usr/share/applications/dingtalk.desktop ] && [[ $(cat /usr/share/applications/dingtalk.desktop | grep deepin-) ]]; then
+    rm -f /usr/share/pixmaps/dingtalk.svg
+    rm -f /usr/share/applications/dingtalk.desktop
+fi

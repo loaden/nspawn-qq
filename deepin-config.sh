@@ -292,6 +292,20 @@ cat > /usr/local/bin/deepin-install-dingtalk <<EOF
 #!/bin/bash
 source /usr/local/bin/deepin-config
 machinectl shell deepin /bin/bash -c "apt install -y com.alibabainc.dingtalk libpulse-mainloop-glib0 libglu1-mesa libnss3 libxss1 libqt5gui5 --no-install-recommends && apt autopurge -y"
+[ ! -f /usr/share/pixmaps/dingtalk.svg ] && sudo -S cp -f $ROOT//opt/apps/com.alibabainc.dingtalk/files/logo.svg /usr/share/pixmaps/dingtalk.svg
+[[ ! -f /usr/share/applications/dingtalk.desktop && -f /usr/share/pixmaps/dingtalk.svg ]] && sudo -S bash -c 'cat > /usr/share/applications/dingtalk.desktop <<$(echo EOF)
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Categories=Network;
+Icon=dingtalk
+Exec=deepin-dingtalk %F
+Terminal=false
+Name=Dingtalk
+Name[zh_CN]=钉钉
+Comment=Dingtalk for Linux.
+MimeType=
+$(echo EOF)'
 EOF
 
 chmod 755 /usr/local/bin/deepin-install-dingtalk

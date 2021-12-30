@@ -20,17 +20,18 @@ rm -f /usr/local/bin/deepin-xunlei
 rm -f /usr/local/bin/deepin-tenvideo
 rm -f /usr/local/bin/deepin-powerword
 rm -f /usr/local/bin/deepin-cbox
-rm -f /usr/local/bin/deepin-feishu
 rm -f /usr/local/bin/deepin-sunlogin
 rm -f /usr/local/bin/deepin-foxwq
 rm -f /usr/local/bin/deepin-baidunetdisk
 rm -f /usr/local/bin/deepin-cstrike
-rm -f /usr/local/bin/deepin-dingtalk*
 rm -f /usr/local/bin/deepin-work-weixin
 rm -f /usr/local/bin/deepin-wesing
 rm -f /usr/local/bin/deepin-baoweiluobo
 
-if [[ ! $EXEC_FROM_CONFIG ]] && [ -f /usr/share/applications/dingtalk.desktop ] && [[ $(cat /usr/share/applications/dingtalk.desktop | grep deepin-) ]]; then
+# 过期软件移除
+rm -f /usr/local/bin/deepin-feishu
+rm -f /usr/local/bin/deepin-dingtalk*
+if [ -f /usr/share/applications/dingtalk.desktop ] && [[ $(cat /usr/share/applications/dingtalk.desktop | grep deepin-) ]]; then
     rm -f /usr/share/pixmaps/dingtalk.svg
     rm -f /usr/share/applications/dingtalk.desktop
 fi

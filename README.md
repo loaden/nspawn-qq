@@ -63,14 +63,11 @@ TIM、天翼云盘需要离线安装，请加群下载，商店版本不稳定�
 | 金山词霸      | deepin-install-powerword    | deepin-powerword         |
 | 腾讯会议      | deepin-install-wemeet       | deepin-wemeet            |
 | 央视影音      | deepin-install-cbox         | deepin-cbox              |
-| 飞书         | deepin-install-feishu       | deepin-feishu            |
 | 向日葵远程控制 | deepin-install-sunlogin     | deepin-sunlogin          |
 | 百度网盘      | deepin-install-baidunetdisk | deepin-baidunetdisk      |
 | 腾讯视频      | deepin-install-tenvideo     | deepin-tenvideo          |
 | 反恐精英      | deepin-install-cstrike      | deepin-cstrike           |
 | 野狐围棋      | deepin-install-foxwq        | deepin-foxwq             |
-| 钉钉wine     | deepin-install-dingtalk-wine | deepin-dingtalk-wine    |
-| 钉钉         | deepin-install-dingtalk     | deepin-dingtalk          |
 | 企业微信      | deepin-install-work-weixin  | deepin-work-weixin       |
 | 全民K歌      | deepin-install-wesing       | deepin-wesing            |
 | 保卫萝卜      | deepin-install-baoweiluobo  | deepin-baoweiluobo       |

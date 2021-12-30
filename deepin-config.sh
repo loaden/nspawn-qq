@@ -155,26 +155,6 @@ EOF
 chmod 755 /usr/local/bin/deepin-cbox
 
 
-# 安装飞书
-cat > /usr/local/bin/deepin-install-feishu <<EOF
-#!/bin/bash
-source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.bytedance.feishu --no-install-recommends && apt autopurge -y"
-EOF
-
-chmod 755 /usr/local/bin/deepin-install-feishu
-
-# 启动飞书
-cat > /usr/local/bin/deepin-feishu <<EOF
-#!/bin/bash
-source /usr/local/bin/deepin-config
-source /usr/local/bin/deepin-bind
-machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.bytedance.feishu/entries/applications/com.bytedance.feishu.desktop"
-EOF
-
-chmod 755 /usr/local/bin/deepin-feishu
-
-
 # 安装向日葵远程控制
 cat > /usr/local/bin/deepin-install-sunlogin <<EOF
 #!/bin/bash
@@ -276,61 +256,6 @@ EOF
 chmod 755 /usr/local/bin/deepin-cstrike
 
 
-# 安装钉钉
-cat > /usr/local/bin/deepin-install-dingtalk-wine <<EOF
-#!/bin/bash
-source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.dingtalk.deepin x11-utils --no-install-recommends && apt autopurge -y \
-    && ! grep -c DingTalkUpdater.exe /opt/apps/com.dingtalk.deepin/files/run.sh \
-    && echo 'cp -f /dev/null ~/.deepinwine/Deepin-Dding/drive_c/Program\ Files/DingDing/DingTalkUpdater.exe' >> /opt/apps/com.dingtalk.deepin/files/run.sh \
-    && sed -i 's/LD_PRELOAD=/LD_DONT_PRELOAD=/g' /opt/apps/com.dingtalk.deepin/files/run.sh"
-EOF
-
-chmod 755 /usr/local/bin/deepin-install-dingtalk-wine
-
-cat > /usr/local/bin/deepin-install-dingtalk <<EOF
-#!/bin/bash
-source /usr/local/bin/deepin-config
-machinectl shell deepin /bin/bash -c "apt install -y com.alibabainc.dingtalk libpulse-mainloop-glib0 libglu1-mesa libnss3 libxss1 libqt5gui5 --no-install-recommends && apt autopurge -y"
-[ ! -f /usr/share/pixmaps/dingtalk.svg ] && sudo -S cp -f $ROOT//opt/apps/com.alibabainc.dingtalk/files/logo.svg /usr/share/pixmaps/dingtalk.svg
-[[ ! -f /usr/share/applications/dingtalk.desktop && -f /usr/share/pixmaps/dingtalk.svg ]] && sudo -S bash -c 'cat > /usr/share/applications/dingtalk.desktop <<$(echo EOF)
-[Desktop Entry]
-Encoding=UTF-8
-Type=Application
-Categories=Network;
-Icon=dingtalk
-Exec=deepin-dingtalk %F
-Terminal=false
-Name=Dingtalk
-Name[zh_CN]=钉钉
-Comment=Dingtalk for Linux.
-MimeType=
-$(echo EOF)'
-EOF
-
-chmod 755 /usr/local/bin/deepin-install-dingtalk
-
-
-# 启动钉钉
-cat > /usr/local/bin/deepin-dingtalk-wine <<EOF
-#!/bin/bash
-source /usr/local/bin/deepin-config
-source /usr/local/bin/deepin-bind
-machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.dingtalk.deepin/entries/applications/com.dingtalk.deepin.desktop"
-EOF
-
-chmod 755 /usr/local/bin/deepin-dingtalk-wine
-
-cat > /usr/local/bin/deepin-dingtalk <<EOF
-#!/bin/bash
-source /usr/local/bin/deepin-config
-source /usr/local/bin/deepin-bind
-machinectl shell deepin /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /opt/apps/com.alibabainc.dingtalk/entries/applications/com.alibabainc.dingtalk.desktop"
-EOF
-
-chmod 755 /usr/local/bin/deepin-dingtalk
-
-
 # 安装企业微信
 cat > /usr/local/bin/deepin-install-work-weixin <<EOF
 #!/bin/bash
@@ -407,14 +332,11 @@ deepin-install-xunlei
 deepin-install-powerword
 deepin-install-wemeet
 deepin-install-cbox
-deepin-install-feishu
 deepin-install-sunlogin
 deepin-install-baidunetdisk
 deepin-install-tenvideo
 deepin-install-cstrike
 deepin-install-foxwq
-deepin-install-dingtalk-wine
-deepin-install-dingtalk
 deepin-install-work-weixin
 deepin-install-wesing
 deepin-install-baoweiluobo

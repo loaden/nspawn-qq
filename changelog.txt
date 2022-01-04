@@ -1,3 +1,27 @@
+git log v3.3.3..v3.4 --oneline
+01c0216 删除钉钉和飞书
+33e8fc1 更新ReadMe
+4b20315 Merge branch 'master' of gitee.com:loaden/nspawn-deepinwine
+932e602 尝试修复N卡绑定失败
+ef54b24 添加钉钉启动器
+9eb6dca Merge branch 'master' of gitee.com:loaden/nspawn-deepinwine
+6c36f9f 修正钉钉Linux版本依赖
+09482e7 修正微信配置
+76dc888 奇怪的判断错误
+97fff87 完善微信配置
+1013617 QQ支持离线安装
+4ca0759 完善天翼云盘
+128d9f6 添加微信配置脚本
+0e64056 完善ReadMe
+273ed67 更新ReadMe
+9e6a9ec 修复TIM卸载
+49a39cf Revert "修正TIM配置"
+800c6d8 添加TIM离线安装
+6e2bd92 修正TIM配置
+fd48fca 添加TIM
+8772b37 修正二次更新错误
+933cc70 更新ChangeLog
+
 git log v3.3.2..v3.3.3 --oneline
 2393020 只卸载一次不必要组件
 bb4a4f0 添加自动更新功能

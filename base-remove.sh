@@ -62,6 +62,11 @@ if [[ ! $EXEC_FROM_CONFIG ]] && [ -f /usr/share/applications/deepin-weixin.deskt
     rm -f /usr/share/applications/deepin-weixin.desktop
 fi
 
+if [[ ! $EXEC_FROM_CONFIG ]] && [ -f /usr/share/applications/deepin-ecloud.desktop ] && [[ $(cat /usr/share/applications/deepin-ecloud.desktop | grep $1-) ]]; then
+    rm -f /usr/share/pixmaps/cn.189.cloud.deepin.svg
+    rm -f /usr/share/applications/deepin-ecloud.desktop
+fi
+
 if [ ! -f /usr/local/bin/*-config ]; then
     rm -f /var/lib/polkit-1/localauthority/10-vendor.d/machines.pkla
     rm -f /usr/share/polkit-1/rules.d/10-machines.rules

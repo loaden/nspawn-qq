@@ -101,6 +101,7 @@ for i in {1000..1005}; do
 done
 for i in {1000..1005}; do
     [[ ! \$(/bin/groups u\$i | /bin/grep audio) ]] && /bin/adduser u\$i audio
+    /bin/mkdir -p /home/u\$i/.local/share/fonts
 done
 # No password for sudo
 /bin/sed -i "s/.*sudo.*ALL=(ALL:ALL) ALL/%sudo ALL=(ALL) NOPASSWD:ALL/" /etc/sudoers

@@ -602,7 +602,7 @@ else
     machinectl shell $1 /bin/bash -c "dpkg -i \${DEB_FILE/\$USER/u\$UID} ; apt install -f ; apt-mark hold com.qq.im.deepin"
 fi
 [ ! -f /usr/share/pixmaps/com.qq.im.deepin.svg ] && sudo -S cp -f $ROOT/opt/apps/com.qq.im.deepin/entries/icons/hicolor/64x64/apps/com.qq.im.deepin.svg /usr/share/pixmaps/
-[[ ! -f /usr/share/applications/deepin-qq.desktop && -f /usr/share/pixmaps/com.qq.im.deepin.svg ]] && sudo -S bash -c 'cat > /usr/share/applications/deepin-qq.desktop <<$(echo EOF)
+[[ ! -f /usr/share/applications/deepin-qq.desktop && -f /usr/share/pixmaps/com.qq.im.deepin.svg ]] && sudo -S /bin/bash -c 'cat > /usr/share/applications/deepin-qq.desktop <<$(echo EOF)
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
@@ -654,7 +654,7 @@ else
     machinectl shell $1 /bin/bash -c "dpkg -i \${DEB_FILE/\$USER/u\$UID} ; apt install -f ; apt-mark hold com.qq.office.deepin"
 fi
 [ ! -f /usr/share/pixmaps/com.qq.office.deepin.svg ] && sudo -S cp -f $ROOT/opt/apps/com.qq.office.deepin/entries/icons/hicolor/64x64/apps/com.qq.office.deepin.svg /usr/share/pixmaps/
-[[ ! -f /usr/share/applications/deepin-tim.desktop && -f /usr/share/pixmaps/com.qq.office.deepin.svg ]] && sudo -S bash -c 'cat > /usr/share/applications/deepin-tim.desktop <<$(echo EOF)
+[[ ! -f /usr/share/applications/deepin-tim.desktop && -f /usr/share/pixmaps/com.qq.office.deepin.svg ]] && sudo -S /bin/bash -c 'cat > /usr/share/applications/deepin-tim.desktop <<$(echo EOF)
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
@@ -706,7 +706,7 @@ else
     machinectl shell $1 /bin/bash -c "dpkg -i \${DEB_FILE/\$USER/u\$UID} ; apt install -f ; apt-mark hold com.qq.weixin.deepin"
 fi
 [ ! -f /usr/share/pixmaps/com.qq.weixin.deepin.svg ] && sudo -S cp -f $ROOT/opt/apps/com.qq.weixin.deepin/entries/icons/hicolor/64x64/apps/com.qq.weixin.deepin.svg /usr/share/pixmaps/
-[[ ! -f /usr/share/applications/deepin-weixin.desktop && -f /usr/share/pixmaps/com.qq.weixin.deepin.svg ]] && sudo -S bash -c 'cat > /usr/share/applications/deepin-weixin.desktop <<$(echo EOF)
+[[ ! -f /usr/share/applications/deepin-weixin.desktop && -f /usr/share/pixmaps/com.qq.weixin.deepin.svg ]] && sudo -S /bin/bash -c 'cat > /usr/share/applications/deepin-weixin.desktop <<$(echo EOF)
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
@@ -770,7 +770,7 @@ else
     machinectl shell $1 /bin/bash -c "dpkg -i \${DEB_FILE/\$USER/u\$UID} ; apt install -f ; apt-mark hold cn.189.cloud.deepin"
 fi
 [ ! -f /usr/share/pixmaps/cn.189.cloud.deepin.svg ] && sudo -S cp -f $ROOT/opt/apps/cn.189.cloud.deepin/entries/icons/hicolor/64x64/apps/cn.189.cloud.deepin.svg /usr/share/pixmaps/
-[[ ! -f /usr/share/applications/deepin-ecloud.desktop && -f /usr/share/pixmaps/cn.189.cloud.deepin.svg  ]] && sudo -S bash -c 'cat > /usr/share/applications/deepin-ecloud.desktop <<$(echo EOF)
+[[ ! -f /usr/share/applications/deepin-ecloud.desktop && -f /usr/share/pixmaps/cn.189.cloud.deepin.svg  ]] && sudo -S /bin/bash -c 'cat > /usr/share/applications/deepin-ecloud.desktop <<$(echo EOF)
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application

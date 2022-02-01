@@ -99,12 +99,13 @@ $(/bin/echo -e "$SOURCES_LIST")
 [[ \$(/bin/cat /etc/passwd | /bin/grep user:) ]] && /sbin/userdel -r user
 for i in {1000..1005}; do
     [[ ! \$(/bin/cat /etc/passwd | /bin/grep u\$i:) ]] && /sbin/useradd -u \$i -m -s /bin/bash -G sudo u\$i
-    /bin/echo u\$i:passwd | /sbin/chpasswd
+    /bin/echo u\$i:u\$i | /sbin/chpasswd
     cd /home/u\$i/
     /bin/mkdir -p .local/share/fonts .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
     /bin/chown -R u\$i:u\$i .local .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
 done
 for i in {1000..1005}; do
+    /bin/echo u\$i:u\$i | /sbin/chpasswd
     [[ ! \$(/bin/groups u\$i | /bin/grep audio) ]] && /bin/adduser u\$i audio
     /bin/mkdir -p /home/u\$i/.local/share/fonts
 done

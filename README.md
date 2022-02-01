@@ -34,7 +34,7 @@ TIM、天翼云盘需要离线安装，请加群下载，商店版本不稳定�
 #### 高级用法
 1.  如果稳定性不佳，请同时禁用宿主机和容器的MIT-SHM扩展：sudo DISABLE_HOST_MITSHM=1 ./deepin-config.sh (注意：深度商店点击链接崩溃是软件不稳定，不是容器不稳定)
 2.  注意：禁用宿主机MIT-SHM后，需要重启电脑才生效！
-3.  可登录shell，执行：machinectl login debian，<b>用户名u1000，密码passwd</b>
+3.  可登录shell，执行：machinectl login debian，<b>用户名u1000，密码与用户名相同。</b>
 4.  可禁止多用户模式：sudo MULTIUSER_SUPPORT=0 ./deepin-config.sh
 5.  注意：Debian 11 以及 Ubuntu 21.10 等系统因 systemd 247 版本存在 bug，将自动禁用多用户模式。
 6.  QQ、TIM等容器配置，可执行：deepin-config-qq 或者 debian-config-tim

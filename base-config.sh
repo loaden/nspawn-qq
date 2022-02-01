@@ -70,6 +70,11 @@ systemctl enable nspawn-$1.service
 [[ $(machinectl list) =~ $1 ]] && machinectl stop $1
 mkdir -p /home/share && chmod 777 /home/share
 cat > $ROOT/config.sh <<EOF
+#!/bin/bash
+source /etc/profile
+source ~/.bashrc
+/bin/env
+[ -f /bin/neofetch ] && /bin/neofetch
 /bin/echo $1 > /etc/hostname
 /bin/rm -f /var/lib/dpkg/lock
 /bin/rm -f /var/lib/dpkg/lock-frontend
@@ -120,6 +125,10 @@ source `dirname ${BASH_SOURCE[0]}`/xnoshm.sh $1
 #卸载不必要组件
 if [ ! -f $ROOT/clean.sh ]; then
     cat > $ROOT/clean.sh <<EOF
+#!/bin/bash
+source /etc/profile
+source ~/.bashrc
+
 # Save space
 /bin/rm -rf /usr/share/doc
 /bin/rm -rf /usr/share/man

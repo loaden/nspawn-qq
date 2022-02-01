@@ -24,39 +24,45 @@ if [[ $DISABLE_HOST_MITSHM == 1 ]]; then
         echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
     fi
     cat > $ROOT/$DISABLE_MIT_SHM_SH <<EOF
-    /bin/rm -f /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO
-    /bin/rm -f /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO
-    /bin/mkdir -p /etc/X11/xorg.conf.d
-    /bin/echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
-    /bin/rm -f /etc/X11/xorg.conf
+#!/bin/bash
+source /etc/profile
+source ~/.bashrc
+/bin/rm -f /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO
+/bin/rm -f /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO
+/bin/mkdir -p /etc/X11/xorg.conf.d
+/bin/echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
+/bin/rm -f /etc/X11/xorg.conf
 EOF
 else
     rm -f /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
     [[ -d /etc/X11/xorg.conf.d && `ls -A /etc/X11/xorg.conf.d |wc -w` == 0 ]] && rm -rf /etc/X11/xorg.conf.d
     cp -fp `dirname ${BASH_SOURCE[0]}`/xnoshm.c $ROOT/disable-MIT-SHM.c
     cat > $ROOT/$DISABLE_MIT_SHM_SH <<EOF
-    /bin/rm -rf /etc/X11/xorg.conf.d
-    /bin/rm -f /etc/X11/xorg.conf
-    if [[ ! -f /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO || ! -f /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO
-        || \$(/bin/stat -c %Y /disable-MIT-SHM.c) > \$(/bin/stat -c %Y /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO)
-        || \$(/bin/stat -c %Y /disable-MIT-SHM.c) > \$(/bin/stat -c %Y /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO) ]]; then
-        /bin/dpkg --add-architecture i386
-        /bin/apt update
-        /bin/apt install -y gcc gcc-multilib libc6-dev libxext-dev --no-install-recommends
-        /bin/mkdir -p /lib/x86_64-linux-gnu/
-        /bin/gcc /disable-MIT-SHM.c -shared -o /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO
-        /bin/chmod u+s /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO
-        /bin/ls -lh /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO
-        /bin/mkdir -p /lib/i386-linux-gnu/
-        /bin/gcc /disable-MIT-SHM.c -m32 -shared -o /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO
-        /bin/chmod u+s /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO
-        /bin/ls -lh /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO
-        if [[ -f /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO && -f /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO ]]; then
-            /bin/rm -f /disable-MIT-SHM.c
-            /bin/apt purge -y gcc gcc-multilib libc6-dev libxext-dev
-            /bin/apt autopurge -y
-        fi
+#!/bin/bash
+source /etc/profile
+source ~/.bashrc
+/bin/rm -rf /etc/X11/xorg.conf.d
+/bin/rm -f /etc/X11/xorg.conf
+if [[ ! -f /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO || ! -f /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO
+    || \$(/bin/stat -c %Y /disable-MIT-SHM.c) > \$(/bin/stat -c %Y /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO)
+    || \$(/bin/stat -c %Y /disable-MIT-SHM.c) > \$(/bin/stat -c %Y /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO) ]]; then
+    /bin/dpkg --add-architecture i386
+    /bin/apt update
+    /bin/apt install -y gcc gcc-multilib libc6-dev libxext-dev --no-install-recommends
+    /bin/mkdir -p /lib/x86_64-linux-gnu/
+    /bin/gcc /disable-MIT-SHM.c -shared -o /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO
+    /bin/chmod u+s /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO
+    /bin/ls -lh /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO
+    /bin/mkdir -p /lib/i386-linux-gnu/
+    /bin/gcc /disable-MIT-SHM.c -m32 -shared -o /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO
+    /bin/chmod u+s /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO
+    /bin/ls -lh /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO
+    if [[ -f /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO && -f /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO ]]; then
+        /bin/rm -f /disable-MIT-SHM.c
+        /bin/apt purge -y gcc gcc-multilib libc6-dev libxext-dev
+        /bin/apt autopurge -y
     fi
+fi
 EOF
 fi
 

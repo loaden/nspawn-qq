@@ -937,5 +937,5 @@ echo
 [ -f /usr/share/applications/deepin-tim.desktop ] && cat /usr/share/applications/deepin-tim.desktop | grep $1-
 [ -f /usr/share/applications/deepin-weixin.desktop ] && cat /usr/share/applications/deepin-weixin.desktop | grep $1-
 
-# 开机启动
-[[ $(systemctl status machines.target | grep 'machines.target; disabled;') ]] && systemctl enable machines.target
+# 禁止开机启动
+[ "$(systemctl is-enabled nspawn-debian.service)" == "enabled" ] && systemctl disable machines.target

@@ -187,13 +187,13 @@ export NSPAWN_LOG_FILE=/home/nspawn.log
 touch \$NSPAWN_LOG_FILE
 echo \$(date) \$NSPAWN_LOG_FILE >> \$NSPAWN_LOG_FILE
 echo -e "tree -L 2 /run/user \n" "\$(tree -L 2 /run/user)" >> \$NSPAWN_LOG_FILE
-echo -e "env \n" "\$(env)" \n >> \$NSPAWN_LOG_FILE
-echo -e "echo /dev/dri " "\$(ls /dev/dri)" \n >> \$NSPAWN_LOG_FILE
-echo -e "echo /dev/shm " "\$(ls /dev/shm)" \n >> \$NSPAWN_LOG_FILE
-echo -e "echo /dev/snd " "\$(ls /dev/snd)" \n >> \$NSPAWN_LOG_FILE
-echo -e "echo /dev/fuse " "\$(ls /dev/fuse)" \n >> \$NSPAWN_LOG_FILE
-echo -e "echo /dev/nvidia* " "\$(ls /dev/nvidia*)" \n >> \$NSPAWN_LOG_FILE
-echo -e "echo /tmp " "\$(ls /tmp)" \n >> \$NSPAWN_LOG_FILE
+echo -e "env \n" "\$(env) \n\n" >> \$NSPAWN_LOG_FILE
+echo -e "echo /dev/dri \n" "\$(ls -la /dev/dri) \n" >> \$NSPAWN_LOG_FILE
+echo -e "echo /dev/shm \n" "\$(ls -la /dev/shm) \n" >> \$NSPAWN_LOG_FILE
+echo -e "echo /dev/snd \n" "\$(ls -la /dev/snd) \n" >> \$NSPAWN_LOG_FILE
+echo -e "echo /dev/fuse \n" "\$(ls -la /dev/fuse) \n" >> \$NSPAWN_LOG_FILE
+echo -e "echo /dev/nvidia* \n" "\$(ls -la /dev/nvidia*) \n" >> \$NSPAWN_LOG_FILE
+echo -e "echo /tmp \n" "\$(ls -la /tmp) \n" >> \$NSPAWN_LOG_FILE
 chmod 777 \$NSPAWN_LOG_FILE
 EOF
 

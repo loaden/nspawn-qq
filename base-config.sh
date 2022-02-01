@@ -774,7 +774,7 @@ cat > /usr/local/bin/$1-install-ecloud <<EOF
 source /usr/local/bin/$1-config
 DEB_FILE=\$(find \$(xdg-user-dir DOWNLOAD) -name cn.189.cloud.*.deb)
 if [ -z "\$DEB_FILE" ]; then
-    machinectl shell deepin /bin/bash -c "apt install -y cn.189.cloud.deepin x11-utils --no-install-recommends && apt autopurge -y"
+    machinectl shell $1 /bin/bash -c "apt install -y cn.189.cloud.deepin x11-utils --no-install-recommends && apt autopurge -y"
 else
     source /usr/local/bin/$1-bind
     machinectl shell $1 /bin/bash -c "dpkg -i \${DEB_FILE/\$USER/u\$UID} ; apt install -f ; apt-mark hold cn.189.cloud.deepin"

@@ -454,7 +454,7 @@ machinectl bind --mkdir $1 \$XDG_RUNTIME_DIR/dconf
 [[ \$(ls /tmp | grep dbus) ]] && [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 /tmp/\$(ls /tmp | grep dbus)
 
 # 主目录
-machinectl bind $1 \$HOME/$USER_DOCUMENTS /home/u\$UID/$USER_DOCUMENTS
+machinectl bind --mkdir $1 \$HOME/$USER_DOCUMENTS /home/u\$UID/$USER_DOCUMENTS
 [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_DOCUMENTS /home/u\$UID/$USER_DOCUMENTS
 machinectl bind --mkdir $1 \$HOME/$USER_DOWNLOAD /home/u\$UID/$USER_DOWNLOAD
 [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_DOWNLOAD /home/u\$UID/$USER_DOWNLOAD
@@ -470,10 +470,10 @@ machinectl bind --mkdir $1 \$HOME/$USER_MUSIC /home/u\$UID/$USER_MUSIC
 # 其它目录和文件
 [ -d \$HOME/$USER_CLOUDDISK ] && machinectl bind --mkdir $1 \$HOME/$USER_CLOUDDISK /home/u\$UID/$USER_CLOUDDISK
 [ -d \$HOME/$USER_CLOUDDISK ] && [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_CLOUDDISK /home/u\$UID/$USER_CLOUDDISK
-[ -f \$HOME/.config/user-dirs.dirs ] && machinectl bind --mkdir $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
-[ -f \$HOME/.config/user-dirs.dirs ] && [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
-[ -f \$HOME/.config/user-dirs.locale ] && machinectl bind --mkdir $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
-[ -f \$HOME/.config/user-dirs.locale ] && [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
+[ -f \$HOME/.config/user-dirs.dirs ] && machinectl bind $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
+[ -f \$HOME/.config/user-dirs.dirs ] && [ \$? != 0 ] && echo error: machinectl bind $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
+[ -f \$HOME/.config/user-dirs.locale ] && machinectl bind $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
+[ -f \$HOME/.config/user-dirs.locale ] && [ \$? != 0 ] && echo error: machinectl bind $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
 [ -d \$HOME/.local/share/fonts ] && machinectl bind --read-only --mkdir $1 \$HOME/.local/share/fonts /home/u\$UID/.local/share/fonts
 [ -d \$HOME/.local/share/fonts ] && [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$HOME/.local/share/fonts /home/u\$UID/.local/share/fonts
 

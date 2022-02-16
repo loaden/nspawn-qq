@@ -12,7 +12,7 @@ fi
 
 # systemd 247 bug 解决方案，禁止多用户支持，去除动态绑定
 # 详见：https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1816433.html
-if [[ $MULTIUSER_SUPPORT = 1 && $(/usr/bin/systemctl --version | grep systemd) =~ 247 ]]; then
+if [[ $MULTIUSER_SUPPORT = 1 && $(systemctl --version | grep systemd) =~ 247 ]]; then
     MULTIUSER_SUPPORT=0
     echo -e "\033[31m当前 systemd 有bug，不支持多用户动态绑定，已强制启用单用户模式。"
     systemd --version | grep systemd
@@ -21,8 +21,8 @@ if [[ $MULTIUSER_SUPPORT = 1 && $(/usr/bin/systemctl --version | grep systemd) =
 fi
 
 # 必备软件包
-[ -f /usr/bin/apt ] && [ ! -f /usr/bin/machinectl ] && apt install -y systemd-container
-[ -f /usr/bin/dnf ] && [ ! -f /usr/bin/machinectl ] && dnf install -y systemd-container
+[ -f /usr/bin/apt ] && [[ ! -f /usr/bin/machinectl && ! -f /bin/machinectl ]] && apt install -y systemd-container
+[ -f /usr/bin/dnf ] && [[ ! -f /usr/bin/machinectl && ! -f /bin/machinectl ]] && dnf install -y systemd-container
 if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` != *wayland* ]]; then
     [ -f /usr/bin/pacman ] && [ ! -f /usr/bin/xhost ] && pacman -S xorg-xhost --noconfirm --needed
     [ -f /usr/bin/apt ] && [ ! -f /usr/bin/xhost ] && apt install -y x11-xserver-utils

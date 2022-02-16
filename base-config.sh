@@ -161,15 +161,10 @@ su - $SUDO_USER -c "touch /home/$SUDO_USER/.config/user-dirs.locale"
 
 
 # 配置启动环境变量
-if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` == *wayland* ]]; then
+if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` != *wayland* ]]; then
 X11_BIND_AND_CONFIG="# Xauthority
-machinectl bind --read-only --mkdir $1 \$XAUTHORITY
-[ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$XAUTHORITY
-"
-else
-X11_BIND_AND_CONFIG="# Xauthority
-machinectl bind --read-only --mkdir $1 \$XAUTHORITY /home/u\$UID/.Xauthority
-[ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$XAUTHORITY /home/u\$UID/.Xauthority
+machinectl bind --read-only $1 \$XAUTHORITY /home/u\$UID/.Xauthority
+[ \$? != 0 ] && echo error: machinectl bind --read-only $1 \$XAUTHORITY /home/u\$UID/.Xauthority
 "
 DESKTOP_ENVIRONMENT="
 export XAUTHORITY=/home/u\$UID/.Xauthority

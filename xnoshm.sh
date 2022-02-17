@@ -19,7 +19,7 @@ DISABLE_MIT_SHM_SH=disable-MIT-SHM.sh
 DISABLE_MIT_SHM_SO=disable-MIT-SHM.so
 
 if [[ $DISABLE_HOST_MITSHM == 1 ]]; then
-    if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` != *wayland* ]]; then
+    if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` == *x11* ]]; then
         mkdir -p /etc/X11/xorg.conf.d
         echo -e 'Section "Extensions"\n    Option "MIT-SHM" "Disable"\nEndSection' > /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
     fi

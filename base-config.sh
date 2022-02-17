@@ -23,7 +23,7 @@ fi
 # 必备软件包
 [ -f /usr/bin/apt ] && [[ ! -f /usr/bin/machinectl && ! -f /bin/machinectl ]] && apt install -y systemd-container
 [ -f /usr/bin/dnf ] && [[ ! -f /usr/bin/machinectl && ! -f /bin/machinectl ]] && dnf install -y systemd-container
-if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` != *wayland* ]]; then
+if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` == *x11* ]]; then
     [ -f /usr/bin/pacman ] && [ ! -f /usr/bin/xhost ] && pacman -S xorg-xhost --noconfirm --needed
     [ -f /usr/bin/apt ] && [ ! -f /usr/bin/xhost ] && apt install -y x11-xserver-utils
     [ -f /usr/bin/dnf ] && [ ! -f /usr/bin/xhost ] && dnf install -y xhost
@@ -161,7 +161,7 @@ su - $SUDO_USER -c "touch /home/$SUDO_USER/.config/user-dirs.locale"
 
 
 # 配置启动环境变量
-if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` != *wayland* ]]; then
+if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` == *x11* ]]; then
 X11_BIND_AND_CONFIG="# Xauthority
 machinectl bind --read-only $1 \$XAUTHORITY /home/u\$UID/.Xauthority
 [ \$? != 0 ] && echo error: machinectl bind --read-only $1 \$XAUTHORITY /home/u\$UID/.Xauthority
@@ -264,9 +264,7 @@ fi
 
 # 静态绑定
 if [ $MULTIUSER_SUPPORT = 0 ]; then
-    if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` == *wayland* ]]; then
-        STATIC_XAUTHORITY_BIND="BindReadOnly = $XAUTHORITY"
-    else
+    if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` == *x11* ]]; then
         STATIC_XAUTHORITY_BIND="BindReadOnly = $XAUTHORITY:/home/u$UID/.Xauthority"
     fi
 
@@ -362,7 +360,7 @@ machinectl show $1
 
 
 # 配置容器参数
-[[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` != *wayland* ]] && XHOST_AUTH="xhost +local:"
+[[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` == *x11* ]] && XHOST_AUTH="xhost +local:"
 cat > /usr/local/bin/$1-config <<EOF
 #!/bin/bash
 
@@ -399,9 +397,6 @@ machinectl --setenv=USER_UID=\$USER_UID --setenv=HOST_HOME=\$HOST_HOME shell $1 
 # 启动环境变量
 INPUT_ENGINE=\$(echo \$XMODIFIERS | awk -F "=" '/@im=/ {print \$ 2}')
 RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY XMODIFIERS=\$XMODIFIERS INPUT_METHOD=\$INPUT_ENGINE GTK_IM_MODULE=\$INPUT_ENGINE QT_IM_MODULE=\$INPUT_ENGINE QT4_IM_MODULE=\$INPUT_ENGINE SDL_IM_MODULE=\$INPUT_ENGINE BROWSER=Thunar"
-if [[ \$(loginctl show-session \$(loginctl | grep \$USER |awk '{print \$1}') -p Type) == *wayland* ]]; then
-    RUN_ENVIRONMENT="\$RUN_ENVIRONMENT XAUTHORITY=\$XAUTHORITY"
-fi
 EOF
 
 # 移除多余空行
@@ -735,11 +730,6 @@ cat > /usr/local/bin/$1-config-weixin <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
-# INPUT_ENGINE=\$(echo \$XMODIFIERS | awk -F "=" '/@im=/ {print \$ 2}')
-# RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY XMODIFIERS=\$XMODIFIERS INPUT_METHOD=\$INPUT_ENGINE GTK_IM_MODULE=\$INPUT_ENGINE QT_IM_MODULE=\$INPUT_ENGINE QT4_IM_MODULE=\$INPUT_ENGINE SDL_IM_MODULE=\$INPUT_ENGINE BROWSER=Thunar"
-# if [[ \$(loginctl show-session \$(loginctl | grep \$USER |awk '{print \$1}') -p Type) == *wayland* ]]; then
-#     RUN_ENVIRONMENT="\$RUN_ENVIRONMENT XAUTHORITY=\$XAUTHORITY"
-# fi
 machinectl shell $1 /bin/su - u\$UID -c ''"\$RUN_ENVIRONMENT"' WINEPREFIX=~/.deepinwine/Deepin-WeChat \
     \$(if [[ \$(grep version /opt/apps/com.qq.weixin.deepin/info) =~ Zz ]]; then
         echo ~/.deepinwine/deepin-wine5

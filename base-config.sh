@@ -123,7 +123,7 @@ sleep 0.5
 source `dirname ${BASH_SOURCE[0]}`/xnoshm.sh $1
 
 
-#卸载不必要组件
+#精简容器空间
 if [ ! -f $ROOT/clean.sh ]; then
     cat > $ROOT/clean.sh <<EOF
 #!/bin/bash
@@ -134,18 +134,6 @@ source ~/.bashrc
 /bin/rm -rf /usr/share/doc
 /bin/rm -rf /usr/share/man
 /bin/rm -rf /tmp/*
-
-# Clean up and exit
-no_need_pkgs="bsdmainutils compton debconf-i18n \
-    fonts-noto-core fonts-symbola gdbm-l10n iptables \
-    logrotate menu tasksel tzdata vim-common \
-    whiptail xxd
-    "
-for i in \$no_need_pkgs; do
-    /bin/echo [ /bin/apt purge \$i ]
-    /bin/apt purge --yes \$i 2>/dev/null
-done
-
 /bin/apt autopurge --yes
 /bin/apt clean
 EOF

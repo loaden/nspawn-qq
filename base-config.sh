@@ -27,6 +27,7 @@ if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p
     [ -f /usr/bin/pacman ] && [ ! -f /usr/bin/xhost ] && pacman -S xorg-xhost --noconfirm --needed
     [ -f /usr/bin/apt ] && [ ! -f /usr/bin/xhost ] && apt install -y x11-xserver-utils
     [ -f /usr/bin/dnf ] && [ ! -f /usr/bin/xhost ] && dnf install -y xhost
+    [ -f /usr/bin/emerge ] && [ ! -f /usr/bin/xhost ] && emerge -u xhost
 fi
 
 # 禁用SELinux
@@ -73,44 +74,46 @@ cat > $ROOT/config.sh <<EOF
 #!/bin/bash
 source /etc/profile
 source ~/.bashrc
-/bin/env
-[ -f /bin/neofetch ] && /bin/neofetch
-/bin/echo $1 > /etc/hostname
-/bin/rm -f /var/lib/dpkg/lock
-/bin/rm -f /var/lib/dpkg/lock-frontend
-/bin/rm -f /var/cache/apt/archives/lock
-/bin/dpkg --configure -a
-/bin/apt install -f
-if [ ! -f /bin/less ]; then
-    /bin/dpkg --add-architecture i386
-    /bin/apt update
+env
+[ -n $(which neofetch) ] && neofetch
+echo $1 > /etc/hostname
+rm -f /var/lib/dpkg/lock
+rm -f /var/lib/dpkg/lock-frontend
+rm -f /var/cache/apt/archives/lock
+dpkg --configure -a
+apt install -f
+if [ -z $(which less) ]; then
+    dpkg --add-architecture i386
+    apt update
 fi
-/bin/apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd locales xdg-utils dbus-x11 dex bash-completion neofetch
-/bin/apt install --yes --no-install-recommends less:i386
-/bin/echo -e "127.1 $1\n::1 $1" > /etc/hosts
-/bin/sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
-/bin/sed -i 's/# zh_CN.UTF-8/zh_CN.UTF-8/g' /etc/locale.gen
-/sbin/locale-gen
-/bin/locale
-$(/bin/echo -e "$SOURCES_LIST")
-[[ ! -f /etc/securetty || ! \$(/bin/cat /etc/securetty | /bin/grep pts/0) ]] && /bin/echo -e "\n# systemd-container\npts/0\npts/1\npts/2\npts/3\npts/4\npts/5\npts/6" >> /etc/securetty
-[[ ! \$(/bin/cat /etc/securetty | /bin/grep pts/9) ]] && /bin/echo -e "pts/7\npts/8\npts/9" >> /etc/securetty
-/bin/mkdir -p /home/share && /bin/chmod 777 /home/share
-[[ \$(/bin/cat /etc/passwd | /bin/grep user:) ]] && /sbin/userdel -r user
+apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd locales xdg-utils dbus-x11 dex bash-completion neofetch
+apt install --yes --no-install-recommends less:i386
+echo -e "127.1 $1\n::1 $1" > /etc/hosts
+sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
+sed -i 's/# zh_CN.UTF-8/zh_CN.UTF-8/g' /etc/locale.gen
+locale-gen
+locale
+$(echo -e "$SOURCES_LIST")
+[[ ! -f /etc/securetty || ! \$(cat /etc/securetty | grep pts/0) ]] && echo -e "\n# systemd-container\npts/0\npts/1\npts/2\npts/3\npts/4\npts/5\npts/6" >> /etc/securetty
+[[ ! \$(cat /etc/securetty | grep pts/9) ]] && echo -e "pts/7\npts/8\npts/9" >> /etc/securetty
+mkdir -p /home/share && chmod 777 /home/share
+[[ \$(cat /etc/passwd | grep user:) ]] && userdel -r user
 for i in {1000..1005}; do
-    [[ ! \$(/bin/cat /etc/passwd | /bin/grep u\$i:) ]] && /sbin/useradd -u \$i -m -s /bin/bash -G sudo u\$i
-    /bin/echo u\$i:u\$i | /sbin/chpasswd
+    [[ ! \$(cat /etc/passwd | grep u\$i:) ]] && useradd -u \$i -m -s bash -G sudo u\$i
+    echo u\$i:u\$i | chpasswd
     cd /home/u\$i/
-    /bin/mkdir -p .local/share/fonts .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
-    /bin/chown -R u\$i:u\$i .local .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
+    mkdir -p .local/share/fonts .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
+    chown -R u\$i:u\$i .local .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
 done
 for i in {1000..1005}; do
-    /bin/echo u\$i:u\$i | /sbin/chpasswd
-    [[ ! \$(/bin/groups u\$i | /bin/grep audio) ]] && /bin/adduser u\$i audio
-    /bin/mkdir -p /home/u\$i/.local/share/fonts
+    echo u\$i:u\$i | chpasswd
+    [[ ! \$(groups u\$i | grep audio) ]] && adduser u\$i audio
+    mkdir -p /home/u\$i/.local/share/fonts
+    touch /home/u\$i/.config/user-dirs.dirs
+    touch /home/u\$i/.config/user-dirs.locale
 done
 # No password for sudo
-/bin/sed -i "s/.*sudo.*ALL=(ALL:ALL) ALL/%sudo ALL=(ALL) NOPASSWD:ALL/" /etc/sudoers
+sed -i "s/.*sudo.*ALL=(ALL:ALL) ALL/%sudo ALL=(ALL) NOPASSWD:ALL/" /etc/sudoers
 # 移除奇怪的软链接
 [ -L /bin/X11 ] && /bin/unlink /bin/X11
 EOF

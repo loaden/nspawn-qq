@@ -12,6 +12,7 @@ fi
 [ -f /usr/bin/apt ] && /usr/bin/apt install -y systemd-container debootstrap
 [ -f /usr/bin/pacman ] && /usr/bin/pacman -S --noconfirm --needed debootstrap
 [ -f /usr/bin/dnf ] && /usr/bin/dnf install -y systemd-container debootstrap
+[ -f /usr/bin/emerge ] && /usr/bin/emerge -u debootstrap
 [ -z $(which debootstrap) ] && echo "工具debootstrap没有安装！请反馈您的系统，谢谢。" && exit -1
 mkdir -p /home/$SUDO_USER/.machines/deepin
 ln -sfnv /home/$SUDO_USER/.machines/deepin /var/lib/machines/deepin

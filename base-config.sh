@@ -206,14 +206,10 @@ After=systemd-hostnamed.service
 [Service]
 ExecStartPre=chmod 0755 /var/lib/machines/%i
 ExecStart=
-ExecStart=systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --network-veth -U --settings=override --machine=%i --setenv=LANGUAGE=zh_CN:zh --property=DeviceAllow='/dev/dri rw' --property=DeviceAllow='/dev/snd rw' --property=DeviceAllow='char-drm rwm' --property=DeviceAllow='/dev/shm rw' --property=DeviceAllow='char-input r'
+ExecStart=systemd-nspawn --keep-unit --boot --link-journal=try-guest --network-veth -U --settings=override --machine=%i
 ExecStartPost=systemd-nspawn-debug
-# GPU etc.
-DeviceAllow=/dev/dri rw
-DeviceAllow=/dev/snd rw
-DeviceAllow=char-drm rwm
+# Other stuff.
 DeviceAllow=/dev/shm rw
-DeviceAllow=char-input r
 DeviceAllow=/dev/fuse rw
 EOF
 
@@ -298,11 +294,8 @@ PrivateUsers = no
 # Xorg
 BindReadOnly = /tmp/.X11-unix
 
-# GPU etc.
-Bind = /dev/dri
-Bind = /dev/snd
+# Other stuff.
 Bind = /dev/shm
-Bind = /dev/input
 Bind = /dev/fuse
 
 $(echo "$NVIDIA_BIND")

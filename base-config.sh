@@ -69,7 +69,6 @@ systemctl enable nspawn-$1.service
 
 # 配置容器
 [[ $(machinectl list) =~ $1 ]] && machinectl stop $1
-mkdir -p /home/share && chmod 777 /home/share
 cat > $ROOT/config.sh <<EOF
 #!/bin/bash
 source /etc/profile
@@ -96,7 +95,6 @@ locale
 $(echo -e "$SOURCES_LIST")
 [[ ! -f /etc/securetty || ! \$(cat /etc/securetty | grep pts/0) ]] && echo -e "\n# systemd-container\npts/0\npts/1\npts/2\npts/3\npts/4\npts/5\npts/6" >> /etc/securetty
 [[ ! \$(cat /etc/securetty | grep pts/9) ]] && echo -e "pts/7\npts/8\npts/9" >> /etc/securetty
-mkdir -p /home/share && chmod 777 /home/share
 [[ \$(cat /etc/passwd | grep user:) ]] && userdel -r user
 for i in {1000..1005}; do
     [[ ! \$(cat /etc/passwd | grep u\$i:) ]] && useradd -u \$i -m -s bash -G sudo u\$i
@@ -310,8 +308,7 @@ Bind = /dev/fuse
 $(echo "$NVIDIA_BIND")
 $(echo "$STATIC_BIND")
 
-# 其它
-Bind = /home/share
+# Scripts
 Bind = /usr/local/bin/$1-start:/bin/start
 
 [Network]

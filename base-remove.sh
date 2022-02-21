@@ -45,7 +45,7 @@ rm -f /etc/X11/xorg.conf.d/disable-MIT-SHM.conf
 rm -f /usr/bin/systemd-nspawn-debug
 rm -rf /etc/systemd/system/systemd-nspawn@$1.service.d
 rm -f /etc/systemd/nspawn/$1.nspawn
-[[ -d /etc/systemd/nspawn && `ls -A /etc/systemd/nspawn |wc -w` == 0 ]] && rm -rf /home/share /etc/systemd/nspawn
+[[ -d /etc/systemd/nspawn && `ls -A /etc/systemd/nspawn |wc -w` == 0 ]] && rm -rf /etc/systemd/nspawn
 
 if [[ ! $EXEC_FROM_CONFIG ]] && [ -f /usr/share/applications/deepin-qq.desktop ] && [[ $(cat /usr/share/applications/deepin-qq.desktop | grep $1-) ]]; then
     rm -f /usr/share/pixmaps/com.qq.im.deepin.svg

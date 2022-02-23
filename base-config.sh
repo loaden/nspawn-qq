@@ -97,7 +97,7 @@ $(echo -e "$SOURCES_LIST")
 [[ ! \$(cat /etc/securetty | grep pts/9) ]] && echo -e "pts/7\npts/8\npts/9" >> /etc/securetty
 [[ \$(cat /etc/passwd | grep user:) ]] && userdel -r user
 for i in {1000..1005}; do
-    [[ ! \$(cat /etc/passwd | grep u\$i:) ]] && useradd -u \$i -m -s bash -G sudo u\$i
+    [[ ! \$(cat /etc/passwd | grep u\$i:) ]] && useradd -u \$i -m -s /bin/bash -G sudo u\$i
     echo u\$i:u\$i | chpasswd
     cd /home/u\$i/
     mkdir -p .local/share/fonts .config .cache $USER_DOCUMENTS $USER_DOWNLOAD $USER_DESKTOP $USER_PICTURES $USER_VIDEOS $USER_MUSIC $USER_CLOUDDISK
@@ -105,7 +105,7 @@ for i in {1000..1005}; do
 done
 for i in {1000..1005}; do
     echo u\$i:u\$i | chpasswd
-    [[ ! \$(groups u\$i | grep audio) ]] && adduser u\$i audio
+    [[ ! \$(groups u\$i | grep audio) ]] && usermod -aG audio u\$i
     mkdir -p /home/u\$i/.local/share/fonts
     touch /home/u\$i/.config/user-dirs.dirs
     touch /home/u\$i/.config/user-dirs.locale

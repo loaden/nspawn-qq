@@ -4,6 +4,7 @@
 利用systemd-nspawn容器跑Deepin 20.2.4或者Debian 10，安装deepinwine，稳定运行QQ、TIM、微信、钉钉、深度商店等应用。低内存，高性能，沙盒机制不污染宿主机，支持多用户，理论上可在任何Linux发行版上运行。
 
 <p><b>技术支持QQ群：19346666、111601117</b></p>
+<p><b>技术支持钉钉群：35948877</b></p>
 TIM、天翼云盘需要离线安装，请加群下载，商店版本不稳定。<b>如无法运行，请执行：debian-update 或者 deepin-update 。如安装应用失败，请执行：debian-upgrade 或者 deepin-upgrage 。</b>
 
 #### 软件架构

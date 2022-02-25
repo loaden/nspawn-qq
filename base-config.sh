@@ -414,15 +414,20 @@ if [ \$EUID == 0 ]; then
     exit 1
 fi
 
-# PulseAudio && D-Bus && DConf
+# PulseAudio
 machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/pulse
 [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/pulse
+
+# Bus
 machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/bus
 [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/bus
+
+# DConf
 machinectl bind --mkdir $1 \$XDG_RUNTIME_DIR/dconf
 [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$XDG_RUNTIME_DIR/dconf
-[[ \$(ls /tmp | grep dbus) ]] && machinectl bind --read-only --mkdir $1 /tmp/\$(ls /tmp | grep dbus)
-[[ \$(ls /tmp | grep dbus) ]] && [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 /tmp/\$(ls /tmp | grep dbus)
+
+# D-Bus
+find /tmp/ -maxdepth 1 -name dbus* -exec machinectl bind --read-only --mkdir $1 {} \; -print
 
 # 主目录
 machinectl bind --mkdir $1 \$HOME/$USER_DOCUMENTS /home/u\$UID/$USER_DOCUMENTS

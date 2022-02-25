@@ -1,235 +1,260 @@
+git log v3.4..v3.5 --oneline
+f96a284 修正D-Bus绑定
+17c29aa 必须升级到Debian 11容器了
+76feeb6 添加技术支持钉钉群
+ceaa690 修复用户添加错误
+615d9ec 取消可能不存在的绑定
+4a0d893 不再创建/home/share
+b4197bf chroot后不再需要绝对路径
+e3b4579 Gentoo系统安装debootstrap
+638e120 Merge branch 'master' of gitee.com:loaden/nspawn-deepinwine
+7cd37fc 不再精简基本系统组件
+6f82c13 Use *x11* better than *wayland*
+5ec60b1 修复Wayland下绑定
+6b0479f 修复参数错误
+bbbb122 修复Gentoo系统配置
+f77ebe6 修复ecloud安装失败
+3fc7122 优化polkit配置
+95f9ab6 默认密码与用户名相同
+0e1a407 chroot后更新环境变量
+5324cdb 优化调试输出日志
+2729ca6 禁止开机启动
+afbdcaa bash使用绝对路径
+2993a70 解决可能的fonts绑定失败
+8fd6ce3 Merge branch 'master' of github.com:loaden/nspawn-deepinwine
+fca4f52 Merge branch 'stable'
+4d2b086 修复eCloud卸载
+c08372d Merge pull request #6 from loaden/stable
+61ce769 更新ChangeLog
+
 git log v3.3.3..v3.4 --oneline
-01c0216 删除钉钉和飞书
-33e8fc1 更新ReadMe
-4b20315 Merge branch 'master' of gitee.com:loaden/nspawn-deepinwine
-932e602 尝试修复N卡绑定失败
-ef54b24 添加钉钉启动器
-9eb6dca Merge branch 'master' of gitee.com:loaden/nspawn-deepinwine
-6c36f9f 修正钉钉Linux版本依赖
-09482e7 修正微信配置
-76dc888 奇怪的判断错误
-97fff87 完善微信配置
-1013617 QQ支持离线安装
-4ca0759 完善天翼云盘
-128d9f6 添加微信配置脚本
-0e64056 完善ReadMe
-273ed67 更新ReadMe
-9e6a9ec 修复TIM卸载
-49a39cf Revert "修正TIM配置"
-800c6d8 添加TIM离线安装
-6e2bd92 修正TIM配置
-fd48fca 添加TIM
-8772b37 修正二次更新错误
-933cc70 更新ChangeLog
+79f42d5 删除钉钉和飞书
+85d8e10 更新ReadMe
+fcc4abe Merge branch 'master' of gitee.com:loaden/nspawn-deepinwine
+55ead5d 尝试修复N卡绑定失败
+0d86f82 添加钉钉启动器
+4d8ede8 Merge branch 'master' of gitee.com:loaden/nspawn-deepinwine
+95bf914 修正钉钉Linux版本依赖
+511fffb 修正微信配置
+09f4f67 奇怪的判断错误
+88d7b97 完善微信配置
+0920416 QQ支持离线安装
+b321c4d 完善天翼云盘
+454b56e 添加微信配置脚本
+3252b92 完善ReadMe
+d6e4d1c 更新ReadMe
+70c3060 修复TIM卸载
+e6f64da Revert "修正TIM配置"
+aed7eeb 添加TIM离线安装
+5a70ce0 修正TIM配置
+6864c9c 添加TIM
+3c38092 修正二次更新错误
+b8c7071 更新ChangeLog
 
 git log v3.3.2..v3.3.3 --oneline
-2393020 只卸载一次不必要组件
-bb4a4f0 添加自动更新功能
-aa1ff6a 修复卸载不彻底
-256018a 更新后提醒hold软件
-b2f5e95 添加生成更新日志脚本
+09d4776 只卸载一次不必要组件
+d5071b0 添加自动更新功能
+1b36638 修复卸载不彻底
+61c6a85 更新后提醒hold软件
+0094824 添加生成更新日志脚本
 
 git log v3.3.1..v3.3.2 --oneline
-5040587 修复安装脚本
-8b49d04 添加更新商店命令
-c8dc340 优化卸载
-bad4d7f Merge branch 'master' of gitee.com:loaden/nspawn-deepinwine
-9f4f736 优化查询输出
-7e280ca 优化离线安装
+2aea00b 修复安装脚本
+b000b99 添加更新商店命令
+e7aa07c 优化卸载
+2d206dc Merge branch 'master' of gitee.com:loaden/nspawn-deepinwine
+f254980 优化查询输出
+5e680a3 优化离线安装
 
 git log v3.3..v3.3.1 --oneline
-dbc92fd 修复安装脚本
-48fede8 改进安装脚本
-7de43eb Add install scripts
-7a50673 Config Fixes
-52ea243 添加changelog
+24c2001 修复安装脚本
+4ad77ab 改进安装脚本
+013c4c1 Add install scripts
+0b0907b Config Fixes
+b8fcf48 添加changelog
 
 git log v3.2..v3.3 --oneline
-170e0b0 不卸载eject
-9187a76 确保配置时update只执行一次
-db5fb5b 优化配置与清理
-dd461da update只执行一次
-86d637d 添加neofetch
-7bd040a 移除mount
-4daebf4 启动前输出环境变量
-810bed7 完善query和SHM配置
-3596a64 修复安装与配置报错
-dc78aea 重写query
-1791710 优化config
-e79a15b 重写clean脚本
-714edec 重写config脚本
-c2cea4a Fix denpency
-6626b39 终端免密码安装软件
-394ac16 最小化基本系统安装
-10624e6 优化容器配置
-892a8f4 优化清理函数
-684b2d1 添加xarchiver
-662073e deepin特殊包
-c2506de 添加gtk依赖
-0617fd2 Revert "移除不必要的依赖"
-4cd0c21 修复严重错误
-7f0c6ff Revert "取消最小化"
-e256ca9 取消最小化
-550cea1 默认XFCE文管和终端
-2357407 移除不必要的依赖
-dd16356 更轻量级文管和终端
-da238bc 添加procps
-d2acabc 添加zstd
-05b81e7 恢复清理
-b0599e7 去除wqy字体
-3fa3bbd 改用wqy中文字体
-af2a19c 精简不必要的依赖
-4916448 修复安装判断
-79aac9c 精简初始安装
-a228ff9 完善容器tty配置
-98bb774 避免有可能的/bin不存在
-83279db 不再移除旧版本遗留文件
-b98a92c 完善用户修改目录名称问题
-4f21aa6 输出更多调试信息
-6e6221e 同步容器改进
-74306ce 优化容器工具安装
-cb41aab 添加工具包检测
+5e99fb8 不卸载eject
+07298c1 确保配置时update只执行一次
+b1c2c69 优化配置与清理
+2d7a2be update只执行一次
+c5f4b5a 添加neofetch
+e9cccec 移除mount
+a0d5ce2 启动前输出环境变量
+807f089 完善query和SHM配置
+ed12cde 修复安装与配置报错
+b7b4ca2 重写query
+50949a1 优化config
+3b76340 重写clean脚本
+167fb29 重写config脚本
+9f27853 Fix denpency
+08ea44f 终端免密码安装软件
+4795739 最小化基本系统安装
+847d987 优化容器配置
+600a540 优化清理函数
+edc15b9 添加xarchiver
+2123df5 deepin特殊包
+ce6a16a 添加gtk依赖
+619686d Revert "移除不必要的依赖"
+2f28f34 修复严重错误
+527373a Revert "取消最小化"
+b3cb207 取消最小化
+eea73f3 默认XFCE文管和终端
+44d45a5 移除不必要的依赖
+7725aab 更轻量级文管和终端
+63a1dae 添加procps
+0cd7e7a 添加zstd
+57a76df 恢复清理
+a36f7ef 去除wqy字体
+29b0d67 改用wqy中文字体
+a912f00 精简不必要的依赖
+be5660c 修复安装判断
+4f30641 精简初始安装
+70a3595 完善容器tty配置
+196ff6c 避免有可能的/bin不存在
+1b69325 不再移除旧版本遗留文件
+a9f49c2 完善用户修改目录名称问题
+a93e48b 输出更多调试信息
+aa9aa15 同步容器改进
+c4132d3 优化容器工具安装
+1379ee2 添加工具包检测
 
 git log v3.1..v3.2 --oneline
-97c85a4 优化字符串判断
-2de1963 优化创造启动器的条件
-7a9a35f 添加天翼云盘启动器
-d76297d 修正嵌套软链接
-8e30966 添加解释
-673ede7 Merge branch 'master' of gitee.com:loaden/nspawn-deepinwine
-85f18f3  修正拼写
-38cd7a3 安装完成后不清理
-5452d3d 修正QQ微信图标
-c9f5a86 不能判断chroot的返回值
-1328b53 继续优化安装判断
-4bafd6e 完善安装判断
-db4bd9e 判断容器创建是否成功
-024e595 更新维护人
-ec894ff 提醒用户错误执行配置脚本
-033ace1 完善执行脚本用户权限判断
-797b3d0 添加不能单独执行提示
-ce4cc84 删除过时代码
-ec49a3d 配置过程不删除启动器
-073a8d0 安装或配置容器时，以普通用户身份执行安装
-865694b 安装与启动只允许普通用户权限执行
-312e73a 容器不存在时先创建
-99f2ec8 清理时删除被淘汰软件
-47d5b8b mousepad改32位
+204a3c8 优化字符串判断
+5ee5e4f 优化创造启动器的条件
+dfe9696 添加天翼云盘启动器
+13101a6 修正嵌套软链接
+d8208a0 添加解释
+5448db6 Merge branch 'master' of gitee.com:loaden/nspawn-deepinwine
+0183da4  修正拼写
+1df7cf1 安装完成后不清理
+00820f4 修正QQ微信图标
+ada4f89 不能判断chroot的返回值
+f5f2771 继续优化安装判断
+8d09332 完善安装判断
+097cb57 判断容器创建是否成功
+3c37344 更新维护人
+c465cbe 提醒用户错误执行配置脚本
+389ecae 完善执行脚本用户权限判断
+682c511 添加不能单独执行提示
+e24bf4b 删除过时代码
+de5a656 配置过程不删除启动器
+d4128c9 安装或配置容器时，以普通用户身份执行安装
+b820d1e 安装与启动只允许普通用户权限执行
+6c3adf8 容器不存在时先创建
+2c45469 清理时删除被淘汰软件
+9b4bfbd mousepad改32位
 
 git log v3.0..v3.1 --oneline
-10360ed 添加多用户模式开关
-926b3db 优化启动环境变量输出
-03e1820 添加升级说明
-73f3606 优化交互
-a1b17c1 加粗QQ群
-b07284a 去掉颜色，不支持
-8dd4b36 用户名和密码红色标注
-8899032 添加技术支持QQ群提示
-1f82e92 优化清理函数
-987c45f 添加安装所有脚本
-1a9a92e 修正拼写
-6f5eac5 解决多用户共享权限
-3e3554f 不覆盖软链接
-e2e0ff5 消除终端启动警告
-2ac1199 优化同用户目录
-84ee51b 修复N卡可能的绑定失败
-81d9748 完善输入法环境变量设置
-f229076 Merge branch 'master' of github.com:loaden/nspawn-deepinwine
-b457561 暂停容器与宿主机使用相同用户目录
-6c33976 优化云盘配置脚本
-7e708ee 添加云盘脚本安装
-c44b9cb 修正LibreOffice启动警告
-2526add LibreOffice添加breeze图标
-2e57f33 默认安装deepin-desktop-base
-563d0fc LibreOffice安装elementary图标
-0545651 解决LibreOffice启动警告
+74c718b 添加多用户模式开关
+9cb1b6c 优化启动环境变量输出
+7b7150d 添加升级说明
+0b93c01 优化交互
+7253f55 加粗QQ群
+08c871f 去掉颜色，不支持
+b4971c7 用户名和密码红色标注
+c1da2b4 添加技术支持QQ群提示
+ee519ae 优化清理函数
+8b8e245 添加安装所有脚本
+54eb128 修正拼写
+e8c59df 解决多用户共享权限
+23c27b0 不覆盖软链接
+7e9782f 消除终端启动警告
+c284323 优化同用户目录
+934ad90 修复N卡可能的绑定失败
+c917a83 完善输入法环境变量设置
+3a35f4f Merge branch 'master' of github.com:loaden/nspawn-deepinwine
+e2f7cf5 暂停容器与宿主机使用相同用户目录
+4144448 优化云盘配置脚本
+5ce18b4 添加云盘脚本安装
+b69b9a2 修正LibreOffice启动警告
+5d11f6b LibreOffice添加breeze图标
+4a47ba3 默认安装deepin-desktop-base
+d131eb2 LibreOffice安装elementary图标
+af4589d 解决LibreOffice启动警告
 
 git log v2.2..v3.0 --oneline
-0754605 删除部分屏幕截图
-4466df0 更新ReadME
-7ba45eb 添加解压工具
-ab61a0c 修正LibreOffice样式
-f80dc74 移除多余空行
-1192263 修复Nvidia绑定
-9d41e56 添加图片打开方式查询
-04462fb 完善PDF默认打开方式
-d8935ef 添加PDF浏览器
-8ec9905 LibreOffice只安装基本组件
-330289f 添加网页浏览器
-4a70858 添加mousepad
-e0d3ab3 去掉多余update
-87f55d5 添加LibreOffice
-c8d4596 添加图片浏览器
-807718a 添加压缩解压插件
-0b84e54 优化安装性能
-b1e2046 添加系统升级脚本
-3a6ae04 移除多余空行
-cf181e8 增强日志可读性
-47f0d66 增大延时
-cb7d934 按需启动容器
-eb8a5ab 禁用SELinux
-3418965 微调移除
-2836432 让卸载更完整
-5ea208b 修复脚本目录不存在
-4dccd04 避免可能的误删除
-3f5e2da 禁止套娃
-f5c0216 启动器不存在时才创建
-b6f4fa5 完善hostname设置
-5453160 修正启动器配置
-8177386 交互优化
-29f58a6 完善clean
-39f3bcb 修正管理员权限
-da56186 修正卸载
-f96053c 修正初始化配置中可能的误删除
-c7390dc 优化卸载脚本
-a6b2f1d 统一风格
-152e2fb 添加原生钉钉
-17e1fda 避免需要管理员权限删除钉钉容器
-8fb90cf 彻底解决钉钉自动升级问题
-cb36371 修正钉钉启动
-e835b3e 取消.cache绑定
-2100a17 优化清理脚本
-5bf1dbd 精简Thunar安装
-8497a24 修复央视影音SHM禁用
-c1da070 deepin容器设置默认终端
-81c5fc2 完善文件管理器安装
-9492bd4 将容器用户添加到audio组中
-25d328d 添加pts/7-9
-14b07fa 添加/dev/snd绑定
-6b9398e 禁止钉钉自动升级
-53e6e06 修正钉钉SHM禁用失败
-68cd2b2 查询时去除过多的空行
-2666e27 容器配置添加1秒延时
-38f929f 细节修正与完善
-96c93cd 添加SHM禁用查询
-ade6d9d x11-utils应该提前安装
-8b9a232 添加保卫萝卜
-149065a 添加全民K歌
-f61099f 添加更多软件截图
-ebca04b 添加钉钉和企业微信
-c49b50c 修正百度网盘安装
-2c9878f 修复拼写
-5183d4f 内核要加载fuse
-8e5acdc 添加软件列表
-90fec9d 重命名软件截图
-eecb143 添加反恐精英
-c1fd8d2 完善设备绑定
-9e026aa 添加百度网盘
-2a48757 添加野狐围棋
-13961b0 添加向日葵远程控制
-f08b3e5 添加飞书
-a677837 添加央视影音
-a1dc713 添加金山词霸
-7c1be2b 添加腾讯视频
-6040ef0 修正deepin卸载
-a24a267 丰富调试信息
-1a25f91 移除模块代码重构
-b3b6bd7 文件名完善
-58c953b 修正语法歧义引起的错误
-fa00c98 简化语法
-1641bb9 代码重构
-cc5b045 修正Thunar默认文件管理器注册
-047551f 添加屏幕截图
+38c1adc 更新ReadME
+e8d3c1d 添加解压工具
+d382493 修正LibreOffice样式
+b471115 移除多余空行
+b0fb8ea 修复Nvidia绑定
+3efe487 添加图片打开方式查询
+b6f4116 完善PDF默认打开方式
+567f200 添加PDF浏览器
+d678bfd LibreOffice只安装基本组件
+1e0a21f 添加网页浏览器
+321305b 添加mousepad
+ac42ab6 去掉多余update
+a5e90d0 添加LibreOffice
+095a01b 添加图片浏览器
+1969ecd 添加压缩解压插件
+c2c9338 优化安装性能
+f464158 添加系统升级脚本
+4a39726 移除多余空行
+6f849be 增强日志可读性
+c3d5b0a 增大延时
+abef321 按需启动容器
+2185cd3 禁用SELinux
+cdb4ee3 微调移除
+4626bfd 让卸载更完整
+8216f2c 修复脚本目录不存在
+4d4c7e2 避免可能的误删除
+b314ac7 禁止套娃
+c0e0283 启动器不存在时才创建
+bde9c17 完善hostname设置
+ab74ff2 修正启动器配置
+6e7c9f8 交互优化
+3ee225d 完善clean
+0808208 修正管理员权限
+6f9fb22 修正卸载
+ff05a47 修正初始化配置中可能的误删除
+6d96d2d 优化卸载脚本
+79bb9a1 统一风格
+3972a1c 添加原生钉钉
+b7411b1 避免需要管理员权限删除钉钉容器
+5a3aaf0 彻底解决钉钉自动升级问题
+c0e2d7b 修正钉钉启动
+2c7ad35 取消.cache绑定
+d56006b 优化清理脚本
+15ee5ac 精简Thunar安装
+2b2e1ad 修复央视影音SHM禁用
+e5b563c deepin容器设置默认终端
+a325d31 完善文件管理器安装
+262fce9 将容器用户添加到audio组中
+f960185 添加pts/7-9
+41ef794 添加/dev/snd绑定
+5cff8c6 禁止钉钉自动升级
+0667b5f 修正钉钉SHM禁用失败
+a315af7 查询时去除过多的空行
+83c22b5 容器配置添加1秒延时
+4597b7b 细节修正与完善
+6bb46a6 添加SHM禁用查询
+d077549 x11-utils应该提前安装
+745a7da 添加保卫萝卜
+c814e77 添加全民K歌
+4034949 添加钉钉和企业微信
+23e22ef 修正百度网盘安装
+f155525 修复拼写
+d5b7f2d 内核要加载fuse
+9523ae1 添加软件列表
+3d07327 添加反恐精英
+18fa74d 完善设备绑定
+b0e83fd 添加百度网盘
+c8d4979 添加野狐围棋
+021560a 添加向日葵远程控制
+a9229f4 添加飞书
+d633aa2 添加央视影音
+c6f85f1 添加金山词霸
+3f487e0 添加腾讯视频
+f1502fb 修正deepin卸载
+1271232 丰富调试信息
+62c0f75 移除模块代码重构
+e78ec59 文件名完善
+ec646da 修正语法歧义引起的错误
+4af8f03 简化语法
+a896630 代码重构
+7353e64 修正Thunar默认文件管理器注册
 d81a61c Merge branch 'master' of github.com:loaden/nspawn-deepinwine
 2b16809 运行前判断容器是否启动
 

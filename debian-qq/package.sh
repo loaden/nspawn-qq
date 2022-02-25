@@ -14,15 +14,8 @@ if [ ! -f /usr/bin/zstd ]; then
     [ -f /usr/bin/dnf ] && sudo /usr/bin/dnf install -y zstd
 fi
 
-if [ ! -d $HOME/.machines ]; then
-    mkdir $HOME/.machines
-fi
-
-if [ -d $HOME/.machines/deepin ]; then
-    echo 容器 deepin 已经存在，安装之前必须先卸载并删除旧容器！ && sleep 2
-    source `dirname ${BASH_SOURCE[0]}`/remove.sh
-fi
-
-sudo tar -xpvf `dirname ${BASH_SOURCE[0]}`/deepin.tar.zst --directory=$HOME/.machines
-sudo `dirname ${BASH_SOURCE[0]}`/nspawn-deepinwine/deepin-config.sh
-echo 安装完成！
+PKG=`pwd`/`dirname $0`/debian.tar.zst
+pushd $HOME/.machines
+    sudo ZSTD_CLEVEL=19 ZSTD_NBTHREADS=$(nproc) tar -capvf $PKG debian
+popd
+echo 打包完成！

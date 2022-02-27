@@ -920,4 +920,4 @@ echo
 [ -f /usr/share/applications/deepin-weixin.desktop ] && cat /usr/share/applications/deepin-weixin.desktop | grep $1-
 
 # 禁止开机启动
-[ "$(systemctl is-enabled nspawn-debian.service)" == "enabled" ] && systemctl disable machines.target
+[ "$(systemctl is-enabled nspawn-$1.service)" == "enabled" ] && systemctl disable machines.target

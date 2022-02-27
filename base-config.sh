@@ -263,7 +263,7 @@ if [ $MULTIUSER_SUPPORT = 0 ]; then
 # PulseAudio && D-Bus && DConf
 BindReadOnly = /run/user/$SUDO_UID/pulse
 BindReadOnly = /run/user/$SUDO_UID/bus
-Bind = /run/user/$SUDO_UID/dconf
+BindReadOnly = /run/user/$SUDO_UID/dconf
 #---------------
 # 主目录
 Bind = /home/$SUDO_USER/$USER_DOCUMENTS:/home/u$SUDO_UID/$USER_DOCUMENTS
@@ -423,8 +423,8 @@ machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/bus
 [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/bus
 
 # DConf
-machinectl bind --mkdir $1 \$XDG_RUNTIME_DIR/dconf
-[ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$XDG_RUNTIME_DIR/dconf
+machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/dconf
+[ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/dconf
 
 # D-Bus
 find /tmp/ -maxdepth 1 -name dbus* -exec machinectl bind --read-only --mkdir $1 {} \; -print

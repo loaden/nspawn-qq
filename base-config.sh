@@ -510,6 +510,7 @@ machinectl --setenv=DELETE_WINE=\$DELETE_WINE shell $1 /bin/bash -c 'env ;
     rm -rf /usr/share/man ;
     rm -rf /tmp/* ;
     find /home -maxdepth 1 -type l -delete ;
+    journalctl --vacuum-size 1M ;
     df -h && du -hd0 /opt /home /var /usr ;
 '
 EOF

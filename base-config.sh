@@ -107,8 +107,7 @@ for i in {1000..1005}; do
     echo u\$i:u\$i | chpasswd
     [[ ! \$(groups u\$i | grep audio) ]] && usermod -aG audio u\$i
     mkdir -p /home/u\$i/.local/share/fonts
-    touch /home/u\$i/.config/user-dirs.dirs
-    touch /home/u\$i/.config/user-dirs.locale
+    mkdir -p /home/u\$i/.config/fontconfig
 done
 # No password for sudo
 sed -i "s/.*sudo.*ALL=(ALL:ALL) ALL/%sudo ALL=(ALL) NOPASSWD:ALL/" /etc/sudoers
@@ -261,6 +260,7 @@ if [ $MULTIUSER_SUPPORT = 0 ]; then
     [ -f /home/$SUDO_USER/.config/user-dirs.dirs ] && STATIC_USERDIRS_BIND="Bind = /home/$SUDO_USER/.config/user-dirs.dirs:/home/u$SUDO_UID/.config/user-dirs.dirs"
     [ -f /home/$SUDO_USER/.config/user-dirs.locale ] && STATIC_USERLOCALE_BIND="Bind = /home/$SUDO_USER/.config/user-dirs.locale:/home/u$SUDO_UID/.config/user-dirs.locale"
     [ -d /home/$SUDO_USER/.local/share/fonts ] && STATIC_FONTS_BIND="Bind = /home/$SUDO_USER/.local/share/fonts:/home/u$SUDO_UID/.local/share/fonts"
+    [ -d /home/$SUDO_USER/.config/fontconfig ] && STATIC_FONTCONFIG_BIND="Bind = /home/$SUDO_USER/.config/fontconfig:/home/u$SUDO_UID/.config/fontconfig"
 
     STATIC_BIND="# 单用户模式：静态绑定
 #---------------
@@ -281,6 +281,7 @@ Bind = /home/$SUDO_USER/$USER_MUSIC:/home/u$SUDO_UID/$USER_MUSIC
 $(echo "$STATIC_USERDIRS_BIND")
 $(echo "$STATIC_USERLOCALE_BIND")
 $(echo "$STATIC_FONTS_BIND")
+$(echo "$STATIC_FONTCONFIG_BIND")
 $(echo "$STATIC_CLOUDDISK_BIND")
 "
 fi
@@ -297,6 +298,9 @@ PrivateUsers = no
 [Files]
 # Xorg
 BindReadOnly = /tmp/.X11-unix
+
+# Fonts
+BindReadOnly = /etc/fonts
 
 # Other stuff.
 Bind = /dev/shm
@@ -450,12 +454,14 @@ machinectl bind --mkdir $1 \$HOME/$USER_MUSIC /home/u\$UID/$USER_MUSIC
 # 其它目录和文件
 [ -d \$HOME/$USER_CLOUDDISK ] && machinectl bind --mkdir $1 \$HOME/$USER_CLOUDDISK /home/u\$UID/$USER_CLOUDDISK
 [ -d \$HOME/$USER_CLOUDDISK ] && [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_CLOUDDISK /home/u\$UID/$USER_CLOUDDISK
-[ -f \$HOME/.config/user-dirs.dirs ] && machinectl bind $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
-[ -f \$HOME/.config/user-dirs.dirs ] && [ \$? != 0 ] && echo error: machinectl bind $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
-[ -f \$HOME/.config/user-dirs.locale ] && machinectl bind $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
-[ -f \$HOME/.config/user-dirs.locale ] && [ \$? != 0 ] && echo error: machinectl bind $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
+[ -f \$HOME/.config/user-dirs.dirs ] && machinectl bind --mkdir $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
+[ -f \$HOME/.config/user-dirs.dirs ] && [ \$? != 0 ] && echo error: machinectl --mkdir bind $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
+[ -f \$HOME/.config/user-dirs.locale ] && machinectl bind --mkdir $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
+[ -f \$HOME/.config/user-dirs.locale ] && [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
 [ -d \$HOME/.local/share/fonts ] && machinectl bind --read-only --mkdir $1 \$HOME/.local/share/fonts /home/u\$UID/.local/share/fonts
 [ -d \$HOME/.local/share/fonts ] && [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$HOME/.local/share/fonts /home/u\$UID/.local/share/fonts
+[ -d \$HOME/.config/fontconfig ] && machinectl bind --read-only --mkdir $1 \$HOME/.config/fontconfig /home/u\$UID/.config/fontconfig
+[ -d \$HOME/.config/fontconfig ] && [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$HOME/.config/fontconfig /home/u\$UID/.config/fontconfig
 
 $(echo "$X11_BIND_AND_CONFIG")
 $(echo $XHOST_AUTH)

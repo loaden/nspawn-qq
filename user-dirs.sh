@@ -21,7 +21,7 @@ USER_PICTURES=$(basename $(su - $SUDO_USER -c 'xdg-user-dir PICTURES'))
 USER_VIDEOS=$(basename $(su - $SUDO_USER -c 'xdg-user-dir VIDEOS'))
 
 USER_CLOUDDISK=$(su - $SUDO_USER -c 'xdg-user-dir')/云盘
-if [ -d $USER_CLOUDDISK ]; then
+if [[ -d $USER_CLOUDDISK ]]; then
     USER_CLOUDDISK=$(basename $USER_CLOUDDISK)
 else
     USER_CLOUDDISK=

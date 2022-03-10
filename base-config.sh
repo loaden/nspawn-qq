@@ -125,22 +125,26 @@ source `dirname ${BASH_SOURCE[0]}`/xnoshm.sh $1
 
 
 #精简容器空间
-if [ ! -f $ROOT/clean.sh ]; then
-    cat > $ROOT/clean.sh <<EOF
+cat > $ROOT/clean.sh <<EOF
 #!/bin/bash
 source /etc/profile
 source ~/.bashrc
 
+if [ -f /usr/bin/xfce4-terminal ]; then
+    apt update && apt upgrade --yes
+    apt install --yes lxterminal --no-install-recommends
+    apt purge --yes xfce4-terminal fonts-dejavu-core
+fi
+
 # Save space
-/bin/rm -rf /usr/share/doc
-/bin/rm -rf /usr/share/man
-/bin/rm -rf /tmp/*
-/bin/apt autopurge --yes
-/bin/apt clean
+rm -rfv /usr/share/doc
+rm -rfv /usr/share/man
+/bin/rm -rfv /tmp/*
+apt autopurge --yes
+apt clean
 EOF
 
 chroot $ROOT /bin/bash /clean.sh
-fi
 
 
 # 确保宿主机当前用户相关目录或文件存在
@@ -560,7 +564,7 @@ chmod 755 /usr/local/bin/$1-upgrade
 cat > /usr/local/bin/$1-install-terminal <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt install -y xfce4-terminal libcanberra-gtk3-module --no-install-recommends && apt autopurge -y"
+machinectl shell $1 /bin/bash -c "apt install -y lxterminal libcanberra-gtk3-module --no-install-recommends && apt autopurge -y"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-terminal
@@ -570,7 +574,7 @@ cat > /usr/local/bin/$1-terminal <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
-machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/xfce4-terminal.desktop"
+machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/lxterminal.desktop"
 EOF
 
 chmod 755 /usr/local/bin/$1-terminal

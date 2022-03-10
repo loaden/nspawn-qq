@@ -60,7 +60,7 @@ if [[ ! -f /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO || ! -f /lib/x86_64-linux-gnu
     if [[ -f /lib/x86_64-linux-gnu/$DISABLE_MIT_SHM_SO && -f /lib/i386-linux-gnu/$DISABLE_MIT_SHM_SO ]]; then
         rm -f /disable-MIT-SHM.c
         apt purge -y gcc gcc-multilib libc6-dev libxext-dev
-        apt autopurge -y
+        apt autopurge -y && apt clean
     fi
 fi
 EOF

@@ -11,14 +11,14 @@ fi
 [ ! -f /usr/bin/xdg-user-dir ] && [ -f /usr/bin/apt ] && apt install -y xdg-user-dirs
 [ ! -f /usr/bin/xdg-user-dir ] && [ -f /usr/bin/dnf ] && dnf install -y xdg-user-dirs
 [ ! -f /usr/bin/xdg-user-dir ] && [ -f /usr/bin/pacman ] && pacman -S --noconfirm --needed xdg-user-dirs
-USER_DESKTOP=$(basename $(su - $SUDO_USER -c 'xdg-user-dir DESKTOP'))
-USER_DOWNLOAD=$(basename $(su - $SUDO_USER -c 'xdg-user-dir DOWNLOAD'))
-USER_TEMPLATES=$(basename $(su - $SUDO_USER -c 'xdg-user-dir TEMPLATES'))
-USER_PUBLICSHARE=$(basename $(su - $SUDO_USER -c 'xdg-user-dir PUBLICSHARE'))
-USER_DOCUMENTS=$(basename $(su - $SUDO_USER -c 'xdg-user-dir DOCUMENTS'))
-USER_MUSIC=$(basename $(su - $SUDO_USER -c 'xdg-user-dir MUSIC'))
-USER_PICTURES=$(basename $(su - $SUDO_USER -c 'xdg-user-dir PICTURES'))
-USER_VIDEOS=$(basename $(su - $SUDO_USER -c 'xdg-user-dir VIDEOS'))
+USER_DESKTOP=$(ret=$(su - $SUDO_USER -c 'xdg-user-dir DESKTOP') && echo ${ret##*/})
+USER_DOWNLOAD=$(ret=$(su - $SUDO_USER -c 'xdg-user-dir DOWNLOAD') && echo ${ret##*/})
+USER_TEMPLATES=$(ret=$(su - $SUDO_USER -c 'xdg-user-dir TEMPLATES') && echo ${ret##*/})
+USER_PUBLICSHARE=$(ret=$(su - $SUDO_USER -c 'xdg-user-dir PUBLICSHARE') && echo ${ret##*/})
+USER_DOCUMENTS=$(ret=$(su - $SUDO_USER -c 'xdg-user-dir DOCUMENTS') && echo ${ret##*/})
+USER_MUSIC=$(ret=$(su - $SUDO_USER -c 'xdg-user-dir MUSIC') && echo ${ret##*/})
+USER_PICTURES=$(ret=$(su - $SUDO_USER -c 'xdg-user-dir PICTURES') && echo ${ret##*/})
+USER_VIDEOS=$(ret=$(su - $SUDO_USER -c 'xdg-user-dir VIDEOS') && echo ${ret##*/})
 
 USER_CLOUDDISK=$(su - $SUDO_USER -c 'xdg-user-dir')/云盘
 if [[ -d $USER_CLOUDDISK ]]; then

@@ -539,17 +539,17 @@ if [ ! -f /usr/bin/git ]; then
     [ -f /usr/bin/pacman ] && sudo /usr/bin/pacman -S git
     [ -f /usr/bin/dnf ] && sudo /usr/bin/dnf install -y git
 fi
-if [ ! -d \$HOME/.nspawn-deepinwine/.git ]; then
-    /usr/bin/git clone https://gitee.com/loaden/nspawn-deepinwine.git \$HOME/.nspawn-deepinwine
+if [ ! -d \$HOME/.nspawn-qq/.git ]; then
+    /usr/bin/git clone https://github.com/loaden/nspawn-qq.git \$HOME/.nspawn-qq
 else
-    pushd \$HOME/.nspawn-deepinwine
+    pushd \$HOME/.nspawn-qq
         /usr/bin/git pull
     popd
 fi
-if [ ! -f \$HOME/.nspawn-deepinwine/$1-config.sh ]; then
-    echo 意外错误，请手动删除 \$HOME/.nspawn-deepinwine 文件夹后再试。
+if [ ! -f \$HOME/.nspawn-qq/$1-config.sh ]; then
+    echo 意外错误，请手动删除 \$HOME/.nspawn-qq 文件夹后再试。
 else
-    sudo \$HOME/.nspawn-deepinwine/$1-config.sh
+    sudo \$HOME/.nspawn-qq/$1-config.sh
 fi
 EOF
 

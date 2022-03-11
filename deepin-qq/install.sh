@@ -24,5 +24,5 @@ if [ -d $HOME/.machines/deepin ]; then
 fi
 
 sudo tar -xpvf `dirname ${BASH_SOURCE[0]}`/deepin.tar.zst --directory=$HOME/.machines
-sudo `dirname ${BASH_SOURCE[0]}`/nspawn-deepinwine/deepin-config.sh
+sudo `dirname ${BASH_SOURCE[0]}`/nspawn-qq/deepin-config.sh
 echo 安装完成！

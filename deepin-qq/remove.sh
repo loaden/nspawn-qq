@@ -8,7 +8,7 @@ if [ $EUID == 0 ]; then
     exit 1
 fi
 
-sudo `dirname ${BASH_SOURCE[0]}`/nspawn-deepinwine/remove-deepin.sh
+sudo `dirname ${BASH_SOURCE[0]}`/nspawn-qq/remove-deepin.sh
 
 echo -n -e "\033[31m需要我自动帮您删除~/.machines/deepin吗？[y/N]\033[0m"
 read -p " " choice

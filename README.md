@@ -1,4 +1,4 @@
-# nspawn-deepinwine
+# nspawn-qq
 
 #### 介绍
 利用systemd-nspawn容器跑Deepin 20.2.4或者Debian 10，安装deepinwine，稳定运行QQ、TIM、微信、钉钉、深度商店等应用。低内存，高性能，沙盒机制不污染宿主机，支持多用户，理论上可在任何Linux发行版上运行。

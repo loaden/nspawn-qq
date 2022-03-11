@@ -24,5 +24,5 @@ if [ -d $HOME/.machines/debian ]; then
 fi
 
 sudo tar -xpvf `dirname ${BASH_SOURCE[0]}`/debian.tar.zst --directory=$HOME/.machines
-sudo `dirname ${BASH_SOURCE[0]}`/nspawn-deepinwine/debian-config.sh
+sudo `dirname ${BASH_SOURCE[0]}`/nspawn-qq/debian-config.sh
 echo 安装完成！

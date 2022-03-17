@@ -299,10 +299,6 @@ PrivateUsers = no
 # Xorg
 BindReadOnly = /tmp/.X11-unix
 
-# Fonts
-BindReadOnly = /etc/fonts
-BindReadOnly = /usr/share/fonts
-
 # Other stuff.
 Bind = /dev/shm
 Bind = /dev/fuse

@@ -504,7 +504,7 @@ answer=No
 [[ ! "\$KEEP_QUIET" == "1" ]] && read -p "Delete the '~/.deepinwine' directory? [y/N]" answer
 [[ \${answer^^} == Y || \${answer^^} == YES ]] && DELETE_WINE=yes
 machinectl --setenv=DELETE_WINE=\$DELETE_WINE shell $1 /bin/bash -c 'env ;
-    for i in \$(find /home/ -maxdepth 1 -type d | grep /home/ | grep -v /home/share); do
+    for i in \$(find /home -maxdepth 1 -type d | grep /home/ | grep -v /home/share); do
         [ "\$DELETE_WINE" == "yes" ] && echo rm -rf \$i/.deepinwine && rm -rf \$i/.deepinwine ;
         rm -rf \$i/.cache/* ;
         ls \$i/.config | grep -v user-dirs | xargs rm -rf ;
@@ -516,7 +516,7 @@ machinectl --setenv=DELETE_WINE=\$DELETE_WINE shell $1 /bin/bash -c 'env ;
     rm -rf /usr/share/doc ;
     rm -rf /usr/share/man ;
     rm -rf /tmp/* ;
-    find /home/ -maxdepth 1 -type l -delete ;
+    find /home -maxdepth 1 -type l -delete ;
     journalctl --vacuum-size 1M ;
     df -h && du -hd0 /opt /home /var /usr ;
 '

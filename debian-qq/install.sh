@@ -25,7 +25,6 @@ fi
 
 sudo tar -xpvf `dirname ${BASH_SOURCE[0]}`/debian.tar.zst --directory=$HOME/.machines
 sudo `dirname ${BASH_SOURCE[0]}`/nspawn-qq/debian-config.sh
-debian-update
 debian-upgrade
 debian-update-store
 debian-clean

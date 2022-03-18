@@ -25,7 +25,6 @@ fi
 
 sudo tar -xpvf `dirname ${BASH_SOURCE[0]}`/deepin.tar.zst --directory=$HOME/.machines
 sudo `dirname ${BASH_SOURCE[0]}`/nspawn-qq/deepin-config.sh
-deepin-update
 deepin-upgrade
 deepin-clean
 deepin-query

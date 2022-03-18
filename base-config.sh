@@ -617,6 +617,7 @@ chmod 755 /usr/local/bin/$1-install-qq
 # 配置QQ
 cat > /usr/local/bin/$1-config-qq <<EOF
 #!/bin/bash
+machinectl stop $1
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-QQ ~/.deepinwine/deepin-wine5/bin/winecfg"
@@ -669,6 +670,7 @@ chmod 755 /usr/local/bin/$1-install-tim
 # 配置TIM
 cat > /usr/local/bin/$1-config-tim <<EOF
 #!/bin/bash
+machinectl stop $1
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-TIM ~/.deepinwine/deepin-wine5/bin/winecfg"
@@ -722,6 +724,7 @@ chmod 755 /usr/local/bin/$1-install-weixin
 # 配置微信
 cat > /usr/local/bin/$1-config-weixin <<EOF
 #!/bin/bash
+machinectl stop $1
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c ''"\$RUN_ENVIRONMENT"' WINEPREFIX=~/.deepinwine/Deepin-WeChat \
@@ -780,6 +783,7 @@ chmod 755 /usr/local/bin/$1-install-ecloud
 # 配置云盘
 cat > /usr/local/bin/$1-config-ecloud <<EOF
 #!/bin/bash
+machinectl stop $1
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-eCloud/ ~/.deepinwine/deepin-wine5/bin/regedit ~/$USER_DOWNLOAD/ecloud.reg"

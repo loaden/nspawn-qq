@@ -68,7 +68,7 @@ systemctl enable nspawn-$1.service
 
 
 # 配置容器
-[[ $(machinectl list) =~ $1 ]] && machinectl stop $1
+[[ $(machinectl list) =~ $1 ]] && machinectl stop $1 && sleep 1
 cat > $ROOT/config.sh <<EOF
 #!/bin/bash
 source /etc/profile
@@ -288,7 +288,7 @@ fi
 
 
 # 创建容器配置文件
-[[ $(machinectl list) =~ $1 ]] && machinectl stop $1
+[[ $(machinectl list) =~ $1 ]] && machinectl stop $1 && sleep 1
 mkdir -p /etc/systemd/nspawn
 cat > /etc/systemd/nspawn/$1.nspawn <<EOF
 [Exec]
@@ -618,6 +618,7 @@ chmod 755 /usr/local/bin/$1-install-qq
 cat > /usr/local/bin/$1-config-qq <<EOF
 #!/bin/bash
 machinectl stop $1
+sleep 1
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-QQ ~/.deepinwine/deepin-wine5/bin/winecfg"
@@ -671,6 +672,7 @@ chmod 755 /usr/local/bin/$1-install-tim
 cat > /usr/local/bin/$1-config-tim <<EOF
 #!/bin/bash
 machinectl stop $1
+sleep 1
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-TIM ~/.deepinwine/deepin-wine5/bin/winecfg"
@@ -725,6 +727,7 @@ chmod 755 /usr/local/bin/$1-install-weixin
 cat > /usr/local/bin/$1-config-weixin <<EOF
 #!/bin/bash
 machinectl stop $1
+sleep 1
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c ''"\$RUN_ENVIRONMENT"' WINEPREFIX=~/.deepinwine/Deepin-WeChat \
@@ -784,6 +787,7 @@ chmod 755 /usr/local/bin/$1-install-ecloud
 cat > /usr/local/bin/$1-config-ecloud <<EOF
 #!/bin/bash
 machinectl stop $1
+sleep 1
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-eCloud/ ~/.deepinwine/deepin-wine5/bin/regedit ~/$USER_DOWNLOAD/ecloud.reg"

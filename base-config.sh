@@ -482,7 +482,7 @@ cat > /usr/local/bin/$1-query <<EOF
 source /usr/local/bin/$1-config
 machinectl \$SHELL_OPTIONS --setenv=LD_PRELOAD=$DISABLE_MIT_SHM_SO shell $1 /bin/bash -c 'env ;
     echo /usr/share/applications && ls -l /usr/share/applications ;
-    find /opt -name "*.desktop" && echo ;
+    find /opt/ -name "*.desktop" && echo ;
     [ -n "\$(xdg-mime query default inode/directory)" ] && echo -n "The default open of inode/directory is " && xdg-mime query default inode/directory ;
     [ -n "\$(xdg-mime query default video/mp4)" ] && echo -n "The default open of video/mp4 is " && xdg-mime query default video/mp4 ;
     [ -n "\$(xdg-mime query default audio/flac)" ] && echo -n "The default open of audio/flac is " && xdg-mime query default audio/flac ;
@@ -504,7 +504,7 @@ answer=No
 [[ ! "\$KEEP_QUIET" == "1" ]] && read -p "Delete the '~/.deepinwine' directory? [y/N]" answer
 [[ \${answer^^} == Y || \${answer^^} == YES ]] && DELETE_WINE=yes
 machinectl --setenv=DELETE_WINE=\$DELETE_WINE shell $1 /bin/bash -c 'env ;
-    for i in \$(find /home -maxdepth 1 -type d | grep /home/ | grep -v /home/share); do
+    for i in \$(find /home/ -maxdepth 1 -type d | grep /home/ | grep -v /home/share); do
         [ "\$DELETE_WINE" == "yes" ] && echo rm -rf \$i/.deepinwine && rm -rf \$i/.deepinwine ;
         rm -rf \$i/.cache/* ;
         ls \$i/.config | grep -v user-dirs | xargs rm -rf ;
@@ -516,7 +516,7 @@ machinectl --setenv=DELETE_WINE=\$DELETE_WINE shell $1 /bin/bash -c 'env ;
     rm -rf /usr/share/doc ;
     rm -rf /usr/share/man ;
     rm -rf /tmp/* ;
-    find /home -maxdepth 1 -type l -delete ;
+    find /home/ -maxdepth 1 -type l -delete ;
     journalctl --vacuum-size 1M ;
     df -h && du -hd0 /opt /home /var /usr ;
 '
@@ -588,7 +588,7 @@ chmod 755 /usr/local/bin/$1-terminal
 cat > /usr/local/bin/$1-install-qq <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-DEB_FILE=\$(find \$(xdg-user-dir DOWNLOAD) -name com.qq.im.*.deb)
+DEB_FILE=\$(find \$(xdg-user-dir DOWNLOAD)/ -name com.qq.im.*.deb)
 if [ -z "\$DEB_FILE" ]; then
     $(echo -e "$INSTALL_QQ")
 else
@@ -640,7 +640,7 @@ chmod 755 /usr/local/bin/$1-qq
 cat > /usr/local/bin/$1-install-tim <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-DEB_FILE=\$(find \$(xdg-user-dir DOWNLOAD) -name com.qq.office.*.deb)
+DEB_FILE=\$(find \$(xdg-user-dir DOWNLOAD)/ -name com.qq.office.*.deb)
 if [ -z "\$DEB_FILE" ]; then
     $(echo -e "$INSTALL_TIM")
 else
@@ -692,7 +692,7 @@ chmod 755 /usr/local/bin/$1-tim
 cat > /usr/local/bin/$1-install-weixin <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-DEB_FILE=\$(find \$(xdg-user-dir DOWNLOAD) -name com.qq.weixin.*.deb)
+DEB_FILE=\$(find \$(xdg-user-dir DOWNLOAD)/ -name com.qq.weixin.*.deb)
 if [ -z "\$DEB_FILE" ]; then
     $(echo -e "$INSTALL_WEIXIN")
 else
@@ -751,7 +751,7 @@ chmod 755 /usr/local/bin/$1-weixin
 cat > /usr/local/bin/$1-install-ecloud <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-DEB_FILE=\$(find \$(xdg-user-dir DOWNLOAD) -name cn.189.cloud.*.deb)
+DEB_FILE=\$(find \$(xdg-user-dir DOWNLOAD)/ -name cn.189.cloud.*.deb)
 if [ -z "\$DEB_FILE" ]; then
     machinectl shell $1 /bin/bash -c "apt install -y cn.189.cloud.deepin x11-utils --no-install-recommends && apt autopurge -y"
 else

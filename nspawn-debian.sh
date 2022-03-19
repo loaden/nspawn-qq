@@ -31,6 +31,10 @@ source `dirname ${BASH_SOURCE[0]}`/debian-config.sh
 debian-install-terminal
 debian-install-file
 
+# 更新
+debian-upgrade
+debian-update-store
+
 # 清理
 KEEP_QUIET=1 debian-clean
 

@@ -35,6 +35,9 @@ source `dirname ${BASH_SOURCE[0]}`/deepin-config.sh
 deepin-install-terminal
 deepin-install-file
 
+# 更新
+deepin-upgrade
+
 # 清理
 KEEP_QUIET=1 deepin-clean
 

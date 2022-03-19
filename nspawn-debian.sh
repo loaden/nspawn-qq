@@ -34,3 +34,6 @@ debian-install-qq
 
 # 清理
 KEEP_QUIET=1 debian-clean
+
+# 查询
+debian-query

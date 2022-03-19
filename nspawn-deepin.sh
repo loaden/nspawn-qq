@@ -38,3 +38,6 @@ deepin-install-qq
 
 # 清理
 KEEP_QUIET=1 deepin-clean
+
+# 查询
+deepin-query

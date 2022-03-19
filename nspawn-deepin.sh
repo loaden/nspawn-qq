@@ -34,7 +34,6 @@ source `dirname ${BASH_SOURCE[0]}`/deepin-config.sh
 # 默认安装
 deepin-install-terminal
 deepin-install-file
-deepin-install-qq
 
 # 清理
 KEEP_QUIET=1 deepin-clean

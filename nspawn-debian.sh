@@ -30,7 +30,6 @@ source `dirname ${BASH_SOURCE[0]}`/debian-config.sh
 # 默认安装
 debian-install-terminal
 debian-install-file
-debian-install-qq
 
 # 清理
 KEEP_QUIET=1 debian-clean

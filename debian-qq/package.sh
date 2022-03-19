@@ -17,5 +17,6 @@ fi
 PKG=`pwd`/`dirname $0`/debian.tar.zst
 pushd $HOME/.machines
     sudo ZSTD_CLEVEL=19 ZSTD_NBTHREADS=$(nproc) tar -capvf $PKG debian
+    sudo chown $USER:$USER $PKG
 popd
 echo 打包完成！

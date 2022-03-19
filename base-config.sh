@@ -86,7 +86,7 @@ if [ -z $(which less) ]; then
     dpkg --add-architecture i386
     apt update
 fi
-apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd locales xdg-utils dbus-x11 dex bash-completion neofetch nano
+apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd locales xdg-utils dbus-x11 dex bash-completion neofetch nano fonts-wqy-microhei
 apt install --yes --no-install-recommends less:i386
 echo -e "127.1 $1\n::1 $1" > /etc/hosts
 sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
@@ -139,6 +139,7 @@ fi
 # Save space
 rm -rfv /usr/share/doc
 rm -rfv /usr/share/man
+rm -fv /usr/share/fonts/opentype/noto/*.ttc
 /bin/rm -rfv /tmp/*
 apt autopurge --yes
 apt clean

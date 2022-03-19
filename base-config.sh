@@ -557,7 +557,7 @@ chmod 755 /usr/local/bin/$1-update
 cat > /usr/local/bin/$1-upgrade <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-machinectl shell $1 /bin/bash -c "apt update && apt install -y --no-install-recommends less:i386 && apt upgrade -y && apt autopurge -y && apt list --upgradable -a"
+machinectl shell $1 /bin/bash -c "apt install -y --no-install-recommends less:i386 && apt update && apt dist-upgrade -y && apt autopurge -y && apt list --upgradable -a"
 EOF
 
 chmod 755 /usr/local/bin/$1-upgrade

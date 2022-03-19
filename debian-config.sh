@@ -17,7 +17,7 @@ fi
 
 
 # 设置专属环境变量
-SOURCES_LIST="echo 'deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free' > /etc/apt/sources.list"
+SOURCES_LIST="echo 'deb https://mirrors.bfsu.edu.cn/debian/ bullseye main contrib non-free' > /etc/apt/sources.list"
 
 IFS='' read -r -d '' INSTALL_QQ <<EOF
 machinectl shell debian /bin/bash -c "[ ! -f /etc/apt/sources.list.d/deepin-wine.i-m.dev.list ] && apt install wget -y && wget -O- https://deepin-wine.i-m.dev/setup.sh | sh"

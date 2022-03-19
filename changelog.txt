@@ -1,3 +1,36 @@
+git log v3.5..v3.6 --oneline
+aa8dfa8 默认添加wqy字体，精简noto
+be15b24 优化打包权限
+af98e90 添加nano文本编辑器
+6a62ca1 完善源和系统升级
+30b09e6 优化离线安装
+22f5a85 安装过程添加更新
+8f97221 配置时明确卸载64位less
+ed7785f 不再默认安装QQ
+5835637 更换北外源
+0bc1725 一键安装时静默清理
+ac1fb33 初始安装后查询安装信息
+80e1a19 停止容器后延时1秒
+2acb3e4 配置之前先停止容器
+fa9a67a home不可能是引用
+aa77c49 没有必要在安装时update
+042664b 为find明确指定路径
+6596962 安装后执行更新清理
+1ead3df 绑定字体是错误的
+b838416 Merge branch 'master' of github.com:loaden/nspawn-qq
+2390f7f 项目更名为nspawn-qq
+a65bed6 修正在某些系统下路径错误
+d3a9b73 修正一处错误判断
+dafef74 让宿主机和容器使用相同的字体和配置
+f61be7b Add fonts bind
+f3a4a8a Change to lxterminal
+92a0da7 修正nspawn服务禁用错误
+b234bb8 DConf只读绑定
+4e4281e 清理时清空日志
+6d6d9c2 添加启动环境变量TERM=xterm-256color
+9064a29 添加压缩打包脚本
+922f5d3 更新日志
+
 git log v3.4..v3.5 --oneline
 f96a284 修正D-Bus绑定
 17c29aa 必须升级到Debian 11容器了
@@ -134,7 +167,7 @@ f5f2771 继续优化安装判断
 8d09332 完善安装判断
 097cb57 判断容器创建是否成功
 3c37344 更新维护人
-c465cbe 提醒用户错误执行配置脚本
+c465cbe 提醰�用户错误执行配置脚本
 389ecae 完善执行脚本用户权限判断
 682c511 添加不能单独执行提示
 e24bf4b 删除过时代码
@@ -190,13 +223,13 @@ a5e90d0 添加LibreOffice
 095a01b 添加图片浏览器
 1969ecd 添加压缩解压插件
 c2c9338 优化安装性能
-f464158 添加系统升级脚本
+f464158 淰�加系统升级脚本
 4a39726 移除多余空行
 6f849be 增强日志可读性
 c3d5b0a 增大延时
 abef321 按需启动容器
 2185cd3 禁用SELinux
-cdb4ee3 微调移除
+cdb4ee3 微调称�除
 4626bfd 让卸载更完整
 8216f2c 修复脚本目录不存在
 4d4c7e2 避免可能的误删除
@@ -208,12 +241,12 @@ ab74ff2 修正启动器配置
 3ee225d 完善clean
 0808208 修正管理员权限
 6f9fb22 修正卸载
-ff05a47 修正初始化配置中可能的误删除
+ff05a47 修正初始化配置中台�能的误删除
 6d96d2d 优化卸载脚本
 79bb9a1 统一风格
 3972a1c 添加原生钉钉
 b7411b1 避免需要管理员权限删除钉钉容器
-5a3aaf0 彻底解决钉钉自动升级问题
+5a3aaf0 彻底解冰�钉钉自动升级问题
 c0e2d7b 修正钉钉启动
 2c7ad35 取消.cache绑定
 d56006b 优化清理脚本
@@ -262,7 +295,7 @@ git log v2.1..v2.2 --oneline
 5a37c8f 完善默认安装
 956a023 解决打开文件夹
 687c5d9 deepin安装deepin-desktop-base
-12f3dd1 卸载前先停止容器
+12f3dd1 卸载前先停止容噰�
 4520dbd 添加登录shell说明
 f1b88cb 允许root登录tty
 
@@ -296,7 +329,7 @@ bfb2c6d 默认不禁用宿主机MITSHM
 6295488 安装后即刻清理缓存
 884b495 下载deepin容器时修改保护属性
 5bc6692 修正nvidia-uvm判断
-eb6aef8 修正Nvidia绑定
+eb6aef8 俰�正Nvidia绑定
 ccf1678 修正初始配置
 eeaedb8 更新ReadME
 5b15983 重写所有SHM函数
@@ -306,7 +339,7 @@ ee431d8 根据时间戳编译欺骗库
 4d36936 修正默认类型注册与查询
 6e42f29 修正QQ启动错误
 38891b5 添加mpv安装
-3d2ce0c 注册默认文件管理器
+3d2ce0c 注冰�默认文件管理器
 c61b909 删除WAYLAND_DISPLAY环境变量
 34157f7 清除旧版本遗留配置
 5222a12 为两个容器启用不同的capability
@@ -326,7 +359,7 @@ a0522dc 修改编译选项
 729a2c4 修正动态库提前加载
 216a2fa 同时编译32位和64位欺骗库
 5f84d04 Merge remote-tracking branch 'origin/stable'
-7f9663a 独立MITSHM禁用模块
+7f9663a 独立MITSHM禁田�模块
 
 git log v1.01..v1.02 --oneline
 7bce104 修正QQ启动错误
@@ -359,7 +392,7 @@ f0fc748 自动生成locales
 9adcdc3 完善代码缩进
 e118325 使容器与宿主机使用相同用户目录
 f52c400 判断是否添加云盘目录
-45d6911 修复错误引号
+45d6911 俰�复错误引号
 0520050 不硬编码用户目录
 86ae8b3 Merge branch 'master' of https://gitee.com/loaden/nspawn-deepinwine
 e37c798 禁用宿主机MIT-SHM功能
@@ -368,7 +401,7 @@ e37c798 禁用宿主机MIT-SHM功能
 354365c 判断包管理类型
 2fc049e 还原初始化配置
 5bf6e87 安装语言提醒
-a5741ae 添加批量安装和多系统共享
+a5741ae 添劰�批量安装和多系统共享
 12a66cc add README.md.
 1b6ade8 代码重构，支持一键安装
 e4ee9ce 共享同一份授权修改脚本

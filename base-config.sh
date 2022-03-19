@@ -81,6 +81,7 @@ rm -f /var/lib/dpkg/lock-frontend
 rm -f /var/cache/apt/archives/lock
 dpkg --configure -a
 apt install -f
+apt purge --yes less:amd64
 if [ -z $(which less) ]; then
     dpkg --add-architecture i386
     apt update

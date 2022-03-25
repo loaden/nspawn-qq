@@ -21,8 +21,10 @@ if [[ $MULTIUSER_SUPPORT = 1 && $(systemctl --version | grep systemd) =~ 247 ]];
 fi
 
 # 必备软件包
-[ -f /usr/bin/apt ] && [[ ! -f /usr/bin/machinectl && ! -f /bin/machinectl ]] && apt install -y systemd-container
-[ -f /usr/bin/dnf ] && [[ ! -f /usr/bin/machinectl && ! -f /bin/machinectl ]] && dnf install -y systemd-container
+[ -f /usr/bin/apt ] && apt install -y systemd-container xdg-user-dirs
+[ -f /usr/bin/dnf ] && dnf install -y systemd-container xdg-user-dirs
+[ -f /usr/bin/pacman ] && pacman -S xdg-user-dirs --noconfirm --needed
+[ -f /usr/bin/emerge ] && emerge -u xdg-user-dirs
 if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` == *x11* ]]; then
     [ -f /usr/bin/pacman ] && [ ! -f /usr/bin/xhost ] && pacman -S xorg-xhost --noconfirm --needed
     [ -f /usr/bin/apt ] && [ ! -f /usr/bin/xhost ] && apt install -y x11-xserver-utils

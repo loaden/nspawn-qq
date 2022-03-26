@@ -88,7 +88,7 @@ if [ -z $(which less) ]; then
     dpkg --add-architecture i386
     apt update
 fi
-apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd locales xdg-utils dbus-x11 dex bash-completion neofetch nano fonts-wqy-microhei
+apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd locales xdg-utils dbus-x11 dex bash-completion neofetch nano fonts-wqy-microhei x11-xserver-utils
 apt install --yes --no-install-recommends less:i386
 echo -e "127.1 $1\n::1 $1" > /etc/hosts
 sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
@@ -111,6 +111,10 @@ for i in {1000..1005}; do
     [[ ! \$(groups u\$i | grep audio) ]] && usermod -aG audio u\$i
     mkdir -p /home/u\$i/.local/share/fonts
     mkdir -p /home/u\$i/.config/fontconfig
+    echo -e "Xft.dpi: 96\nXft.lcdfilter: lcddefault\nXft.antialias: true\nXft.autohint: true\nXft.hinting: true\nXft.hintstyle: hintfull\nXft.rgba: rgb" > /home/u\$i/.Xresources
+    [[ -z "\$(grep .Xresources /home/u\$i/.bashrc)" ]] && echo "xrdb -merge ~/.Xresources" >> /home/u\$i/.bashrc
+    cat /home/u\$i/.Xresources
+    grep .Xresources /home/u\$i/.bashrc
 done
 # No password for sudo
 sed -i "s/.*sudo.*ALL=(ALL:ALL) ALL/%sudo ALL=(ALL) NOPASSWD:ALL/" /etc/sudoers

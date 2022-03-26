@@ -437,22 +437,22 @@ machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/dconf
 find /tmp/ -maxdepth 1 -name dbus* -exec machinectl bind --read-only --mkdir $1 {} \; -print
 
 # 主目录
-machinectl bind --mkdir $1 \$HOME/$USER_DOCUMENTS /home/u\$UID/$USER_DOCUMENTS
+[ -n "$USER_DOCUMENTS" ] && [ -d \$HOME/$USER_DOCUMENTS ] && machinectl bind --mkdir $1 \$HOME/$USER_DOCUMENTS /home/u\$UID/$USER_DOCUMENTS
 [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_DOCUMENTS /home/u\$UID/$USER_DOCUMENTS
-machinectl bind --mkdir $1 \$HOME/$USER_DOWNLOAD /home/u\$UID/$USER_DOWNLOAD
+[ -n "$USER_DOWNLOAD" ] && [ -d \$HOME/$USER_DOWNLOAD ] && machinectl bind --mkdir $1 \$HOME/$USER_DOWNLOAD /home/u\$UID/$USER_DOWNLOAD
 [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_DOWNLOAD /home/u\$UID/$USER_DOWNLOAD
-machinectl bind --mkdir $1 \$HOME/$USER_DESKTOP /home/u\$UID/$USER_DESKTOP
+[ -n "$USER_DESKTOP" ] && [ -d \$HOME/$USER_DESKTOP ] && machinectl bind --mkdir $1 \$HOME/$USER_DESKTOP /home/u\$UID/$USER_DESKTOP
 [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_DESKTOP /home/u\$UID/$USER_DESKTOP
-machinectl bind --mkdir $1 \$HOME/$USER_PICTURES /home/u\$UID/$USER_PICTURES
+[ -n "$USER_PICTURES" ] && [ -d \$HOME/$USER_PICTURES ] && machinectl bind --mkdir $1 \$HOME/$USER_PICTURES /home/u\$UID/$USER_PICTURES
 [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_PICTURES /home/u\$UID/$USER_PICTURES
-machinectl bind --mkdir $1 \$HOME/$USER_VIDEOS /home/u\$UID/$USER_VIDEOS
+[ -n "$USER_VIDEOS" ] && [ -d \$HOME/$USER_VIDEOS ] && machinectl bind --mkdir $1 \$HOME/$USER_VIDEOS /home/u\$UID/$USER_VIDEOS
 [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_VIDEOS /home/u\$UID/$USER_VIDEOS
-machinectl bind --mkdir $1 \$HOME/$USER_MUSIC /home/u\$UID/$USER_MUSIC
+[ -n "$USER_MUSIC" ] && [ -d \$HOME/$USER_MUSIC ] && machinectl bind --mkdir $1 \$HOME/$USER_MUSIC /home/u\$UID/$USER_MUSIC
 [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_MUSIC /home/u\$UID/$USER_MUSIC
 
 # 其它目录和文件
-[ -d \$HOME/$USER_CLOUDDISK ] && machinectl bind --mkdir $1 \$HOME/$USER_CLOUDDISK /home/u\$UID/$USER_CLOUDDISK
-[ -d \$HOME/$USER_CLOUDDISK ] && [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_CLOUDDISK /home/u\$UID/$USER_CLOUDDISK
+[ -n "$USER_CLOUDDISK" ] && [ -d \$HOME/$USER_CLOUDDISK ] && machinectl bind --mkdir $1 \$HOME/$USER_CLOUDDISK /home/u\$UID/$USER_CLOUDDISK
+[ -n "$USER_CLOUDDISK" ] && [ -d \$HOME/$USER_CLOUDDISK ] && [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_CLOUDDISK /home/u\$UID/$USER_CLOUDDISK
 [ -f \$HOME/.config/user-dirs.dirs ] && machinectl bind --mkdir $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
 [ -f \$HOME/.config/user-dirs.dirs ] && [ \$? != 0 ] && echo error: machinectl --mkdir bind $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
 [ -f \$HOME/.config/user-dirs.locale ] && machinectl bind --mkdir $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale

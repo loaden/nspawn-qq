@@ -166,17 +166,8 @@ su - $SUDO_USER -c "touch /home/$SUDO_USER/.config/user-dirs.locale"
 
 
 # 配置启动环境变量
-if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` == *x11* ]]; then
-X11_BIND_AND_CONFIG="# Xauthority
-machinectl bind --read-only $1 \$XAUTHORITY /home/u\$UID/.Xauthority
-[ \$? != 0 ] && echo error: machinectl bind --read-only $1 \$XAUTHORITY /home/u\$UID/.Xauthority
-"
-DESKTOP_ENVIRONMENT="
-export XAUTHORITY=/home/u\$UID/.Xauthority
-"
-fi
 cat > /usr/local/bin/$1-start  <<EOF
-#!/bin/bash$(echo "$DESKTOP_ENVIRONMENT")
+#!/bin/bash
 export XDG_RUNTIME_DIR=/run/user/\$UID
 export PULSE_SERVER=unix:\$XDG_RUNTIME_DIR/pulse/native
 $(echo "$DISABLE_MITSHM")
@@ -265,10 +256,6 @@ fi
 
 # 静态绑定
 if [ $MULTIUSER_SUPPORT = 0 ]; then
-    if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` == *x11* ]]; then
-        STATIC_XAUTHORITY_BIND="BindReadOnly = $XAUTHORITY:/home/u$UID/.Xauthority"
-    fi
-
     [ -n "$USER_CLOUDDISK" ] && [ -d /home/$SUDO_USER/$USER_CLOUDDISK ] && STATIC_CLOUDDISK_BIND="Bind = /home/$SUDO_USER/$USER_CLOUDDISK:/home/u$SUDO_UID/$USER_CLOUDDISK"
     [ -f /home/$SUDO_USER/.config/user-dirs.dirs ] && STATIC_USERDIRS_BIND="Bind = /home/$SUDO_USER/.config/user-dirs.dirs:/home/u$SUDO_UID/.config/user-dirs.dirs"
     [ -f /home/$SUDO_USER/.config/user-dirs.locale ] && STATIC_USERLOCALE_BIND="Bind = /home/$SUDO_USER/.config/user-dirs.locale:/home/u$SUDO_UID/.config/user-dirs.locale"
@@ -473,7 +460,6 @@ find /tmp/ -maxdepth 1 -name dbus* -exec machinectl bind --read-only --mkdir $1 
 [ -d \$HOME/.config/fontconfig ] && machinectl bind --read-only --mkdir $1 \$HOME/.config/fontconfig /home/u\$UID/.config/fontconfig
 [ -d \$HOME/.config/fontconfig ] && [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$HOME/.config/fontconfig /home/u\$UID/.config/fontconfig
 
-$(echo "$X11_BIND_AND_CONFIG")
 $(echo $XHOST_AUTH)
 EOF
 fi

@@ -148,6 +148,7 @@ fi
 rm -rfv /usr/share/doc
 rm -rfv /usr/share/man
 rm -fv /usr/share/fonts/opentype/noto/*.ttc
+dpkg -L x11-xserver-utils | grep /usr/bin/ | grep -v xrdb | xargs rm -f
 /bin/rm -rfv /tmp/*
 apt autopurge --yes
 apt clean

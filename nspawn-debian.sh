@@ -23,9 +23,9 @@ if [[ $? == 1 ]]; then
     exit 1
 fi
 
+
 # 配置容器
 source `dirname ${BASH_SOURCE[0]}`/debian-config.sh
-
 
 # 默认安装
 debian-install-terminal

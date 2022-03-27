@@ -30,7 +30,6 @@ fi
 # 配置容器
 source `dirname ${BASH_SOURCE[0]}`/deepin-config.sh
 
-
 # 默认安装
 deepin-install-terminal
 deepin-install-file

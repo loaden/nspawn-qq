@@ -115,6 +115,7 @@ for i in {1000..1005}; do
     mkdir -p /home/u\$i/.config/fontconfig
     echo -e "Xft.dpi: 96\nXft.lcdfilter: lcddefault\nXft.antialias: true\nXft.autohint: true\nXft.hinting: true\nXft.hintstyle: hintfull\nXft.rgba: rgb" > /home/u\$i/.Xresources
     [[ -z "\$(grep .Xresources /home/u\$i/.bashrc)" ]] && echo '[ -n "\$DISPLAY" ] && xrdb -merge ~/.Xresources' >> /home/u\$i/.bashrc
+    [[ -z "\$(grep neofetch /home/u\$i/.bashrc)" ]] && echo '[ -n "\$DISPLAY" ] && neofetch' >> /home/u\$i/.bashrc
     cat /home/u\$i/.Xresources
     su - u\$i -c "DISPLAY=\$DISPLAY xrdb -merge ~/.Xresources"
     grep .Xresources /home/u\$i/.bashrc

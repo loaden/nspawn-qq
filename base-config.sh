@@ -382,7 +382,7 @@ machinectl --setenv=USER_UID=\$USER_UID --setenv=HOST_HOME=\$HOST_HOME shell $1 
 
 # 启动环境变量
 INPUT_ENGINE=\$(echo \$XMODIFIERS | awk -F "=" '/@im=/ {print \$ 2}')
-RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY TERM=xterm-256color XMODIFIERS=\$XMODIFIERS INPUT_METHOD=\$INPUT_ENGINE GTK_IM_MODULE=\$INPUT_ENGINE QT_IM_MODULE=\$INPUT_ENGINE QT4_IM_MODULE=\$INPUT_ENGINE SDL_IM_MODULE=\$INPUT_ENGINE BROWSER=Thunar"
+RUN_ENVIRONMENT="LANG=\$LANG DISPLAY=\$DISPLAY TERM=xterm-256color XMODIFIERS=\$XMODIFIERS INPUT_METHOD=\$INPUT_ENGINE GTK_IM_MODULE=\$INPUT_ENGINE QT_IM_MODULE=\$INPUT_ENGINE QT4_IM_MODULE=\$INPUT_ENGINE SDL_IM_MODULE=\$INPUT_ENGINE BROWSER=thunar"
 EOF
 
 # 移除多余空行
@@ -811,7 +811,8 @@ cat > /usr/local/bin/$1-install-file <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 machinectl shell $1 /bin/bash -c "apt install -y thunar thunar-archive-plugin xarchiver unrar catfish mousepad gpicview libcanberra-gtk-module --no-install-recommends && apt autopurge -y"
-machinectl shell $1 /bin/su - u\$UID -c "xdg-mime default Thunar.desktop inode/directory"
+machinectl shell $1 /bin/bash -c "[ -f /usr/share/applications/Thunar.desktop ] && mv /usr/share/applications/Thunar.desktop /usr/share/applications/thunar.desktop"
+machinectl shell $1 /bin/su - u\$UID -c "xdg-mime default thunar.desktop inode/directory"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-file
@@ -821,7 +822,8 @@ cat > /usr/local/bin/$1-file <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
-machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/Thunar.desktop"
+machinectl shell $1 /bin/bash -c "[ -f /usr/share/applications/Thunar.desktop ] && mv /usr/share/applications/Thunar.desktop /usr/share/applications/thunar.desktop"
+machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/thunar.desktop"
 EOF
 
 chmod 755 /usr/local/bin/$1-file

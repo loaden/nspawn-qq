@@ -89,6 +89,7 @@ if [ -z $(which less) ]; then
     apt update
 fi
 apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd locales xdg-utils dbus-x11 dex bash-completion neofetch nano fonts-wqy-microhei x11-xserver-utils
+[ "$1" = "deepin" ] && apt install --yes --no-install-recommends gpg deepin-desktop-base
 apt install --yes --no-install-recommends less:i386
 echo -e "127.1 $1\n::1 $1" > /etc/hosts
 sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen

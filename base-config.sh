@@ -88,6 +88,7 @@ if [ -z $(which less) ]; then
     dpkg --add-architecture i386
     apt update
 fi
+apt install --yes --no-install-recommends systemd-container
 apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd locales xdg-utils dbus-x11 dex bash-completion neofetch nano fonts-wqy-microhei x11-xserver-utils
 [ "$1" = "deepin" ] && apt install --yes --no-install-recommends gpg deepin-desktop-base
 apt install --yes --no-install-recommends less:i386

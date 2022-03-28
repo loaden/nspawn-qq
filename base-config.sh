@@ -492,29 +492,6 @@ echo cat /usr/local/bin/$1-start
 cat /usr/local/bin/$1-start
 
 
-# 调试
-cat > /usr/bin/systemd-nspawn-debug <<EOF
-#!/bin/bash
-export NSPAWN_LOG_FILE=/home/nspawn.log
-touch \$NSPAWN_LOG_FILE
-echo \$(date) \$NSPAWN_LOG_FILE >> \$NSPAWN_LOG_FILE
-echo -e "tree -L 2 /run/user \n" "\$(tree -L 2 /run/user)" >> \$NSPAWN_LOG_FILE
-echo -e "env \n" "\$(env) \n\n" >> \$NSPAWN_LOG_FILE
-echo -e "echo /dev/dri \n" "\$(ls -la /dev/dri) \n" >> \$NSPAWN_LOG_FILE
-echo -e "echo /dev/shm \n" "\$(ls -la /dev/shm) \n" >> \$NSPAWN_LOG_FILE
-echo -e "echo /dev/snd \n" "\$(ls -la /dev/snd) \n" >> \$NSPAWN_LOG_FILE
-echo -e "echo /dev/fuse \n" "\$(ls -la /dev/fuse) \n" >> \$NSPAWN_LOG_FILE
-echo -e "echo /dev/nvidia* \n" "\$(ls -la /dev/nvidia*) \n" >> \$NSPAWN_LOG_FILE
-echo -e "echo /tmp \n" "\$(ls -la /tmp) \n" >> \$NSPAWN_LOG_FILE
-chmod 777 \$NSPAWN_LOG_FILE
-EOF
-
-chmod 755 /usr/bin/systemd-nspawn-debug
-echo
-echo /usr/bin/systemd-nspawn-debug
-cat /usr/bin/systemd-nspawn-debug
-
-
 # 重写启动服务参数
 rm -rf /etc/systemd/system/systemd-nspawn@$1.service.d
 mkdir -p /etc/systemd/system/systemd-nspawn@$1.service.d
@@ -525,7 +502,6 @@ After=systemd-hostnamed.service
 ExecStartPre=chmod 0755 /var/lib/machines/%i
 ExecStart=
 ExecStart=systemd-nspawn --keep-unit --boot --link-journal=try-guest --network-veth -U --settings=override --machine=%i
-ExecStartPost=systemd-nspawn-debug
 # Other stuff.
 DeviceAllow=/dev/shm rw
 DeviceAllow=/dev/fuse rw

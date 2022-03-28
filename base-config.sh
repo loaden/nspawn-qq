@@ -772,8 +772,8 @@ machinectl \$SHELL_OPTIONS --setenv=LD_PRELOAD=$DISABLE_MIT_SHM_SO shell $1 /bin
     [ -n "\$(xdg-mime query default audio/flac)" ] && echo -n "The default open of audio/flac is " && xdg-mime query default audio/flac ;
     [ -n "\$(xdg-mime query default application/pdf)" ] && echo -n "The default open of application/pdf is " && xdg-mime query default application/pdf ;
     [ -n "\$(xdg-mime query default image/png)" ] && echo -n "The default open of image/png is " && xdg-mime query default image/png ;
-    echo && echo ldd /usr/bin/bash && echo \$(ldd /usr/bin/bash | grep SHM) ;
-    echo ldd /usr/bin/less && echo \$(ldd /usr/bin/less | grep SHM) ;
+    echo && echo ldd \$(which bash) && echo \$(ldd \$(which bash) | grep SHM) ;
+    echo ldd \$(which less) && echo \$(ldd \$(which less) | grep SHM) ;
 '
 EOF
 

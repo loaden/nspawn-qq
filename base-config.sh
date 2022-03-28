@@ -78,21 +78,21 @@ cat > $ROOT/etc/fonts/conf.d/99-nspawn.conf <<EOF
 <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
 <fontconfig>
 <match target="scan">
-	<test name="family"><string>Hack</string></test>
-	<edit name="family"><string>Monospace</string></edit>
-	<edit name="lang"><langset><string>en</string></langset></edit>
+    <test name="family"><string>Hack</string></test>
+    <edit name="family"><string>Monospace</string></edit>
+    <edit name="lang"><langset><string>en</string></langset></edit>
 </match>
 
 <match target="scan">
-	<test name="family"><string>WenQuanYi Micro Hei</string></test>
-	<edit name="family"><string>Sans</string></edit>
-	<edit name="lang"><langset><string>zh-cn</string></langset></edit>
+    <test name="family"><string>WenQuanYi Micro Hei</string></test>
+    <edit name="family"><string>Sans</string></edit>
+    <edit name="lang"><langset><string>zh-cn</string></langset></edit>
 </match>
 
 <match target="scan">
-	<test name="postscriptname"><string>文泉驿微米黑</string></test>
-	<edit name="family"><string>Fallback</string></edit>
-	<edit name="lang"><langset><string>zh-cn</string></langset></edit>
+    <test name="postscriptname"><string>文泉驿微米黑</string></test>
+    <edit name="family"><string>Fallback</string></edit>
+    <edit name="lang"><langset><string>zh-cn</string></langset></edit>
 </match>
 
 <alias binding="same"><family>mono</family><prefer><family>Monospace</family></prefer></alias>
@@ -146,204 +146,204 @@ cat > $ROOT/etc/fonts/conf.d/99-nspawn.conf <<EOF
 <alias binding="same"><family>新宋体-18030</family><prefer><family>Sans</family></prefer></alias>
 
 <match>
-	<test name="family" qual="all" compare="not_eq"><string>Monospace</string></test>
-	<test name="family" qual="all" compare="not_eq"><string>Sans</string></test>
-	<test name="family" qual="all" compare="not_eq"><string>Serif</string></test>
-	<edit name="family" mode="append_last"><string>Sans</string></edit>
+    <test name="family" qual="all" compare="not_eq"><string>Monospace</string></test>
+    <test name="family" qual="all" compare="not_eq"><string>Sans</string></test>
+    <test name="family" qual="all" compare="not_eq"><string>Serif</string></test>
+    <edit name="family" mode="append_last"><string>Sans</string></edit>
 </match>
 
 <match>
-	<test name="family" qual="all" compare="not_eq"><string>Sans</string></test>
-	<edit name="family" mode="append_last"><string>Sans</string></edit>
+    <test name="family" qual="all" compare="not_eq"><string>Sans</string></test>
+    <edit name="family" mode="append_last"><string>Sans</string></edit>
 </match>
 
 <!-- 设置字体优先级 -->
 <!-- Default system-ui fonts -->
 <match target="pattern">
-	<test name="family">
-		<string>system-ui</string>
-	</test>
-	<edit name="family" mode="prepend" binding="strong">
-		<string>sans-serif</string>
-	</edit>
+    <test name="family">
+        <string>system-ui</string>
+    </test>
+    <edit name="family" mode="prepend" binding="strong">
+        <string>sans-serif</string>
+    </edit>
 </match>
 
 <!-- 默认无衬线字体 -->
 <!-- Default sans-serif fonts-->
 <match target="pattern">
-	<test name="family">
-		<string>sans-serif</string>
-	</test>
-	<edit name="family" mode="prepend" binding="strong">
-		<string>Sans</string>
-		<string>Fallback</string>
-	</edit>
+    <test name="family">
+        <string>sans-serif</string>
+    </test>
+    <edit name="family" mode="prepend" binding="strong">
+        <string>Sans</string>
+        <string>Fallback</string>
+    </edit>
 </match>
 
 <!-- 默认衬线字体 -->
 <!-- Default serif fonts-->
 <match target="pattern">
-	<test name="family">
-		<string>Serif</string>
-	</test>
-	<edit name="family" mode="prepend" binding="strong">
-		<string>Serif</string>
-		<string>Fallback</string>
-	</edit>
+    <test name="family">
+        <string>Serif</string>
+    </test>
+    <edit name="family" mode="prepend" binding="strong">
+        <string>Serif</string>
+        <string>Fallback</string>
+    </edit>
 </match>
 
 <!-- 默认等宽字体 -->
 <!-- Default monospace fonts-->
 <match target="pattern">
-	<test name="family">
-		<string>Monospace</string>
-	</test>
-	<edit name="family" mode="prepend" binding="strong">
-		<string>Monospace</string>
-		<string>Fallback</string>
-	</edit>
+    <test name="family">
+        <string>Monospace</string>
+    </test>
+    <edit name="family" mode="prepend" binding="strong">
+        <string>Monospace</string>
+        <string>Fallback</string>
+    </edit>
 </match>
 
 <match>
-	<!-- 设置合理的像素密度，确保pt与px之间能够合理转换 -->
+    <!-- 设置合理的像素密度，确保pt与px之间能够合理转换 -->
     <edit name="dpi"><double>96</double></edit>
 
-	<!-- 确保弱绑定西文字体优先于弱绑定中文字体 -->
-	<edit name="lang"><string>en</string></edit>
+    <!-- 确保弱绑定西文字体优先于弱绑定中文字体 -->
+    <edit name="lang"><string>en</string></edit>
 
-	<!-- 设置等宽标记 -->
-	<edit name="isDengKuan"><eq><name>family</name><string>Monospace</string></eq></edit>
+    <!-- 设置等宽标记 -->
+    <edit name="isDengKuan"><eq><name>family</name><string>Monospace</string></eq></edit>
 </match>
 
 
 <!-- 渲染阶段 -->
 <!-- 第一步，设置默认的渲染参数 -->
 <match target="font">
-	<!-- 修整像素大小(小于10px的调整到10px，否则四舍五入到整数) -->
-	<edit name="pixelsize">
-		<if>
-			<less><name>pixelsize</name><double>10</double></less>
-			<int>10</int>
-			<round><name>pixelsize</name></round>
-		</if>
-	</edit>
+    <!-- 修整像素大小(小于10px的调整到10px，否则四舍五入到整数) -->
+    <edit name="pixelsize">
+        <if>
+            <less><name>pixelsize</name><double>10</double></less>
+            <int>10</int>
+            <round><name>pixelsize</name></round>
+        </if>
+    </edit>
 
-	<!-- 开启抗锯齿(smooth) -->
-	<edit name="antialias"><bool>true</bool></edit>
+    <!-- 开启抗锯齿(smooth) -->
+    <edit name="antialias"><bool>true</bool></edit>
 
-	<!-- 优先使用内嵌微调，同时默认开足微调 -->
-	<edit name="hinting"><bool>true</bool></edit>
-	<edit name="autohint"><bool>false</bool></edit>
-	<!-- 依个人喜好,你也可能喜欢默认"hintslight"(此时可将下面的"第七步"全部注释掉) -->
-	<edit name="hintstyle"><const>hintfull</const></edit>
+    <!-- 优先使用内嵌微调，同时默认开足微调 -->
+    <edit name="hinting"><bool>true</bool></edit>
+    <edit name="autohint"><bool>false</bool></edit>
+    <!-- 依个人喜好,你也可能喜欢默认"hintslight"(此时可将下面的"第七步"全部注释掉) -->
+    <edit name="hintstyle"><const>hintfull</const></edit>
 
-	<!-- LCD特征设置 -->
-	<edit name="rgba"><const>rgb</const></edit>
-	<edit name="lcdfilter"><const>lcddefault</const></edit>
+    <!-- LCD特征设置 -->
+    <edit name="rgba"><const>rgb</const></edit>
+    <edit name="lcdfilter"><const>lcddefault</const></edit>
 
-	<!-- 禁用内嵌点阵 -->
-	<edit name="embeddedbitmap"><bool>false</bool></edit>
+    <!-- 禁用内嵌点阵 -->
+    <edit name="embeddedbitmap"><bool>false</bool></edit>
 
-	<!-- 禁用合成粗体 -->
-	<edit name="embolden"><bool>false</bool></edit>
+    <!-- 禁用合成粗体 -->
+    <edit name="embolden"><bool>false</bool></edit>
 </match>
 <!-- 第二步，为没有原生斜体的字体使用合成斜体 -->
 <match target="font">
-	<test name="slant" compare="eq"><const>roman</const></test>
-	<test name="slant" compare="not_eq" target="pattern"><const>roman</const></test>
-	<edit name="slant"><const>oblique</const></edit>
-	<edit name="matrix">
-		<times>
-			<name>matrix</name>
-			<matrix>
-				<double>1</double><double>0.2</double>
-				<double>0</double><double>1</double>
-			</matrix>
-		</times>
-	</edit>
+    <test name="slant" compare="eq"><const>roman</const></test>
+    <test name="slant" compare="not_eq" target="pattern"><const>roman</const></test>
+    <edit name="slant"><const>oblique</const></edit>
+    <edit name="matrix">
+        <times>
+            <name>matrix</name>
+            <matrix>
+                <double>1</double><double>0.2</double>
+                <double>0</double><double>1</double>
+            </matrix>
+        </times>
+    </edit>
 </match>
 <!-- 第三步，为没有原生粗体的字体使用合成粗体 -->
 <match target="font">
-	<test name="weight" compare="less"><int>105</int></test>
-	<test name="weight" compare="more" target="pattern"><int>105</int></test>
-	<edit name="weight"><const>bold</const></edit>
-	<edit name="embolden"><bool>true</bool></edit>
+    <test name="weight" compare="less"><int>105</int></test>
+    <test name="weight" compare="more" target="pattern"><int>105</int></test>
+    <edit name="weight"><const>bold</const></edit>
+    <edit name="embolden"><bool>true</bool></edit>
 </match>
 <!-- 第四步，标记"视觉大小"(原本的标称值)是否为奇数，为接下来修正等宽条件下的"标称大小"做准备 -->
 <match target="font">
-	<edit name="isOddPx">
-		<eq>
-			<round><divide><plus><name>pixelsize</name><double>0.5</double></plus><double>2</double></divide></round>
-			<ceil><divide><plus><name>pixelsize</name><double>0.5</double></plus><double>2</double></divide></ceil>
-		</eq>
-	</edit>
+    <edit name="isOddPx">
+        <eq>
+            <round><divide><plus><name>pixelsize</name><double>0.5</double></plus><double>2</double></divide></round>
+            <ceil><divide><plus><name>pixelsize</name><double>0.5</double></plus><double>2</double></divide></ceil>
+        </eq>
+    </edit>
 </match>
 <!-- 第五步，修正合成粗体的"标称大小"，尽力确保其"视觉大小"与原本的标称值一致 -->
 <match target="font">
-	<test name="embolden"><bool>true</bool></test>
-	<!-- 标称大小=视觉大小-trunc((视觉大小+13.5)/25) -->
-	<edit name="pixelsize">
-		<minus>
-			<name>pixelsize</name>
-			<trunc><divide><plus><name>pixelsize</name><double>13.5</double></plus><double>25</double></divide></trunc>
-		</minus>
-	</edit>
+    <test name="embolden"><bool>true</bool></test>
+    <!-- 标称大小=视觉大小-trunc((视觉大小+13.5)/25) -->
+    <edit name="pixelsize">
+        <minus>
+            <name>pixelsize</name>
+            <trunc><divide><plus><name>pixelsize</name><double>13.5</double></plus><double>25</double></divide></trunc>
+        </minus>
+    </edit>
 </match>
 <!-- 第六步，在等宽条件下，为确保中西文对齐，进一步修正"标称大小"(也会影响"视觉大小") -->
 <match target="font">
-	<test name="isDengKuan"><bool>true</bool></test>
-	<!-- 如果"视觉大小"是奇数 -->
-	<test name="isOddPx"><bool>true</bool></test>
-	<!-- 那么上调为偶像素，因为Monospace在奇像素下总是大一级显示 -->
-	<edit name="pixelsize"><plus><name>pixelsize</name><int>1</int></plus></edit>
+    <test name="isDengKuan"><bool>true</bool></test>
+    <!-- 如果"视觉大小"是奇数 -->
+    <test name="isOddPx"><bool>true</bool></test>
+    <!-- 那么上调为偶像素，因为Monospace在奇像素下总是大一级显示 -->
+    <edit name="pixelsize"><plus><name>pixelsize</name><int>1</int></plus></edit>
 </match>
 <!-- 第六步续，进一步专门处理等宽条件下"标称大小"为11px,12px的合成粗体 -->
 <match target="font">
-	<test name="isDengKuan"><bool>true</bool></test>
-	<test name="embolden"><bool>true</bool></test>
-	<test name="pixelsize" compare="more"><double>10.5</double></test>
-	<test name="pixelsize" compare="less"><double>12.5</double></test>
-	<!-- 统一调整为12px常规体，只有这样才能对齐 -->
-	<edit name="pixelsize"><int>12</int></edit>
-	<edit name="embolden"><bool>false</bool></edit>
-	<edit name="weight"><int>80</int></edit>
+    <test name="isDengKuan"><bool>true</bool></test>
+    <test name="embolden"><bool>true</bool></test>
+    <test name="pixelsize" compare="more"><double>10.5</double></test>
+    <test name="pixelsize" compare="less"><double>12.5</double></test>
+    <!-- 统一调整为12px常规体，只有这样才能对齐 -->
+    <edit name="pixelsize"><int>12</int></edit>
+    <edit name="embolden"><bool>false</bool></edit>
+    <edit name="weight"><int>80</int></edit>
 </match>
 <!-- 第七步，针对每个字体单独调整渲染参数 -->
 <match target="font">
-	<test name="family"><string>Monospace</string></test>
-	<edit name="hintstyle"><const>hintslight</const></edit>
+    <test name="family"><string>Monospace</string></test>
+    <edit name="hintstyle"><const>hintslight</const></edit>
 </match>
 <match target="font">
-	<test name="family"><string>Sans</string></test>
-	<edit name="hintstyle">
-		<if>
-			<or>
-				<eq><name>pixelsize</name><int>10</int></eq>
-				<eq><name>pixelsize</name><int>12</int></eq>
-			</or>
-			<const>hintslight</const>
-			<const>hintfull</const>
-		</if>
-	</edit>
+    <test name="family"><string>Sans</string></test>
+    <edit name="hintstyle">
+        <if>
+            <or>
+                <eq><name>pixelsize</name><int>10</int></eq>
+                <eq><name>pixelsize</name><int>12</int></eq>
+            </or>
+            <const>hintslight</const>
+            <const>hintfull</const>
+        </if>
+    </edit>
 </match>
 <match target="font">
-	<test name="family"><string>Serif</string></test>
-	<test name="pixelsize"><int>10</int></test>
-	<test name="slant"><int>0</int></test>
-	<edit name="hintstyle"><const>hintslight</const></edit>
+    <test name="family"><string>Serif</string></test>
+    <test name="pixelsize"><int>10</int></test>
+    <test name="slant"><int>0</int></test>
+    <edit name="hintstyle"><const>hintslight</const></edit>
 </match>
 <match target="font">
-	<test name="family"><string>zhHei</string></test>
-	<edit name="hintstyle"><const>hintslight</const></edit>
+    <test name="family"><string>zhHei</string></test>
+    <edit name="hintstyle"><const>hintslight</const></edit>
 </match>
 <match target="font">
-	<test name="postscriptname" compare="contains"><string>NotoSansKR</string></test>
-	<edit name="hintstyle"><const>hintslight</const></edit>
+    <test name="postscriptname" compare="contains"><string>NotoSansKR</string></test>
+    <edit name="hintstyle"><const>hintslight</const></edit>
 </match>
 <!-- 最后，删除等宽标记与奇偶标记 -->
 <match target="font">
-	<edit name="isDengKuan" mode="delete"></edit>
-	<edit name="isOddPx" mode="delete"></edit>
+    <edit name="isDengKuan" mode="delete"></edit>
+    <edit name="isOddPx" mode="delete"></edit>
 </match>
 
 </fontconfig>
@@ -376,7 +376,6 @@ apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd 
 apt install --yes --no-install-recommends fonts-hack fonts-wqy-microhei
 [ "$1" = "deepin" ] && apt install --yes --no-install-recommends gpg deepin-desktop-base
 apt install --yes --no-install-recommends less:i386
-[ -n $(which neofetch) ] && neofetch
 echo -e "127.1 $1\n::1 $1" > /etc/hosts
 sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
 sed -i 's/# zh_CN.UTF-8/zh_CN.UTF-8/g' /etc/locale.gen
@@ -851,8 +850,14 @@ chmod 755 /usr/local/bin/$1-install-terminal
 cat > /usr/local/bin/$1-terminal <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
-source /usr/local/bin/$1-bind
-machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/lxterminal.desktop"
+if [ \$EUID == 0 ]; then
+    find /tmp/ -maxdepth 1 -name dbus* -exec machinectl bind --read-only --mkdir $1 {} \; -print
+    $(echo $XHOST_AUTH)
+    machinectl --setenv=DISPLAY=\$DISPLAY shell $1 /bin/su - u\$USER_UID -w DISPLAY -c 'echo "xrdb -merge ~/.Xresources && neofetch && exit" | /bin/bash --login'
+else
+    source /usr/local/bin/$1-bind
+    machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/lxterminal.desktop"
+fi
 EOF
 
 chmod 755 /usr/local/bin/$1-terminal
@@ -1209,3 +1214,6 @@ echo
 
 # 禁止开机启动
 [ "$(systemctl is-enabled nspawn-$1.service)" == "enabled" ] && systemctl disable machines.target
+
+# 初始化设置
+$1-terminal

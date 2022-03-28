@@ -623,7 +623,7 @@ systemctl daemon-reload
 sleep 0.5
 # machinectl enable $1
 # systemctl cat systemd-nspawn@$1.service
-machinectl start $1
+machinectl start $1 && sleep 1
 machinectl list
 machinectl show $1
 
@@ -656,7 +656,7 @@ echo HOST_USER=\$HOST_USER
 echo USER_UID=\$USER_UID
 
 # 判断容器是否启动
-[[ ! \$(machinectl list | grep $1) ]] && machinectl start $1 && sleep 0.5
+[[ ! \$(machinectl list | grep $1) ]] && machinectl start $1 && sleep 1
 
 # 使容器与宿主机使用相同用户目录
 machinectl --setenv=USER_UID=\$USER_UID --setenv=HOST_HOME=\$HOST_HOME shell $1 /bin/bash -c '
@@ -895,8 +895,7 @@ chmod 755 /usr/local/bin/$1-install-qq
 # 配置QQ
 cat > /usr/local/bin/$1-config-qq <<EOF
 #!/bin/bash
-machinectl stop $1
-sleep 1
+machinectl stop $1 && sleep 1
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-QQ ~/.deepinwine/deepin-wine5/bin/winecfg"
@@ -949,8 +948,7 @@ chmod 755 /usr/local/bin/$1-install-tim
 # 配置TIM
 cat > /usr/local/bin/$1-config-tim <<EOF
 #!/bin/bash
-machinectl stop $1
-sleep 1
+machinectl stop $1 && sleep 1
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-TIM ~/.deepinwine/deepin-wine5/bin/winecfg"
@@ -1004,8 +1002,7 @@ chmod 755 /usr/local/bin/$1-install-weixin
 # 配置微信
 cat > /usr/local/bin/$1-config-weixin <<EOF
 #!/bin/bash
-machinectl stop $1
-sleep 1
+machinectl stop $1 && sleep 1
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c ''"\$RUN_ENVIRONMENT"' WINEPREFIX=~/.deepinwine/Deepin-WeChat \
@@ -1064,8 +1061,7 @@ chmod 755 /usr/local/bin/$1-install-ecloud
 # 配置云盘
 cat > /usr/local/bin/$1-config-ecloud <<EOF
 #!/bin/bash
-machinectl stop $1
-sleep 1
+machinectl stop $1 && sleep 1
 source /usr/local/bin/$1-config
 source /usr/local/bin/$1-bind
 machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT WINEPREFIX=~/.deepinwine/Deepin-eCloud/ ~/.deepinwine/deepin-wine5/bin/regedit ~/$USER_DOWNLOAD/ecloud.reg"

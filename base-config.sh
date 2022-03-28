@@ -206,7 +206,7 @@ cat > $ROOT/etc/fonts/conf.d/99-nspawn.conf <<EOF
 
 <match>
     <!-- 设置合理的像素密度，确保pt与px之间能够合理转换 -->
-    <edit name="dpi"><double>96</double></edit>
+    <edit name="dpi"><double>103</double></edit>
 
     <!-- 确保弱绑定西文字体优先于弱绑定中文字体 -->
     <edit name="lang"><string>en</string></edit>
@@ -395,7 +395,7 @@ done
 for i in {1000..1005}; do
     echo u\$i:u\$i | chpasswd
     [[ ! \$(groups u\$i | grep audio) ]] && usermod -aG audio u\$i
-    echo -e "Xft.dpi: 96\nXft.lcdfilter: lcddefault\nXft.antialias: true\nXft.autohint: true\nXft.hinting: true\nXft.hintstyle: hintfull\nXft.rgba: rgb" > /home/u\$i/.Xresources
+    echo -e "Xft.dpi: 103\nXft.lcdfilter: lcddefault\nXft.antialias: true\nXft.autohint: true\nXft.hinting: true\nXft.hintstyle: hintfull\nXft.rgba: rgb" > /home/u\$i/.Xresources
     [[ -z "\$(grep .Xresources /home/u\$i/.bashrc)" ]] && echo '[ -n "\$DISPLAY" ] && xrdb -merge ~/.Xresources' >> /home/u\$i/.bashrc
     [[ -z "\$(grep .Xresources /home/u\$i/.profile)" ]] && echo '[ -n "\$DISPLAY" ] && xrdb -merge ~/.Xresources' >> /home/u\$i/.profile
     [[ -z "\$(grep neofetch /home/u\$i/.bashrc)" ]] && echo '[ -n "\$DISPLAY" ] && neofetch' >> /home/u\$i/.bashrc

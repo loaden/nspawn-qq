@@ -1,3 +1,23 @@
+git log v3.6.1..v3.7 --oneline
+beefae2 完善字体配置
+6abf392 修正preload查询
+481448e 解决创建容器时DNS解析失败
+28a712f 根据调试输出优化
+621b905 增大必要的延时
+908a1d9 移除调试信息输出
+97d79a4  禁用--allow-change-held-packages
+616a20b 安装时，立即更新
+dcf6ac0 完善容器字体配置
+24270c3 开始自定义字体配置
+860ec85 统一thunar名称为小写
+3a69cba E: Unable to locate package libexo-1-0
+7d9c0e3 移除Xauthority的绑定
+4ccb5b6 启动终端时，自动运行neofetch
+fa90f5a 修复从零开始命令构建容器
+2d3971d 精简xrdb需要的x11-xserver-utils包
+f462778 将deepin特征包放到config里
+e479aa5 添加v3.6.1更新日志
+
 git log v3.6..v3.6.1 --oneline
 788053f 完善字体方案
 d21d609 避免单用户模式绑定整个用户目录

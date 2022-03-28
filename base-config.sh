@@ -69,6 +69,44 @@ EOF
 systemctl enable nspawn-$1.service
 
 
+# 字体替换
+rm -f $ROOT/etc/fonts/conf.d/*-wqy-*.conf
+cat > $ROOT/etc/fonts/conf.d/99-nspawn.conf <<EOF
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+<fontconfig>
+  <match target="scan">
+    <test name="postscriptname"><string>WenQuanYiMicroHei</string></test>
+	<edit name="family"><string>文泉驿微米黑</string><string>WenQuanYi Micro Hei</string></edit>
+	<edit name="lang"><langset><string>zh-cn</string></langset></edit>
+  </match>
+  <match target="scan">
+    <test name="postscriptname"><string>WenQuanYiMicroHeiMono</string></test>
+	<edit name="family"><string>文泉驿等宽微米黑</string><string>WenQuanYi Micro Hei Mono</string></edit>
+	<edit name="lang"><langset><string>zh-cn</string></langset></edit>
+  </match>
+  <alias binding="same"><family>WenQuanYi Zen Hei</family><prefer><family>WenQuanYi Micro Hei</family></prefer></alias>
+  <alias binding="same"><family>WenQuanYi Zen Hei Sharp</family><prefer><family>WenQuanYi Micro Hei</family></prefer></alias>
+  <alias binding="same"><family>WenQuanYi Zen Hei Mono</family><prefer><family>WenQuanYi Micro Hei Mono</family></prefer></alias>
+  <alias binding="same"><family>文泉驿正黑</family><prefer><family>文泉驿微米黑</family></prefer></alias>
+  <alias binding="same"><family>文泉驿点阵正黑</family><prefer><family>文泉驿微米黑</family></prefer></alias>
+  <alias binding="same"><family>文泉驿等宽正黑</family><prefer><family>文泉驿等宽微米黑</family></prefer></alias>
+  <alias binding="same"><family>Noto Sans CJK SC</family><prefer><family>WenQuanYi Micro Hei</family></prefer></alias>
+  <alias binding="same"><family>Noto Sans CJK TC</family><prefer><family>WenQuanYi Micro Hei</family></prefer></alias>
+  <alias binding="same"><family>Noto Sans CJK JP</family><prefer><family>WenQuanYi Micro Hei</family></prefer></alias>
+  <alias binding="same"><family>Noto Sans CJK KR</family><prefer><family>WenQuanYi Micro Hei</family></prefer></alias>
+  <alias binding="same"><family>Noto Serif CJK SC</family><prefer><family>WenQuanYi Micro Hei</family></prefer></alias>
+  <alias binding="same"><family>Noto Serif CJK TC</family><prefer><family>WenQuanYi Micro Hei</family></prefer></alias>
+  <alias binding="same"><family>Noto Serif CJK JP</family><prefer><family>WenQuanYi Micro Hei</family></prefer></alias>
+  <alias binding="same"><family>Noto Serif CJK KR</family><prefer><family>WenQuanYi Micro Hei</family></prefer></alias>
+  <alias binding="same"><family>Noto Sans Mono CJK SC</family><prefer><family>WenQuanYi Micro Hei Mono</family></prefer></alias>
+  <alias binding="same"><family>Noto Sans Mono CJK TC</family><prefer><family>WenQuanYi Micro Hei Mono</family></prefer></alias>
+  <alias binding="same"><family>Noto Sans Mono CJK JP</family><prefer><family>WenQuanYi Micro Hei Mono</family></prefer></alias>
+  <alias binding="same"><family>Noto Sans Mono CJK KR</family><prefer><family>WenQuanYi Micro Hei Mono</family></prefer></alias>
+</fontconfig>
+EOF
+
+
 # 配置容器
 [[ $(machinectl list) =~ $1 ]] && machinectl stop $1 && sleep 1
 cat > $ROOT/config.sh <<EOF
@@ -89,7 +127,8 @@ if [ -z $(which less) ]; then
     apt update
 fi
 apt install --yes --no-install-recommends systemd-container
-apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd locales xdg-utils dbus-x11 dex bash-completion neofetch nano fonts-wqy-microhei x11-xserver-utils
+apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd locales xdg-utils dbus-x11 dex bash-completion neofetch nano x11-xserver-utils
+apt install --yes --no-install-recommends fonts-hack fonts-wqy-microhei
 [ "$1" = "deepin" ] && apt install --yes --no-install-recommends gpg deepin-desktop-base
 apt install --yes --no-install-recommends less:i386
 echo -e "127.1 $1\n::1 $1" > /etc/hosts
@@ -111,8 +150,6 @@ done
 for i in {1000..1005}; do
     echo u\$i:u\$i | chpasswd
     [[ ! \$(groups u\$i | grep audio) ]] && usermod -aG audio u\$i
-    mkdir -p /home/u\$i/.local/share/fonts
-    mkdir -p /home/u\$i/.config/fontconfig
     echo -e "Xft.dpi: 96\nXft.lcdfilter: lcddefault\nXft.antialias: true\nXft.autohint: true\nXft.hinting: true\nXft.hintstyle: hintfull\nXft.rgba: rgb" > /home/u\$i/.Xresources
     [[ -z "\$(grep .Xresources /home/u\$i/.bashrc)" ]] && echo '[ -n "\$DISPLAY" ] && xrdb -merge ~/.Xresources' >> /home/u\$i/.bashrc
     [[ -z "\$(grep neofetch /home/u\$i/.bashrc)" ]] && echo '[ -n "\$DISPLAY" ] && neofetch' >> /home/u\$i/.bashrc
@@ -124,6 +161,24 @@ done
 sed -i "s/.*sudo.*ALL=(ALL:ALL) ALL/%sudo ALL=(ALL) NOPASSWD:ALL/" /etc/sudoers
 # 移除奇怪的软链接
 [ -L /bin/X11 ] && /bin/unlink /bin/X11
+# 字体调试输出
+fc-match Monospace
+fc-match Sans
+fc-match Serif
+FC_DEBUG=1024 fc-match | grep Loading
+fc-conflist | grep +
+fc-match --verbose sans-serif | grep -v 00
+# FC_DEBUG=4 fc-match Monospace | grep -v 00 > log
+find /etc/fonts/conf.d/ -name "*.conf" | sort
+echo
+echo fc-match --sort 'serif:lang=zh-cn' ......
+fc-match --sort 'serif:lang=zh-cn'
+echo
+echo fc-match --sort 'monospace:lang=zh-cn' ......
+fc-match --sort 'monospace:lang=zh-cn'
+echo
+echo fc-match --sort 'sans-serif:lang=zh-cn' ......
+fc-match --sort 'sans-serif:lang=zh-cn'
 EOF
 
 chroot $ROOT /bin/bash /config.sh
@@ -149,7 +204,9 @@ fi
 # Save space
 rm -rfv /usr/share/doc
 rm -rfv /usr/share/man
-rm -fv /usr/share/fonts/opentype/noto/*.ttc
+rm -fv /usr/share/fonts/opentype/noto/*.tt*
+rm -fv /usr/share/fonts/truetype/noto/*.tt*
+rm -fv /usr/share/fonts/truetype/wqy/*zenhei*.tt*
 dpkg -L x11-xserver-utils | grep /usr/bin/ | grep -v xrdb | xargs rm -f
 /bin/rm -rfv /tmp/*
 apt autopurge --yes
@@ -160,7 +217,6 @@ chroot $ROOT /bin/bash /clean.sh
 
 
 # 确保宿主机当前用户相关目录或文件存在
-su - $SUDO_USER -c "mkdir -p /home/$SUDO_USER/.local/share/fonts"
 su - $SUDO_USER -c "touch /home/$SUDO_USER/.config/user-dirs.dirs"
 su - $SUDO_USER -c "touch /home/$SUDO_USER/.config/user-dirs.locale"
 
@@ -259,8 +315,6 @@ if [ $MULTIUSER_SUPPORT = 0 ]; then
     [ -n "$USER_CLOUDDISK" ] && [ -d /home/$SUDO_USER/$USER_CLOUDDISK ] && STATIC_CLOUDDISK_BIND="Bind = /home/$SUDO_USER/$USER_CLOUDDISK:/home/u$SUDO_UID/$USER_CLOUDDISK"
     [ -f /home/$SUDO_USER/.config/user-dirs.dirs ] && STATIC_USERDIRS_BIND="Bind = /home/$SUDO_USER/.config/user-dirs.dirs:/home/u$SUDO_UID/.config/user-dirs.dirs"
     [ -f /home/$SUDO_USER/.config/user-dirs.locale ] && STATIC_USERLOCALE_BIND="Bind = /home/$SUDO_USER/.config/user-dirs.locale:/home/u$SUDO_UID/.config/user-dirs.locale"
-    [ -d /home/$SUDO_USER/.local/share/fonts ] && STATIC_FONTS_BIND="Bind = /home/$SUDO_USER/.local/share/fonts:/home/u$SUDO_UID/.local/share/fonts"
-    [ -d /home/$SUDO_USER/.config/fontconfig ] && STATIC_FONTCONFIG_BIND="Bind = /home/$SUDO_USER/.config/fontconfig:/home/u$SUDO_UID/.config/fontconfig"
 
     STATIC_BIND="# 单用户模式：静态绑定
 #---------------
@@ -280,8 +334,6 @@ Bind = /home/$SUDO_USER/$USER_MUSIC:/home/u$SUDO_UID/$USER_MUSIC
 # 其它文件或目录
 $(echo "$STATIC_USERDIRS_BIND")
 $(echo "$STATIC_USERLOCALE_BIND")
-$(echo "$STATIC_FONTS_BIND")
-$(echo "$STATIC_FONTCONFIG_BIND")
 $(echo "$STATIC_CLOUDDISK_BIND")
 "
 fi
@@ -455,10 +507,6 @@ find /tmp/ -maxdepth 1 -name dbus* -exec machinectl bind --read-only --mkdir $1 
 [ -f \$HOME/.config/user-dirs.dirs ] && [ \$? != 0 ] && echo error: machinectl --mkdir bind $1 \$HOME/.config/user-dirs.dirs /home/u\$UID/.config/user-dirs.dirs
 [ -f \$HOME/.config/user-dirs.locale ] && machinectl bind --mkdir $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
 [ -f \$HOME/.config/user-dirs.locale ] && [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/.config/user-dirs.locale /home/u\$UID/.config/user-dirs.locale
-[ -d \$HOME/.local/share/fonts ] && machinectl bind --read-only --mkdir $1 \$HOME/.local/share/fonts /home/u\$UID/.local/share/fonts
-[ -d \$HOME/.local/share/fonts ] && [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$HOME/.local/share/fonts /home/u\$UID/.local/share/fonts
-[ -d \$HOME/.config/fontconfig ] && machinectl bind --read-only --mkdir $1 \$HOME/.config/fontconfig /home/u\$UID/.config/fontconfig
-[ -d \$HOME/.config/fontconfig ] && [ \$? != 0 ] && echo error: machinectl bind --read-only --mkdir $1 \$HOME/.config/fontconfig /home/u\$UID/.config/fontconfig
 
 $(echo $XHOST_AUTH)
 EOF
@@ -507,7 +555,7 @@ machinectl --setenv=DELETE_WINE=\$DELETE_WINE shell $1 /bin/bash -c 'env ;
         [ "\$DELETE_WINE" == "yes" ] && echo rm -rf \$i/.deepinwine && rm -rf \$i/.deepinwine ;
         rm -rf \$i/.cache/* ;
         ls \$i/.config | grep -v user-dirs | xargs rm -rf ;
-        ls \$i/.local/share | grep -v fonts | xargs rm -rf ;
+        rm -rf \$i/.local/share ;
         du -hd0 \$i ;
     done;
     apt autopurge -y ;
@@ -758,7 +806,7 @@ cat > /usr/local/bin/$1-install-ecloud <<EOF
 source /usr/local/bin/$1-config
 DEB_FILE=\$(find \$(xdg-user-dir DOWNLOAD)/ -name cn.189.cloud.*.deb)
 if [ -z "\$DEB_FILE" ]; then
-    machinectl shell $1 /bin/bash -c "apt install -y cn.189.cloud.deepin x11-utils --no-install-recommends && apt autopurge -y"
+    machinectl shell $1 /bin/bash -c "apt install -y cn.189.cloud.deepin x11-utils --no-install-recommends --allow-change-held-packages && apt autopurge -y"
 else
     source /usr/local/bin/$1-bind
     machinectl shell $1 /bin/bash -c "apt install --no-install-recommends \${DEB_FILE/\$USER/u\$UID} ; apt install -f ; apt-mark hold cn.189.cloud.deepin"

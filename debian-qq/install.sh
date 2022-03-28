@@ -26,8 +26,13 @@ fi
 sudo tar -xpvf `dirname ${BASH_SOURCE[0]}`/debian.tar.zst --directory=$HOME/.machines
 sudo `dirname ${BASH_SOURCE[0]}`/nspawn-qq/debian-config.sh
 debian-upgrade
+sleep 1
 debian-update-store
+sleep 1
 debian-update
+sleep 1
 KEEP_QUIET=1 debian-clean
+sleep 1
 debian-query
+sleep 1
 echo 安装完成！

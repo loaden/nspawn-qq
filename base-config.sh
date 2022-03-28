@@ -397,9 +397,9 @@ for i in {1000..1005}; do
     [[ ! \$(groups u\$i | grep audio) ]] && usermod -aG audio u\$i
     echo -e "Xft.dpi: 96\nXft.lcdfilter: lcddefault\nXft.antialias: true\nXft.autohint: true\nXft.hinting: true\nXft.hintstyle: hintfull\nXft.rgba: rgb" > /home/u\$i/.Xresources
     [[ -z "\$(grep .Xresources /home/u\$i/.bashrc)" ]] && echo '[ -n "\$DISPLAY" ] && xrdb -merge ~/.Xresources' >> /home/u\$i/.bashrc
+    [[ -z "\$(grep .Xresources /home/u\$i/.profile)" ]] && echo '[ -n "\$DISPLAY" ] && xrdb -merge ~/.Xresources' >> /home/u\$i/.profile
     [[ -z "\$(grep neofetch /home/u\$i/.bashrc)" ]] && echo '[ -n "\$DISPLAY" ] && neofetch' >> /home/u\$i/.bashrc
     cat /home/u\$i/.Xresources
-    grep .Xresources /home/u\$i/.bashrc
 done
 # No password for sudo
 sed -i "s/.*sudo.*ALL=(ALL:ALL) ALL/%sudo ALL=(ALL) NOPASSWD:ALL/" /etc/sudoers

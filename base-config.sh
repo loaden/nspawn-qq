@@ -365,18 +365,20 @@ EOF
 
 # 配置容器
 [[ $(machinectl list) =~ $1 ]] && machinectl stop $1 && sleep 1
+systemctl start systemd-resolved
+resolvectl | grep "Current DNS Server" | cut -d ':' -f 2 | xargs echo "nameserver" > $ROOT/etc/resolv.conf
 cat > $ROOT/config.sh <<EOF
 #!/bin/bash
 source /etc/profile
 source ~/.bashrc
 env
-[ -n $(which neofetch) ] && neofetch
 echo $1 > /etc/hostname
 rm -f /var/lib/dpkg/lock
 rm -f /var/lib/dpkg/lock-frontend
 rm -f /var/cache/apt/archives/lock
 dpkg --configure -a
 apt install -f
+apt update
 apt purge --yes less:amd64
 if [ -z $(which less) ]; then
     dpkg --add-architecture i386
@@ -387,6 +389,7 @@ apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd 
 apt install --yes --no-install-recommends fonts-hack fonts-wqy-microhei
 [ "$1" = "deepin" ] && apt install --yes --no-install-recommends gpg deepin-desktop-base
 apt install --yes --no-install-recommends less:i386
+[ -n $(which neofetch) ] && neofetch
 echo -e "127.1 $1\n::1 $1" > /etc/hosts
 sed -i 's/# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
 sed -i 's/# zh_CN.UTF-8/zh_CN.UTF-8/g' /etc/locale.gen

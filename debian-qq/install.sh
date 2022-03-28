@@ -27,6 +27,7 @@ sudo tar -xpvf `dirname ${BASH_SOURCE[0]}`/debian.tar.zst --directory=$HOME/.mac
 sudo `dirname ${BASH_SOURCE[0]}`/nspawn-qq/debian-config.sh
 debian-upgrade
 debian-update-store
+debian-update
 KEEP_QUIET=1 debian-clean
 debian-query
 echo 安装完成！

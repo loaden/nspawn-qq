@@ -26,6 +26,7 @@ fi
 sudo tar -xpvf `dirname ${BASH_SOURCE[0]}`/deepin.tar.zst --directory=$HOME/.machines
 sudo `dirname ${BASH_SOURCE[0]}`/nspawn-qq/deepin-config.sh
 deepin-upgrade
+deepin-update
 KEEP_QUIET=1 deepin-clean
 deepin-query
 echo 安装完成！

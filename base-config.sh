@@ -71,6 +71,7 @@ systemctl enable nspawn-$1.service
 
 # 字体替换
 rm -f $ROOT/etc/fonts/conf.d/*-wqy-*.conf
+mkdir -p $ROOT/etc/fonts/conf.d
 cat > $ROOT/etc/fonts/conf.d/99-nspawn.conf <<EOF
 <?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
@@ -381,8 +382,8 @@ if [ -z $(which less) ]; then
     dpkg --add-architecture i386
     apt update
 fi
-apt install --yes --no-install-recommends systemd-container
-apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd locales xdg-utils dbus-x11 dex bash-completion neofetch nano x11-xserver-utils
+apt install --yes --no-install-recommends apt-utils systemd-container
+apt install --yes --no-install-recommends sudo procps pulseaudio libpam-systemd locales xdg-utils dbus-x11 dex bash-completion neofetch nano x11-xserver-utils dialog
 apt install --yes --no-install-recommends fonts-hack fonts-wqy-microhei
 [ "$1" = "deepin" ] && apt install --yes --no-install-recommends gpg deepin-desktop-base
 apt install --yes --no-install-recommends less:i386
@@ -416,6 +417,8 @@ done
 sed -i "s/.*sudo.*ALL=(ALL:ALL) ALL/%sudo ALL=(ALL) NOPASSWD:ALL/" /etc/sudoers
 # 移除奇怪的软链接
 [ -L /bin/X11 ] && /bin/unlink /bin/X11
+# 字体缓存
+fc-cache -rf
 # 字体调试输出
 fc-match Monospace
 fc-match Sans
@@ -766,8 +769,8 @@ machinectl \$SHELL_OPTIONS --setenv=LD_PRELOAD=$DISABLE_MIT_SHM_SO shell $1 /bin
     [ -n "\$(xdg-mime query default audio/flac)" ] && echo -n "The default open of audio/flac is " && xdg-mime query default audio/flac ;
     [ -n "\$(xdg-mime query default application/pdf)" ] && echo -n "The default open of application/pdf is " && xdg-mime query default application/pdf ;
     [ -n "\$(xdg-mime query default image/png)" ] && echo -n "The default open of image/png is " && xdg-mime query default image/png ;
-    echo && echo ldd /bin/bash && echo \$(ldd /bin/bash | grep SHM) ;
-    echo ldd /bin/less && echo \$(ldd /bin/less | grep SHM) ;
+    echo && echo ldd /usr/bin/bash && echo \$(ldd /usr/bin/bash | grep SHM) ;
+    echo ldd /usr/bin/less && echo \$(ldd /usr/bin/less | grep SHM) ;
 '
 EOF
 

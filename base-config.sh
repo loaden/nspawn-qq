@@ -70,7 +70,8 @@ systemctl enable nspawn-$1.service
 
 
 # 字体替换
-rm -f $ROOT/etc/fonts/conf.d/*-wqy-*.conf
+rm -fv $ROOT/etc/fonts/conf.d/*-wqy-*.conf
+rm -fv $ROOT/etc/fonts/conf.d/*-dejavu-*.conf
 mkdir -p $ROOT/etc/fonts/conf.d
 cat > $ROOT/etc/fonts/conf.d/99-nspawn.conf <<EOF
 <?xml version="1.0"?>
@@ -89,74 +90,60 @@ cat > $ROOT/etc/fonts/conf.d/99-nspawn.conf <<EOF
 </match>
 
 <match target="scan">
-	<test name="family"><string>WenQuanYi Micro Hei</string></test>
-	<edit name="family"><string>Serif</string></edit>
-	<edit name="lang"><langset><string>zh-cn</string></langset></edit>
-</match>
-
-<match target="scan">
 	<test name="postscriptname"><string>文泉驿微米黑</string></test>
 	<edit name="family"><string>Fallback</string></edit>
 	<edit name="lang"><langset><string>zh-cn</string></langset></edit>
 </match>
 
 <alias binding="same"><family>mono</family><prefer><family>Monospace</family></prefer></alias>
-<alias binding="same"><family>Courier</family><prefer><family>Monospace</family></prefer></alias>
-<alias binding="same"><family>Courier New</family><prefer><family>Monospace</family></prefer></alias>
-<alias binding="same"><family>Fixedsys</family><prefer><family>Monospace</family></prefer></alias>
-<alias binding="same"><family>Lucida Console</family><prefer><family>Monospace</family></prefer></alias>
-<alias binding="same"><family>Terminal</family><prefer><family>Monospace</family></prefer></alias>
-<alias binding="same"><family>Lucida Sans Typewriter</family><prefer><family>Monospace</family></prefer></alias>
-<alias binding="same"><family>DejaVu Sans Mono</family><prefer><family>Monospace</family></prefer></alias>
-<alias binding="same"><family>Droid Sans Mono</family><prefer><family>Monospace</family></prefer></alias>
-<alias binding="same"><family>Fixed</family><prefer><family>Monospace</family></prefer></alias>
-<alias binding="same"><family>Unifont</family><prefer><family>Monospace</family></prefer></alias>
 <alias binding="same"><family>sans serif</family><prefer><family>Sans</family></prefer></alias>
 <alias binding="same"><family>sans-serif</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>serif</family><prefer><family>Sans</family></prefer></alias>
+
 <alias binding="same"><family>Arial</family><prefer><family>Sans</family></prefer></alias>
 <alias binding="same"><family>Arial Black</family><prefer><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Lucida Sans Unicode</family><prefer><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Microsoft Sans Serif</family><prefer><family>Sans</family></prefer></alias>
-<alias binding="same"><family>MS Sans Serif</family><prefer><family>Sans</family></prefer></alias>
-<alias binding="same"><family>DejaVu Sans</family><prefer><family>Sans</family></prefer></alias>
-<alias binding="same"><family>DejaVu Sans Condensed</family><prefer><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Droid Sans</family><prefer><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Droid Sans Fallback</family><prefer><family>Sans</family></prefer></alias>
 <alias binding="same"><family>Times New Roman</family><prefer><family>Serif</family></prefer></alias>
 <alias binding="same"><family>Times</family><prefer><family>Serif</family></prefer></alias>
+<alias binding="same"><family>Courier</family><prefer><family>Monospace</family></prefer></alias>
+<alias binding="same"><family>Courier New</family><prefer><family>Monospace</family></prefer></alias>
+<alias binding="same"><family>Fixed</family><prefer><family>Monospace</family></prefer></alias>
+<alias binding="same"><family>Unifont</family><prefer><family>Monospace</family></prefer></alias>
+
+<alias binding="same"><family>DejaVu Sans Mono</family><prefer><family>Monospace</family></prefer></alias>
+<alias binding="same"><family>DejaVu Sans</family><prefer><family>Sans</family></prefer></alias>
 <alias binding="same"><family>DejaVu Serif</family><prefer><family>Serif</family></prefer></alias>
-<alias binding="same"><family>DejaVu Serif Condensed</family><prefer><family>Serif</family></prefer></alias>
-<alias binding="same"><family>Droid Serif</family><prefer><family>Serif</family></prefer></alias>
-<alias binding="same"><family>FreeSerif</family><prefer><family>Serif</family></prefer></alias>
-<alias binding="same"><family>WenQuanYi Zen Hei</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>WenQuanYi Zen Hei Sharp</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>WenQuanYi Zen Hei Mono</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>文泉驿正黑</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>文泉驿点阵正黑</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>文泉驿等宽正黑</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Noto Sans CJK SC</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Noto Sans CJK TC</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Noto Sans CJK JP</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Noto Sans CJK KR</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Noto Serif CJK SC</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Noto Serif CJK TC</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Noto Serif CJK JP</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Noto Serif CJK KR</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Noto Sans Mono CJK SC</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Noto Sans Mono CJK TC</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Noto Sans Mono CJK JP</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>Noto Sans Mono CJK KR</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
+
+<alias binding="same"><family>WenQuanYi Zen Hei</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>WenQuanYi Zen Hei Sharp</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>WenQuanYi Zen Hei Mono</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>文泉驿正黑</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>文泉驿点阵正黑</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>文泉驿等宽正黑</family><prefer><family>Sans</family></prefer></alias>
+
+<alias binding="same"><family>Noto Sans CJK SC</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>Noto Sans CJK TC</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>Noto Sans CJK JP</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>Noto Sans CJK KR</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>Noto Serif CJK SC</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>Noto Serif CJK TC</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>Noto Serif CJK JP</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>Noto Serif CJK KR</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>Noto Sans Mono CJK SC</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>Noto Sans Mono CJK TC</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>Noto Sans Mono CJK JP</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>Noto Sans Mono CJK KR</family><prefer><family>Sans</family></prefer></alias>
+
 <alias binding="same"><family>Microsoft YaHei</family><prefer><family>Sans</family><family>Sans</family></prefer></alias>
 <alias binding="same"><family>Microsoft YaHei UI</family><prefer><family>Sans</family><family>Sans</family></prefer></alias>
 <alias binding="same"><family>微软雅黑</family><prefer><family>Sans</family><family>Sans</family></prefer></alias>
 <alias binding="same"><family>SimSun</family><prefer><family>Serif</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>NSimSun</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>新宋体</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>SimSun-ExtB</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
+<alias binding="same"><family>NSimSun</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>新宋体</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>SimSun-ExtB</family><prefer><family>Sans</family></prefer></alias>
 <alias binding="same"><family>SimSun-18030</family><prefer><family>Serif</family><family>Sans</family></prefer></alias>
 <alias binding="same"><family>宋体-18030</family><prefer><family>Serif</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>NSimSun-18030</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
-<alias binding="same"><family>新宋体-18030</family><prefer><family>Monospace</family><family>Sans</family></prefer></alias>
+<alias binding="same"><family>NSimSun-18030</family><prefer><family>Sans</family></prefer></alias>
+<alias binding="same"><family>新宋体-18030</family><prefer><family>Sans</family></prefer></alias>
 
 <match>
 	<test name="family" qual="all" compare="not_eq"><string>Monospace</string></test>
@@ -413,7 +400,6 @@ for i in {1000..1005}; do
     [[ -z "\$(grep .Xresources /home/u\$i/.bashrc)" ]] && echo '[ -n "\$DISPLAY" ] && xrdb -merge ~/.Xresources' >> /home/u\$i/.bashrc
     [[ -z "\$(grep neofetch /home/u\$i/.bashrc)" ]] && echo '[ -n "\$DISPLAY" ] && neofetch' >> /home/u\$i/.bashrc
     cat /home/u\$i/.Xresources
-    su - u\$i -c "DISPLAY=\$DISPLAY xrdb -merge ~/.Xresources"
     grep .Xresources /home/u\$i/.bashrc
 done
 # No password for sudo
@@ -440,6 +426,9 @@ fc-match --sort 'monospace:lang=zh-cn'
 echo
 echo fc-match --sort 'sans-serif:lang=zh-cn' ......
 fc-match --sort 'sans-serif:lang=zh-cn'
+echo
+echo fc-list
+fc-list
 EOF
 
 chroot $ROOT /bin/bash /config.sh
@@ -467,6 +456,7 @@ rm -rfv /usr/share/doc
 rm -rfv /usr/share/man
 rm -fv /usr/share/fonts/opentype/noto/*.tt*
 rm -fv /usr/share/fonts/truetype/noto/*.tt*
+rm -fv /usr/share/fonts/truetype/dejavu/*.tt*
 rm -fv /usr/share/fonts/truetype/wqy/*zenhei*.tt*
 dpkg -L x11-xserver-utils | grep /usr/bin/ | grep -v xrdb | xargs rm -f
 /bin/rm -rfv /tmp/*

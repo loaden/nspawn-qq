@@ -406,7 +406,7 @@ done
 sed -i "s/.*sudo.*ALL=(ALL:ALL) ALL/%sudo ALL=(ALL) NOPASSWD:ALL/" /etc/sudoers
 # 移除奇怪的软链接
 [ -L /bin/X11 ] && /bin/unlink /bin/X11
-# 字体缓存
+# 刷新字体缓存
 fc-cache -rf
 # 字体调试输出
 fc-match Monospace
@@ -458,6 +458,7 @@ rm -fv /usr/share/fonts/opentype/noto/*.tt*
 rm -fv /usr/share/fonts/truetype/noto/*.tt*
 rm -fv /usr/share/fonts/truetype/dejavu/*.tt*
 rm -fv /usr/share/fonts/truetype/wqy/*zenhei*.tt*
+fc-cache -rf
 dpkg -L x11-xserver-utils | grep /usr/bin/ | grep -v xrdb | xargs rm -f
 /bin/rm -rfv /tmp/*
 apt autopurge --yes

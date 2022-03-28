@@ -21,15 +21,15 @@ SOURCES_LIST="echo 'deb https://mirrors.bfsu.edu.cn/debian/ bullseye main contri
 
 IFS='' read -r -d '' INSTALL_QQ <<EOF
 machinectl shell debian /bin/bash -c "[ ! -f /etc/apt/sources.list.d/deepin-wine.i-m.dev.list ] && apt install wget -y && wget -O- https://deepin-wine.i-m.dev/setup.sh | sh"
-machinectl shell debian /bin/bash -c "apt install -y com.qq.im.deepin x11-utils --no-install-recommends --allow-change-held-packages && apt autopurge -y"
+machinectl shell debian /bin/bash -c "apt install -y com.qq.im.deepin x11-utils --no-install-recommends && apt autopurge -y"
 EOF
 IFS='' read -r -d '' INSTALL_TIM <<EOF
 machinectl shell debian /bin/bash -c "[ ! -f /etc/apt/sources.list.d/deepin-wine.i-m.dev.list ] && apt install wget -y && wget -O- https://deepin-wine.i-m.dev/setup.sh | sh"
-machinectl shell debian /bin/bash -c "apt install -y com.qq.office.deepin x11-utils --no-install-recommends --allow-change-held-packages && apt autopurge -y"
+machinectl shell debian /bin/bash -c "apt install -y com.qq.office.deepin x11-utils --no-install-recommends && apt autopurge -y"
 EOF
 IFS='' read -r -d '' INSTALL_WEIXIN <<EOF
 machinectl shell debian /bin/bash -c "[ ! -f /etc/apt/sources.list.d/deepin-wine.i-m.dev.list ] && apt install wget -y && wget -O- https://deepin-wine.i-m.dev/setup.sh | sh"
-machinectl shell debian /bin/bash -c "apt install -y com.qq.weixin.deepin x11-utils --no-install-recommends --allow-change-held-packages && apt autopurge -y"
+machinectl shell debian /bin/bash -c "apt install -y com.qq.weixin.deepin x11-utils --no-install-recommends && apt autopurge -y"
 EOF
 
 

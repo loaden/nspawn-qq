@@ -762,6 +762,7 @@ machinectl \$SHELL_OPTIONS --setenv=LD_PRELOAD=$DISABLE_MIT_SHM_SO shell $1 /bin
     [ -n "\$(xdg-mime query default audio/flac)" ] && echo -n "The default open of audio/flac is " && xdg-mime query default audio/flac ;
     [ -n "\$(xdg-mime query default application/pdf)" ] && echo -n "The default open of application/pdf is " && xdg-mime query default application/pdf ;
     [ -n "\$(xdg-mime query default image/png)" ] && echo -n "The default open of image/png is " && xdg-mime query default image/png ;
+    [ -n "\$(xdg-mime query default image/jpg)" ] && echo -n "The default open of image/jpg is " && xdg-mime query default image/jpg ;
     echo && echo ldd \$(which bash) && echo \$(ldd \$(which bash) | grep SHM) ;
     echo ldd \$(which less) && echo \$(ldd \$(which less) | grep SHM) ;
 '
@@ -857,6 +858,8 @@ if [ \$EUID == 0 ]; then
         xrdb -merge ~/.Xresources ;
         xdg-mime default thunar.desktop inode/directory ;
         xdg-mime default mupdf.desktop application/pdf ;
+        xdg-mime default gpicview.desktop image/png ;
+        xdg-mime default gpicview.desktop image/jpg ;
         neofetch ;
     " | /bin/bash --login'
 else

@@ -853,7 +853,12 @@ source /usr/local/bin/$1-config
 if [ \$EUID == 0 ]; then
     find /tmp/ -maxdepth 1 -name dbus* -exec machinectl bind --read-only --mkdir $1 {} \; -print
     $(echo $XHOST_AUTH)
-    machinectl --setenv=DISPLAY=\$DISPLAY shell $1 /bin/su - u\$USER_UID -w DISPLAY -c 'echo "xrdb -merge ~/.Xresources && neofetch && exit" | /bin/bash --login'
+    machinectl --setenv=DISPLAY=\$DISPLAY shell $1 /bin/su - u\$USER_UID -w DISPLAY -c 'echo "
+        xrdb -merge ~/.Xresources ;
+        xdg-mime default thunar.desktop inode/directory ;
+        xdg-mime default mupdf.desktop application/pdf ;
+        neofetch ;
+    " | /bin/bash --login'
 else
     source /usr/local/bin/$1-bind
     machinectl shell $1 /bin/su - u\$UID -c "\$RUN_ENVIRONMENT start /usr/share/applications/lxterminal.desktop"
@@ -1089,7 +1094,6 @@ cat > /usr/local/bin/$1-install-file <<EOF
 source /usr/local/bin/$1-config
 machinectl shell $1 /bin/bash -c "apt install -y thunar thunar-archive-plugin xarchiver unrar catfish mousepad gpicview libcanberra-gtk-module --no-install-recommends && apt autopurge -y"
 machinectl shell $1 /bin/bash -c "[ -f /usr/share/applications/Thunar.desktop ] && mv /usr/share/applications/Thunar.desktop /usr/share/applications/thunar.desktop"
-machinectl shell $1 /bin/su - u\$UID -c "xdg-mime default thunar.desktop inode/directory"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-file
@@ -1154,7 +1158,6 @@ cat > /usr/local/bin/$1-install-mupdf <<EOF
 #!/bin/bash
 source /usr/local/bin/$1-config
 machinectl shell $1 /bin/bash -c "apt install -y mupdf --no-install-recommends && apt autopurge -y"
-machinectl shell $1 /bin/su - u\$UID -c "xdg-mime default mupdf.desktop application/pdf"
 EOF
 
 chmod 755 /usr/local/bin/$1-install-mupdf

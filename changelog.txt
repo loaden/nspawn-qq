@@ -1,3 +1,14 @@
+git log v3.7..v3.7.1 --oneline
+339b9f4 完善图片打开方式的关联
+1787bda 完善默认打开方式配置
+751e5e6 微调云盘路径检测
+1bb84fd 提高dpi至102.5
+d242e1f .profile中执行xrdb
+6a0ce81 配置时执行初始化
+86ae3a4 删除字体后刷新缓存
+6232d20 安装时添加延时
+fcabdc2 添加3.7更新日志
+
 git log v3.6.1..v3.7 --oneline
 beefae2 完善字体配置
 6abf392 修正preload查询

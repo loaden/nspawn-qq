@@ -92,7 +92,7 @@ cat > $ROOT/etc/fonts/conf.d/99-nspawn.conf <<EOF
 <match target="scan">
     <test name="postscriptname"><string>文泉驿微米黑</string></test>
     <edit name="family"><string>Fallback</string></edit>
-    <edit name="lang"><langset><string>zh-cn</string></langset></edit>
+    <edit name="lang"><langset><string>en</string><string>zh-cn</string></langset></edit>
 </match>
 
 <alias binding="same"><family>mono</family><prefer><family>Monospace</family></prefer></alias>

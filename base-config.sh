@@ -501,7 +501,9 @@ After=systemd-hostnamed.service
 [Service]
 ExecStartPre=chmod 0755 /var/lib/machines/%i
 ExecStart=
-ExecStart=systemd-nspawn --keep-unit --boot --link-journal=try-guest --network-veth -U --settings=override --machine=%i
+ExecStart=systemd-nspawn --keep-unit --boot --link-journal=try-guest --network-veth -U --settings=override --machine=%i --property=DeviceAllow='/dev/dri rw'
+# GPU
+DeviceAllow=/dev/dri rw
 # Other stuff.
 DeviceAllow=/dev/shm rw
 DeviceAllow=/dev/fuse rw
@@ -581,6 +583,9 @@ PrivateUsers = no
 [Files]
 # Xorg
 BindReadOnly = /tmp/.X11-unix
+
+# GPU
+Bind = /dev/dri
 
 # Other stuff.
 Bind = /dev/shm

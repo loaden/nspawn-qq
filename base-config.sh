@@ -24,7 +24,7 @@ fi
 [ -f /usr/bin/apt ] && apt install -y systemd-container xdg-user-dirs
 [ -f /usr/bin/dnf ] && dnf install -y systemd-container xdg-user-dirs
 [ -f /usr/bin/pacman ] && pacman -S xdg-user-dirs --noconfirm --needed
-[ -f /usr/bin/emerge ] && emerge -u xdg-user-dirs
+[ -f /usr/bin/emerge ] && emerge -u1 xdg-user-dirs
 if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p Type` == *x11* ]]; then
     [ -f /usr/bin/pacman ] && [ ! -f /usr/bin/xhost ] && pacman -S xorg-xhost --noconfirm --needed
     [ -f /usr/bin/apt ] && [ ! -f /usr/bin/xhost ] && apt install -y x11-xserver-utils
@@ -479,6 +479,7 @@ export XDG_RUNTIME_DIR=/run/user/\$UID
 export PULSE_SERVER=unix:\$XDG_RUNTIME_DIR/pulse/native
 $(echo "$DISABLE_MITSHM")
 env
+xrdb -merge ~/.Xresources
 dex \$@
 EOF
 

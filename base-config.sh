@@ -395,6 +395,8 @@ done
 for i in {1000..1005}; do
     echo u\$i:u\$i | chpasswd
     [[ ! \$(groups u\$i | grep audio) ]] && usermod -aG audio u\$i
+    [[ ! \$(groups u\$i | grep video) ]] && usermod -aG video u\$i
+    [[ ! \$(groups u\$i | grep plugdev) ]] && usermod -aG plugdev u\$i
     echo -e "Xft.dpi: 103\nXft.lcdfilter: lcddefault\nXft.antialias: true\nXft.autohint: true\nXft.hinting: true\nXft.hintstyle: hintfull\nXft.rgba: rgb" > /home/u\$i/.Xresources
     [[ -z "\$(grep .Xresources /home/u\$i/.bashrc)" ]] && echo '[ -n "\$DISPLAY" ] && xrdb -merge ~/.Xresources' >> /home/u\$i/.bashrc
     [[ -z "\$(grep .Xresources /home/u\$i/.profile)" ]] && echo '[ -n "\$DISPLAY" ] && xrdb -merge ~/.Xresources' >> /home/u\$i/.profile

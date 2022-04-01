@@ -722,6 +722,9 @@ machinectl bind --read-only --mkdir $1 \$XDG_RUNTIME_DIR/dconf
 # D-Bus
 find /tmp/ -maxdepth 1 -name dbus* -exec machinectl bind --read-only --mkdir $1 {} \; -print
 
+# 摄像头
+find /dev/ -maxdepth 1 -name video* -exec machinectl bind --mkdir $1 {} \; -print
+
 # 主目录
 [ -n "$USER_DOCUMENTS" ] && [ -d \$HOME/$USER_DOCUMENTS ] && machinectl bind --mkdir $1 \$HOME/$USER_DOCUMENTS /home/u\$UID/$USER_DOCUMENTS
 [ \$? != 0 ] && echo error: machinectl bind --mkdir $1 \$HOME/$USER_DOCUMENTS /home/u\$UID/$USER_DOCUMENTS

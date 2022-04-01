@@ -479,6 +479,7 @@ cat > /usr/local/bin/$1-start  <<EOF
 #!/bin/bash
 export XDG_RUNTIME_DIR=/run/user/\$UID
 export PULSE_SERVER=unix:\$XDG_RUNTIME_DIR/pulse/native
+export LC_ALL=zh_CN.UTF-8
 $(echo "$DISABLE_MITSHM")
 env
 xrdb -merge ~/.Xresources

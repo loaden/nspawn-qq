@@ -29,7 +29,7 @@ if [[ `loginctl show-session $(loginctl | grep $SUDO_USER |awk '{print $ 1}') -p
     [ -f /usr/bin/pacman ] && [ ! -f /usr/bin/xhost ] && pacman -S xorg-xhost --noconfirm --needed
     [ -f /usr/bin/apt ] && [ ! -f /usr/bin/xhost ] && apt install -y x11-xserver-utils
     [ -f /usr/bin/dnf ] && [ ! -f /usr/bin/xhost ] && dnf install -y xhost
-    [ -f /usr/bin/emerge ] && [ ! -f /usr/bin/xhost ] && emerge -u xhost
+    [ -f /usr/bin/emerge ] && [ ! -f /usr/bin/xhost ] && emerge -u1 xhost
 fi
 
 # 禁用SELinux

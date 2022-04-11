@@ -11,3 +11,6 @@ fi
 source `dirname ${BASH_SOURCE[0]}`/base-remove.sh debian
 rm -vf /usr/local/bin/debian-terminal
 rm -vf /usr/local/bin/debian-update-store
+
+echo ls -la /usr/local/bin/
+ls -la /usr/local/bin/

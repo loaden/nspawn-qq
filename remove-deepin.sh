@@ -35,3 +35,6 @@ if [ -f /usr/share/applications/dingtalk.desktop ] && [[ $(cat /usr/share/applic
     rm -vf /usr/share/pixmaps/dingtalk.svg
     rm -vf /usr/share/applications/dingtalk.desktop
 fi
+
+echo ls -la /usr/local/bin/
+ls -la /usr/local/bin/

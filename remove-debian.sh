@@ -9,5 +9,5 @@ fi
 
 # 开始移除
 source `dirname ${BASH_SOURCE[0]}`/base-remove.sh debian
-rm -f /usr/local/bin/debian-terminal
-rm -f /usr/local/bin/debian-update-store
+rm -vf /usr/local/bin/debian-terminal
+rm -vf /usr/local/bin/debian-update-store

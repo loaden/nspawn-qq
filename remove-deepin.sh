@@ -9,29 +9,29 @@ fi
 
 # 特殊处理
 [ -f /var/lib/machines/deepin/var/lib/deepin/deepin_security_verify.whitelist ] && chattr -i /var/lib/machines/deepin/var/lib/deepin/deepin_security_verify.whitelist
-rm -f /usr/share/debootstrap/scripts/apricot
+rm -vf /usr/share/debootstrap/scripts/apricot
 
 # 开始移除
 source `dirname ${BASH_SOURCE[0]}`/base-remove.sh deepin
-rm -f /usr/local/bin/deepin-terminal
-rm -f /usr/local/bin/deepin-app-store
-rm -f /usr/local/bin/deepin-wemeet
-rm -f /usr/local/bin/deepin-xunlei
-rm -f /usr/local/bin/deepin-tenvideo
-rm -f /usr/local/bin/deepin-powerword
-rm -f /usr/local/bin/deepin-cbox
-rm -f /usr/local/bin/deepin-sunlogin
-rm -f /usr/local/bin/deepin-foxwq
-rm -f /usr/local/bin/deepin-baidunetdisk
-rm -f /usr/local/bin/deepin-cstrike
-rm -f /usr/local/bin/deepin-work-weixin
-rm -f /usr/local/bin/deepin-wesing
-rm -f /usr/local/bin/deepin-baoweiluobo
+rm -vf /usr/local/bin/deepin-terminal
+rm -vf /usr/local/bin/deepin-app-store
+rm -vf /usr/local/bin/deepin-wemeet
+rm -vf /usr/local/bin/deepin-xunlei
+rm -vf /usr/local/bin/deepin-tenvideo
+rm -vf /usr/local/bin/deepin-powerword
+rm -vf /usr/local/bin/deepin-cbox
+rm -vf /usr/local/bin/deepin-sunlogin
+rm -vf /usr/local/bin/deepin-foxwq
+rm -vf /usr/local/bin/deepin-baidunetdisk
+rm -vf /usr/local/bin/deepin-cstrike
+rm -vf /usr/local/bin/deepin-work-weixin
+rm -vf /usr/local/bin/deepin-wesing
+rm -vf /usr/local/bin/deepin-baoweiluobo
 
 # 过期软件移除
-rm -f /usr/local/bin/deepin-feishu
-rm -f /usr/local/bin/deepin-dingtalk*
+rm -vf /usr/local/bin/deepin-feishu
+rm -vf /usr/local/bin/deepin-dingtalk*
 if [ -f /usr/share/applications/dingtalk.desktop ] && [[ $(cat /usr/share/applications/dingtalk.desktop | grep deepin-) ]]; then
-    rm -f /usr/share/pixmaps/dingtalk.svg
-    rm -f /usr/share/applications/dingtalk.desktop
+    rm -vf /usr/share/pixmaps/dingtalk.svg
+    rm -vf /usr/share/applications/dingtalk.desktop
 fi

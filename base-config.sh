@@ -519,8 +519,8 @@ NVIDIA_BIND="
 # 主机先装好N卡驱动，容器安装 lib 部分 nvidia-utils
 # 容器运行 nvidia-smi 测试，如报错，则 strace 跟踪
 # OpenGL 与 nvidia-smi
-Bind = /dev/nvidia0
-Bind = /dev/nvidiactl
+$([ -e /dev/nvidia0 ] && echo Bind = /dev/nvidia0)
+$([ -e /dev/nvidiactl ] && echo Bind = /dev/nvidiactl)
 $([ -e /dev/nvidia-modeset ] && echo \# Vulkan)
 $([ -e /dev/nvidia-modeset ] && echo Bind = /dev/nvidia-modeset)
 $([ -e /dev/nvidia-uvm ] && echo \# OpenCL 与 CUDA)
@@ -532,8 +532,8 @@ $([ -e /dev/nvidia-uvm-tools ] && echo Bind = /dev/nvidia-uvm-tools)
 cat >> /etc/systemd/system/systemd-nspawn@$1.service.d/override.conf <<EOF
 # NVIDIA
 # nvidia-smi 需要
-DeviceAllow=/dev/nvidiactl rw
-DeviceAllow=/dev/nvidia0 rw
+$([ -e /dev/nvidia0 ] && echo DeviceAllow=/dev/nvidia0 rw)
+$([ -e /dev/nvidiactl ] && echo DeviceAllow=/dev/nvidiactl rw)
 $([ -e /dev/nvidia-modeset ] && echo \# Vulkan 需要)
 $([ -e /dev/nvidia-modeset ] && echo DeviceAllow=/dev/nvidia-modeset rw)
 $([ -e /dev/nvidia-uvm ] && echo \# OpenCL 需要)

@@ -12,7 +12,14 @@ fi
 
 # systemd 247 bug 解决方案，禁止多用户支持，去除动态绑定
 # 详见：https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1816433.html
-if [[ $MULTIUSER_SUPPORT = 1 && $(systemctl --version | grep systemd) =~ 247 ]]; then
+## Debian 11 systemd 247.3-7中修复了这个bug，详细请看apt changelog systemd-container
+# 判断现在的版本的bug是否被修复
+[[ ! $BUG_FIXED ]] && BUG_FIXED=0
+
+if [[ $BUG_FIXED = 0 && $(systemctl --version | grep systemd) =~ '247.3-7' && $(cat /etc/issue) =~ 'Debian GNU/Linux 11' ]]; then
+	BUG_FIXED=0
+fi
+if [[ $MULTIUSER_SUPPORT = 1 && $(systemctl --version | grep systemd) =~ 247 && $BUG_FIXED = 0 ]]; then
     MULTIUSER_SUPPORT=0
     echo -e "\033[31m当前 systemd 有bug，不支持多用户动态绑定，已强制启用单用户模式。"
     systemd --version | grep systemd

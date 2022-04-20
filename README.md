@@ -5,7 +5,7 @@
 
 <p><b>技术支持QQ群：19346666、111601117</b></p>
 <p><b>技术支持钉钉群：35948877</b></p>
-TIM、天翼云盘需要离线安装，请加群下载，商店版本不稳定。<b>如无法运行，请执行：debian-update 或者 deepin-update 。如安装应用失败，请执行：debian-upgrade 或者 deepin-upgrage 。</b>
+TIM下载deepin-tim包。<b>解决微信输入框出现方框的解决：deepin-config-weixin，Windows版本选择"Windows 10",字体取消选择“允许加载Windows Fonts目录下的字体”。</b>
 
 #### 软件架构
 软件架构说明：amd64

@@ -5,7 +5,7 @@
 
 <p><b>技术支持QQ群：19346666、111601117</b></p>
 <p><b>技术支持钉钉群：35948877</b></p>
-TIM下载deepin-tim包。<b>解决微信输入框出现方框的解决：deepin-config-weixin，Windows版本选择"Windows 10",字体取消选择“允许加载Windows Fonts目录下的字体”。</b>
+TIM下载deepin-tim包。<b>解决微信输入框乱码，执行：deepin-config-weixin，Windows版本选择"Windows 10",“字体”标签页取消选择“允许加载Windows Fonts目录下的字体”。</b>
 
 #### 软件架构
 软件架构说明：amd64

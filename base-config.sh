@@ -653,7 +653,8 @@ fi
 
 # 获取HOST家目录、HOST用户名以及容器登录UID
 if [ \$EUID == 0 ]; then
-    HOST_HOME=\$(su - \$SUDO_USER -c "env | grep HOME= | awk -F '=' '/HOME=/ {print \$ 2}'")
+    HOST_HOME=\$(su - \$SUDO_USER -c "env | grep HOME=")
+    HOST_HOME=\${HOST_HOME#*HOME=}
     HOST_USER=\$SUDO_USER
     USER_UID=\$SUDO_UID
 else
@@ -663,6 +664,7 @@ else
 fi
 
 SHELL_OPTIONS="--uid=\$USER_UID --setenv=HOST_USER=\$HOST_USER --setenv=HOST_HOME=\$HOST_HOME"
+echo SHELL_OPTIONS=\$SHELL_OPTIONS
 echo HOST_HOME=\$HOST_HOME
 echo HOST_USER=\$HOST_USER
 echo USER_UID=\$USER_UID
